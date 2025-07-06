@@ -43,8 +43,8 @@ type AccountServiceClient interface {
 	DeleteAccount(ctx context.Context, in *AccountQuery, opts ...grpc.CallOption) (*AccountList, error)
 	TransferAndCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*TransferResponse, error)
 	TransferWithoutCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*TransferResponse, error)
-	TranferCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*TransferResponse, error)
-	TransferCancel(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*TransferResponse, error)
+	TranferCommit(ctx context.Context, in *TransferRef, opts ...grpc.CallOption) (*TransferResponse, error)
+	TransferCancel(ctx context.Context, in *TransferRef, opts ...grpc.CallOption) (*TransferResponse, error)
 }
 
 type accountServiceClient struct {
@@ -135,7 +135,7 @@ func (c *accountServiceClient) TransferWithoutCommit(ctx context.Context, in *Tr
 	return out, nil
 }
 
-func (c *accountServiceClient) TranferCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*TransferResponse, error) {
+func (c *accountServiceClient) TranferCommit(ctx context.Context, in *TransferRef, opts ...grpc.CallOption) (*TransferResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TransferResponse)
 	err := c.cc.Invoke(ctx, AccountService_TranferCommit_FullMethodName, in, out, cOpts...)
@@ -145,7 +145,7 @@ func (c *accountServiceClient) TranferCommit(ctx context.Context, in *Transfer, 
 	return out, nil
 }
 
-func (c *accountServiceClient) TransferCancel(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*TransferResponse, error) {
+func (c *accountServiceClient) TransferCancel(ctx context.Context, in *TransferRef, opts ...grpc.CallOption) (*TransferResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TransferResponse)
 	err := c.cc.Invoke(ctx, AccountService_TransferCancel_FullMethodName, in, out, cOpts...)
@@ -167,8 +167,8 @@ type AccountServiceServer interface {
 	DeleteAccount(context.Context, *AccountQuery) (*AccountList, error)
 	TransferAndCommit(context.Context, *Transfer) (*TransferResponse, error)
 	TransferWithoutCommit(context.Context, *Transfer) (*TransferResponse, error)
-	TranferCommit(context.Context, *Transfer) (*TransferResponse, error)
-	TransferCancel(context.Context, *Transfer) (*TransferResponse, error)
+	TranferCommit(context.Context, *TransferRef) (*TransferResponse, error)
+	TransferCancel(context.Context, *TransferRef) (*TransferResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }
 
@@ -203,10 +203,10 @@ func (UnimplementedAccountServiceServer) TransferAndCommit(context.Context, *Tra
 func (UnimplementedAccountServiceServer) TransferWithoutCommit(context.Context, *Transfer) (*TransferResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TransferWithoutCommit not implemented")
 }
-func (UnimplementedAccountServiceServer) TranferCommit(context.Context, *Transfer) (*TransferResponse, error) {
+func (UnimplementedAccountServiceServer) TranferCommit(context.Context, *TransferRef) (*TransferResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TranferCommit not implemented")
 }
-func (UnimplementedAccountServiceServer) TransferCancel(context.Context, *Transfer) (*TransferResponse, error) {
+func (UnimplementedAccountServiceServer) TransferCancel(context.Context, *TransferRef) (*TransferResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TransferCancel not implemented")
 }
 func (UnimplementedAccountServiceServer) mustEmbedUnimplementedAccountServiceServer() {}
@@ -375,7 +375,7 @@ func _AccountService_TransferWithoutCommit_Handler(srv interface{}, ctx context.
 }
 
 func _AccountService_TranferCommit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Transfer)
+	in := new(TransferRef)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -387,13 +387,13 @@ func _AccountService_TranferCommit_Handler(srv interface{}, ctx context.Context,
 		FullMethod: AccountService_TranferCommit_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServiceServer).TranferCommit(ctx, req.(*Transfer))
+		return srv.(AccountServiceServer).TranferCommit(ctx, req.(*TransferRef))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _AccountService_TransferCancel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Transfer)
+	in := new(TransferRef)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -405,7 +405,7 @@ func _AccountService_TransferCancel_Handler(srv interface{}, ctx context.Context
 		FullMethod: AccountService_TransferCancel_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServiceServer).TransferCancel(ctx, req.(*Transfer))
+		return srv.(AccountServiceServer).TransferCancel(ctx, req.(*TransferRef))
 	}
 	return interceptor(ctx, in, info, handler)
 }

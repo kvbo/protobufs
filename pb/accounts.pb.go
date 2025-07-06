@@ -437,6 +437,50 @@ func (x *TransferResponse) GetMessage() string {
 	return ""
 }
 
+type TransferRef struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Ref           string                 `protobuf:"bytes,1,opt,name=ref,proto3" json:"ref,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TransferRef) Reset() {
+	*x = TransferRef{}
+	mi := &file_accounts_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TransferRef) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TransferRef) ProtoMessage() {}
+
+func (x *TransferRef) ProtoReflect() protoreflect.Message {
+	mi := &file_accounts_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TransferRef.ProtoReflect.Descriptor instead.
+func (*TransferRef) Descriptor() ([]byte, []int) {
+	return file_accounts_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *TransferRef) GetRef() string {
+	if x != nil {
+		return x.Ref
+	}
+	return ""
+}
+
 type BulkCreate struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Accounts      []*Account             `protobuf:"bytes,1,rep,name=accounts,proto3" json:"accounts,omitempty"`
@@ -446,7 +490,7 @@ type BulkCreate struct {
 
 func (x *BulkCreate) Reset() {
 	*x = BulkCreate{}
-	mi := &file_accounts_proto_msgTypes[6]
+	mi := &file_accounts_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -458,7 +502,7 @@ func (x *BulkCreate) String() string {
 func (*BulkCreate) ProtoMessage() {}
 
 func (x *BulkCreate) ProtoReflect() protoreflect.Message {
-	mi := &file_accounts_proto_msgTypes[6]
+	mi := &file_accounts_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -471,7 +515,7 @@ func (x *BulkCreate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BulkCreate.ProtoReflect.Descriptor instead.
 func (*BulkCreate) Descriptor() ([]byte, []int) {
-	return file_accounts_proto_rawDescGZIP(), []int{6}
+	return file_accounts_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *BulkCreate) GetAccounts() []*Account {
@@ -491,7 +535,7 @@ type Account_Metadata struct {
 
 func (x *Account_Metadata) Reset() {
 	*x = Account_Metadata{}
-	mi := &file_accounts_proto_msgTypes[7]
+	mi := &file_accounts_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -503,7 +547,7 @@ func (x *Account_Metadata) String() string {
 func (*Account_Metadata) ProtoMessage() {}
 
 func (x *Account_Metadata) ProtoReflect() protoreflect.Message {
-	mi := &file_accounts_proto_msgTypes[7]
+	mi := &file_accounts_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -550,7 +594,7 @@ type Transfer_Posting struct {
 
 func (x *Transfer_Posting) Reset() {
 	*x = Transfer_Posting{}
-	mi := &file_accounts_proto_msgTypes[8]
+	mi := &file_accounts_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -562,7 +606,7 @@ func (x *Transfer_Posting) String() string {
 func (*Transfer_Posting) ProtoMessage() {}
 
 func (x *Transfer_Posting) ProtoReflect() protoreflect.Message {
-	mi := &file_accounts_proto_msgTypes[8]
+	mi := &file_accounts_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -693,10 +737,12 @@ const file_accounts_proto_rawDesc = "" +
 	"\ftransfer_ref\x18\t \x01(\tR\vtransferRef\"D\n" +
 	"\x10TransferResponse\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\tR\x06status\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"2\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"\x1f\n" +
+	"\vTransferRef\x12\x10\n" +
+	"\x03ref\x18\x01 \x01(\tR\x03ref\"2\n" +
 	"\n" +
 	"BulkCreate\x12$\n" +
-	"\baccounts\x18\x01 \x03(\v2\b.AccountR\baccounts2\xd5\x03\n" +
+	"\baccounts\x18\x01 \x03(\v2\b.AccountR\baccounts2\xdb\x03\n" +
 	"\x0eAccountService\x12*\n" +
 	"\vGetAccounts\x12\r.AccountQuery\x1a\f.AccountList\x12 \n" +
 	"\n" +
@@ -706,9 +752,9 @@ const file_accounts_proto_rawDesc = "" +
 	"\rUpdateAccount\x12\x0e.AccountUpdate\x1a\f.AccountList\x12,\n" +
 	"\rDeleteAccount\x12\r.AccountQuery\x1a\f.AccountList\x121\n" +
 	"\x11TransferAndCommit\x12\t.Transfer\x1a\x11.TransferResponse\x125\n" +
-	"\x15TransferWithoutCommit\x12\t.Transfer\x1a\x11.TransferResponse\x12-\n" +
-	"\rTranferCommit\x12\t.Transfer\x1a\x11.TransferResponse\x12.\n" +
-	"\x0eTransferCancel\x12\t.Transfer\x1a\x11.TransferResponseB\x1eZ\x1cgithub.com/kvbo/protobufs;pbb\x06proto3"
+	"\x15TransferWithoutCommit\x12\t.Transfer\x1a\x11.TransferResponse\x120\n" +
+	"\rTranferCommit\x12\f.TransferRef\x1a\x11.TransferResponse\x121\n" +
+	"\x0eTransferCancel\x12\f.TransferRef\x1a\x11.TransferResponseB\x1eZ\x1cgithub.com/kvbo/protobufs;pbb\x06proto3"
 
 var (
 	file_accounts_proto_rawDescOnce sync.Once
@@ -722,7 +768,7 @@ func file_accounts_proto_rawDescGZIP() []byte {
 	return file_accounts_proto_rawDescData
 }
 
-var file_accounts_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_accounts_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_accounts_proto_goTypes = []any{
 	(*Account)(nil),          // 0: Account
 	(*AccountList)(nil),      // 1: AccountList
@@ -730,30 +776,31 @@ var file_accounts_proto_goTypes = []any{
 	(*AccountUpdate)(nil),    // 3: AccountUpdate
 	(*Transfer)(nil),         // 4: Transfer
 	(*TransferResponse)(nil), // 5: TransferResponse
-	(*BulkCreate)(nil),       // 6: BulkCreate
-	(*Account_Metadata)(nil), // 7: Account.Metadata
-	(*Transfer_Posting)(nil), // 8: Transfer.Posting
+	(*TransferRef)(nil),      // 6: TransferRef
+	(*BulkCreate)(nil),       // 7: BulkCreate
+	(*Account_Metadata)(nil), // 8: Account.Metadata
+	(*Transfer_Posting)(nil), // 9: Transfer.Posting
 }
 var file_accounts_proto_depIdxs = []int32{
-	7,  // 0: Account.metadata:type_name -> Account.Metadata
+	8,  // 0: Account.metadata:type_name -> Account.Metadata
 	0,  // 1: AccountList.accounts:type_name -> Account
 	2,  // 2: AccountList.query:type_name -> AccountQuery
 	0,  // 3: AccountUpdate.account:type_name -> Account
 	2,  // 4: AccountUpdate.query:type_name -> AccountQuery
-	8,  // 5: Transfer.postings:type_name -> Transfer.Posting
+	9,  // 5: Transfer.postings:type_name -> Transfer.Posting
 	0,  // 6: BulkCreate.accounts:type_name -> Account
 	0,  // 7: Transfer.Posting.source:type_name -> Account
 	0,  // 8: Transfer.Posting.destination:type_name -> Account
 	2,  // 9: AccountService.GetAccounts:input_type -> AccountQuery
 	0,  // 10: AccountService.GetAccount:input_type -> Account
 	0,  // 11: AccountService.CreateAccount:input_type -> Account
-	6,  // 12: AccountService.BulkCreateAccount:input_type -> BulkCreate
+	7,  // 12: AccountService.BulkCreateAccount:input_type -> BulkCreate
 	3,  // 13: AccountService.UpdateAccount:input_type -> AccountUpdate
 	2,  // 14: AccountService.DeleteAccount:input_type -> AccountQuery
 	4,  // 15: AccountService.TransferAndCommit:input_type -> Transfer
 	4,  // 16: AccountService.TransferWithoutCommit:input_type -> Transfer
-	4,  // 17: AccountService.TranferCommit:input_type -> Transfer
-	4,  // 18: AccountService.TransferCancel:input_type -> Transfer
+	6,  // 17: AccountService.TranferCommit:input_type -> TransferRef
+	6,  // 18: AccountService.TransferCancel:input_type -> TransferRef
 	1,  // 19: AccountService.GetAccounts:output_type -> AccountList
 	0,  // 20: AccountService.GetAccount:output_type -> Account
 	0,  // 21: AccountService.CreateAccount:output_type -> Account
@@ -782,7 +829,7 @@ func file_accounts_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_accounts_proto_rawDesc), len(file_accounts_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
