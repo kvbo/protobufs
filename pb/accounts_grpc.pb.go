@@ -41,10 +41,10 @@ type AccountServiceClient interface {
 	BulkCreateAccount(ctx context.Context, in *BulkCreate, opts ...grpc.CallOption) (*Account, error)
 	UpdateAccount(ctx context.Context, in *AccountUpdate, opts ...grpc.CallOption) (*AccountList, error)
 	DeleteAccount(ctx context.Context, in *AccountQuery, opts ...grpc.CallOption) (*AccountList, error)
-	TransferAndCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*Transfer, error)
-	TransferWithoutCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*Transfer, error)
-	TranferCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*Transfer, error)
-	TransferCancel(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*Transfer, error)
+	TransferAndCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*TransferResponse, error)
+	TransferWithoutCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*TransferResponse, error)
+	TranferCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*TransferResponse, error)
+	TransferCancel(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*TransferResponse, error)
 }
 
 type accountServiceClient struct {
@@ -115,9 +115,9 @@ func (c *accountServiceClient) DeleteAccount(ctx context.Context, in *AccountQue
 	return out, nil
 }
 
-func (c *accountServiceClient) TransferAndCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*Transfer, error) {
+func (c *accountServiceClient) TransferAndCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*TransferResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Transfer)
+	out := new(TransferResponse)
 	err := c.cc.Invoke(ctx, AccountService_TransferAndCommit_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -125,9 +125,9 @@ func (c *accountServiceClient) TransferAndCommit(ctx context.Context, in *Transf
 	return out, nil
 }
 
-func (c *accountServiceClient) TransferWithoutCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*Transfer, error) {
+func (c *accountServiceClient) TransferWithoutCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*TransferResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Transfer)
+	out := new(TransferResponse)
 	err := c.cc.Invoke(ctx, AccountService_TransferWithoutCommit_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -135,9 +135,9 @@ func (c *accountServiceClient) TransferWithoutCommit(ctx context.Context, in *Tr
 	return out, nil
 }
 
-func (c *accountServiceClient) TranferCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*Transfer, error) {
+func (c *accountServiceClient) TranferCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*TransferResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Transfer)
+	out := new(TransferResponse)
 	err := c.cc.Invoke(ctx, AccountService_TranferCommit_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -145,9 +145,9 @@ func (c *accountServiceClient) TranferCommit(ctx context.Context, in *Transfer, 
 	return out, nil
 }
 
-func (c *accountServiceClient) TransferCancel(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*Transfer, error) {
+func (c *accountServiceClient) TransferCancel(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*TransferResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Transfer)
+	out := new(TransferResponse)
 	err := c.cc.Invoke(ctx, AccountService_TransferCancel_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -165,10 +165,10 @@ type AccountServiceServer interface {
 	BulkCreateAccount(context.Context, *BulkCreate) (*Account, error)
 	UpdateAccount(context.Context, *AccountUpdate) (*AccountList, error)
 	DeleteAccount(context.Context, *AccountQuery) (*AccountList, error)
-	TransferAndCommit(context.Context, *Transfer) (*Transfer, error)
-	TransferWithoutCommit(context.Context, *Transfer) (*Transfer, error)
-	TranferCommit(context.Context, *Transfer) (*Transfer, error)
-	TransferCancel(context.Context, *Transfer) (*Transfer, error)
+	TransferAndCommit(context.Context, *Transfer) (*TransferResponse, error)
+	TransferWithoutCommit(context.Context, *Transfer) (*TransferResponse, error)
+	TranferCommit(context.Context, *Transfer) (*TransferResponse, error)
+	TransferCancel(context.Context, *Transfer) (*TransferResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }
 
@@ -197,16 +197,16 @@ func (UnimplementedAccountServiceServer) UpdateAccount(context.Context, *Account
 func (UnimplementedAccountServiceServer) DeleteAccount(context.Context, *AccountQuery) (*AccountList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAccount not implemented")
 }
-func (UnimplementedAccountServiceServer) TransferAndCommit(context.Context, *Transfer) (*Transfer, error) {
+func (UnimplementedAccountServiceServer) TransferAndCommit(context.Context, *Transfer) (*TransferResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TransferAndCommit not implemented")
 }
-func (UnimplementedAccountServiceServer) TransferWithoutCommit(context.Context, *Transfer) (*Transfer, error) {
+func (UnimplementedAccountServiceServer) TransferWithoutCommit(context.Context, *Transfer) (*TransferResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TransferWithoutCommit not implemented")
 }
-func (UnimplementedAccountServiceServer) TranferCommit(context.Context, *Transfer) (*Transfer, error) {
+func (UnimplementedAccountServiceServer) TranferCommit(context.Context, *Transfer) (*TransferResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TranferCommit not implemented")
 }
-func (UnimplementedAccountServiceServer) TransferCancel(context.Context, *Transfer) (*Transfer, error) {
+func (UnimplementedAccountServiceServer) TransferCancel(context.Context, *Transfer) (*TransferResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TransferCancel not implemented")
 }
 func (UnimplementedAccountServiceServer) mustEmbedUnimplementedAccountServiceServer() {}
