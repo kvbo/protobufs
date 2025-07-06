@@ -31,7 +31,7 @@ type Service struct {
 	Description   string                 `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
 	Img           string                 `protobuf:"bytes,7,opt,name=img,proto3" json:"img,omitempty"`
 	Reversible    bool                   `protobuf:"varint,8,opt,name=reversible,proto3" json:"reversible,omitempty"`
-	ChargeIds     []string               `protobuf:"bytes,9,rep,name=charge_ids,json=chargeIds,proto3" json:"charge_ids,omitempty"`
+	Fees          []*Fee                 `protobuf:"bytes,9,rep,name=fees,proto3" json:"fees,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -122,16 +122,16 @@ func (x *Service) GetReversible() bool {
 	return false
 }
 
-func (x *Service) GetChargeIds() []string {
+func (x *Service) GetFees() []*Fee {
 	if x != nil {
-		return x.ChargeIds
+		return x.Fees
 	}
 	return nil
 }
 
 type UpdateServiceRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Services      []*Service             `protobuf:"bytes,1,rep,name=services,proto3" json:"services,omitempty"`
+	Service       *Service               `protobuf:"bytes,1,opt,name=service,proto3" json:"service,omitempty"`
 	Query         *ServiceQuery          `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -167,9 +167,9 @@ func (*UpdateServiceRequest) Descriptor() ([]byte, []int) {
 	return file_services_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *UpdateServiceRequest) GetServices() []*Service {
+func (x *UpdateServiceRequest) GetService() *Service {
 	if x != nil {
-		return x.Services
+		return x.Service
 	}
 	return nil
 }
@@ -237,6 +237,10 @@ type ServiceQuery struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	IsActive      bool                   `protobuf:"varint,1,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
 	Ids           []string               `protobuf:"bytes,2,rep,name=ids,proto3" json:"ids,omitempty"`
+	Q             string                 `protobuf:"bytes,3,opt,name=q,proto3" json:"q,omitempty"`
+	Limit         int32                  `protobuf:"varint,4,opt,name=limit,proto3" json:"limit,omitempty"`
+	TotalPages    int32                  `protobuf:"varint,5,opt,name=total_pages,json=totalPages,proto3" json:"total_pages,omitempty"`
+	Page          int32                  `protobuf:"varint,6,opt,name=page,proto3" json:"page,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -283,6 +287,34 @@ func (x *ServiceQuery) GetIds() []string {
 		return x.Ids
 	}
 	return nil
+}
+
+func (x *ServiceQuery) GetQ() string {
+	if x != nil {
+		return x.Q
+	}
+	return ""
+}
+
+func (x *ServiceQuery) GetLimit() int32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+func (x *ServiceQuery) GetTotalPages() int32 {
+	if x != nil {
+		return x.TotalPages
+	}
+	return 0
+}
+
+func (x *ServiceQuery) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
 }
 
 type AddRemoveFees struct {
@@ -333,7 +365,7 @@ var File_services_proto protoreflect.FileDescriptor
 
 const file_services_proto_rawDesc = "" +
 	"\n" +
-	"\x0eservices.proto\"\xf2\x01\n" +
+	"\x0eservices.proto\x1a\rcharges.proto\"\xed\x01\n" +
 	"\aService\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
@@ -346,18 +378,22 @@ const file_services_proto_rawDesc = "" +
 	"\x03img\x18\a \x01(\tR\x03img\x12\x1e\n" +
 	"\n" +
 	"reversible\x18\b \x01(\bR\n" +
-	"reversible\x12\x1d\n" +
-	"\n" +
-	"charge_ids\x18\t \x03(\tR\tchargeIds\"a\n" +
-	"\x14UpdateServiceRequest\x12$\n" +
-	"\bservices\x18\x01 \x03(\v2\b.ServiceR\bservices\x12#\n" +
+	"reversible\x12\x18\n" +
+	"\x04fees\x18\t \x03(\v2\x04.FeeR\x04fees\"_\n" +
+	"\x14UpdateServiceRequest\x12\"\n" +
+	"\aservice\x18\x01 \x01(\v2\b.ServiceR\aservice\x12#\n" +
 	"\x05query\x18\x02 \x01(\v2\r.ServiceQueryR\x05query\"X\n" +
 	"\vServiceList\x12$\n" +
 	"\bservices\x18\x01 \x03(\v2\b.ServiceR\bservices\x12#\n" +
-	"\x05query\x18\x02 \x01(\v2\r.ServiceQueryR\x05query\"=\n" +
+	"\x05query\x18\x02 \x01(\v2\r.ServiceQueryR\x05query\"\x96\x01\n" +
 	"\fServiceQuery\x12\x1b\n" +
 	"\tis_active\x18\x01 \x01(\bR\bisActive\x12\x10\n" +
-	"\x03ids\x18\x02 \x03(\tR\x03ids\"(\n" +
+	"\x03ids\x18\x02 \x03(\tR\x03ids\x12\f\n" +
+	"\x01q\x18\x03 \x01(\tR\x01q\x12\x14\n" +
+	"\x05limit\x18\x04 \x01(\x05R\x05limit\x12\x1f\n" +
+	"\vtotal_pages\x18\x05 \x01(\x05R\n" +
+	"totalPages\x12\x12\n" +
+	"\x04page\x18\x06 \x01(\x05R\x04page\"(\n" +
 	"\rAddRemoveFees\x12\x17\n" +
 	"\afee_ids\x18\x01 \x03(\tR\x06feeIds2\xd0\x02\n" +
 	"\x0eServiceManager\x12#\n" +
@@ -389,31 +425,33 @@ var file_services_proto_goTypes = []any{
 	(*ServiceList)(nil),          // 2: ServiceList
 	(*ServiceQuery)(nil),         // 3: ServiceQuery
 	(*AddRemoveFees)(nil),        // 4: AddRemoveFees
+	(*Fee)(nil),                  // 5: Fee
 }
 var file_services_proto_depIdxs = []int32{
-	0,  // 0: UpdateServiceRequest.services:type_name -> Service
-	3,  // 1: UpdateServiceRequest.query:type_name -> ServiceQuery
-	0,  // 2: ServiceList.services:type_name -> Service
-	3,  // 3: ServiceList.query:type_name -> ServiceQuery
-	0,  // 4: ServiceManager.CreateService:input_type -> Service
-	1,  // 5: ServiceManager.UpdateService:input_type -> UpdateServiceRequest
-	0,  // 6: ServiceManager.GetService:input_type -> Service
-	3,  // 7: ServiceManager.GetServices:input_type -> ServiceQuery
-	3,  // 8: ServiceManager.DeleteService:input_type -> ServiceQuery
-	4,  // 9: ServiceManager.AddFeeToService:input_type -> AddRemoveFees
-	4,  // 10: ServiceManager.RemoveFeeToService:input_type -> AddRemoveFees
-	0,  // 11: ServiceManager.CreateService:output_type -> Service
-	2,  // 12: ServiceManager.UpdateService:output_type -> ServiceList
-	0,  // 13: ServiceManager.GetService:output_type -> Service
-	2,  // 14: ServiceManager.GetServices:output_type -> ServiceList
-	2,  // 15: ServiceManager.DeleteService:output_type -> ServiceList
-	4,  // 16: ServiceManager.AddFeeToService:output_type -> AddRemoveFees
-	4,  // 17: ServiceManager.RemoveFeeToService:output_type -> AddRemoveFees
-	11, // [11:18] is the sub-list for method output_type
-	4,  // [4:11] is the sub-list for method input_type
-	4,  // [4:4] is the sub-list for extension type_name
-	4,  // [4:4] is the sub-list for extension extendee
-	0,  // [0:4] is the sub-list for field type_name
+	5,  // 0: Service.fees:type_name -> Fee
+	0,  // 1: UpdateServiceRequest.service:type_name -> Service
+	3,  // 2: UpdateServiceRequest.query:type_name -> ServiceQuery
+	0,  // 3: ServiceList.services:type_name -> Service
+	3,  // 4: ServiceList.query:type_name -> ServiceQuery
+	0,  // 5: ServiceManager.CreateService:input_type -> Service
+	1,  // 6: ServiceManager.UpdateService:input_type -> UpdateServiceRequest
+	0,  // 7: ServiceManager.GetService:input_type -> Service
+	3,  // 8: ServiceManager.GetServices:input_type -> ServiceQuery
+	3,  // 9: ServiceManager.DeleteService:input_type -> ServiceQuery
+	4,  // 10: ServiceManager.AddFeeToService:input_type -> AddRemoveFees
+	4,  // 11: ServiceManager.RemoveFeeToService:input_type -> AddRemoveFees
+	0,  // 12: ServiceManager.CreateService:output_type -> Service
+	2,  // 13: ServiceManager.UpdateService:output_type -> ServiceList
+	0,  // 14: ServiceManager.GetService:output_type -> Service
+	2,  // 15: ServiceManager.GetServices:output_type -> ServiceList
+	2,  // 16: ServiceManager.DeleteService:output_type -> ServiceList
+	4,  // 17: ServiceManager.AddFeeToService:output_type -> AddRemoveFees
+	4,  // 18: ServiceManager.RemoveFeeToService:output_type -> AddRemoveFees
+	12, // [12:19] is the sub-list for method output_type
+	5,  // [5:12] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_services_proto_init() }
@@ -421,6 +459,7 @@ func file_services_proto_init() {
 	if File_services_proto != nil {
 		return
 	}
+	file_charges_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

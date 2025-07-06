@@ -330,7 +330,7 @@ var File_charges_proto protoreflect.FileDescriptor
 
 const file_charges_proto_rawDesc = "" +
 	"\n" +
-	"\rcharges.proto\x12\x04fees\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd8\x03\n" +
+	"\rcharges.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd3\x03\n" +
 	"\x03Fee\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -339,8 +339,9 @@ const file_charges_proto_rawDesc = "" +
 	"reversible\x18\x04 \x01(\bR\n" +
 	"reversible\x12\x12\n" +
 	"\x04type\x18\x05 \x01(\tR\x04type\x12\x19\n" +
-	"\bfee_type\x18\x06 \x01(\tR\afeeType\x12-\n" +
-	"\tbreakdown\x18\a \x03(\v2\x0f.fees.BreakdownR\tbreakdown\x12,\n" +
+	"\bfee_type\x18\x06 \x01(\tR\afeeType\x12(\n" +
+	"\tbreakdown\x18\a \x03(\v2\n" +
+	".BreakdownR\tbreakdown\x12,\n" +
 	"\x12source_account_ref\x18\b \x01(\tR\x10sourceAccountRef\x126\n" +
 	"\x17destination_account_ref\x18\t \x01(\tR\x15destinationAccountRef\x12\x10\n" +
 	"\x03bbb\x18\n" +
@@ -354,20 +355,20 @@ const file_charges_proto_rawDesc = "" +
 	"\tBreakdown\x12\x14\n" +
 	"\x05value\x18\x01 \x01(\x03R\x05value\x12\x10\n" +
 	"\x03min\x18\x02 \x01(\x03R\x03min\x12\x10\n" +
-	"\x03max\x18\x03 \x01(\x03R\x03max\"P\n" +
-	"\aFeeList\x12\x1f\n" +
-	"\x03fee\x18\x01 \x03(\v2\r.fees.FeeListR\x03fee\x12$\n" +
-	"\x05query\x18\x02 \x01(\v2\x0e.fees.FeeQueryR\x05query\"9\n" +
+	"\x03max\x18\x03 \x01(\x03R\x03max\"F\n" +
+	"\aFeeList\x12\x1a\n" +
+	"\x03fee\x18\x01 \x03(\v2\b.FeeListR\x03fee\x12\x1f\n" +
+	"\x05query\x18\x02 \x01(\v2\t.FeeQueryR\x05query\"9\n" +
 	"\bFeeQuery\x12\x1b\n" +
 	"\tis_active\x18\x01 \x01(\bR\bisActive\x12\x10\n" +
-	"\x03ids\x18\x02 \x03(\tR\x03ids2\xcf\x01\n" +
+	"\x03ids\x18\x02 \x03(\tR\x03ids2\x9d\x01\n" +
 	"\n" +
-	"FeeManager\x12!\n" +
-	"\tCreateFee\x12\t.fees.Fee\x1a\t.fees.Fee\x12)\n" +
-	"\tUpdateFee\x12\r.fees.FeeList\x1a\r.fees.FeeList\x12\x1e\n" +
-	"\x06GetFee\x12\t.fees.Fee\x1a\t.fees.Fee\x12'\n" +
-	"\aGetFees\x12\r.fees.FeeList\x1a\r.fees.FeeList\x12*\n" +
-	"\tDeleteFee\x12\x0e.fees.FeeQuery\x1a\r.fees.FeeListB\x1eZ\x1cgithub.com/kvbo/protobufs;pbb\x06proto3"
+	"FeeManager\x12\x17\n" +
+	"\tCreateFee\x12\x04.Fee\x1a\x04.Fee\x12\x1f\n" +
+	"\tUpdateFee\x12\b.FeeList\x1a\b.FeeList\x12\x14\n" +
+	"\x06GetFee\x12\x04.Fee\x1a\x04.Fee\x12\x1d\n" +
+	"\aGetFees\x12\b.FeeList\x1a\b.FeeList\x12 \n" +
+	"\tDeleteFee\x12\t.FeeQuery\x1a\b.FeeListB\x1eZ\x1cgithub.com/kvbo/protobufs;pbb\x06proto3"
 
 var (
 	file_charges_proto_rawDescOnce sync.Once
@@ -383,28 +384,28 @@ func file_charges_proto_rawDescGZIP() []byte {
 
 var file_charges_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_charges_proto_goTypes = []any{
-	(*Fee)(nil),                   // 0: fees.Fee
-	(*Breakdown)(nil),             // 1: fees.Breakdown
-	(*FeeList)(nil),               // 2: fees.FeeList
-	(*FeeQuery)(nil),              // 3: fees.FeeQuery
+	(*Fee)(nil),                   // 0: Fee
+	(*Breakdown)(nil),             // 1: Breakdown
+	(*FeeList)(nil),               // 2: FeeList
+	(*FeeQuery)(nil),              // 3: FeeQuery
 	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
 var file_charges_proto_depIdxs = []int32{
-	1,  // 0: fees.Fee.breakdown:type_name -> fees.Breakdown
-	4,  // 1: fees.Fee.created_at:type_name -> google.protobuf.Timestamp
-	4,  // 2: fees.Fee.updated_at:type_name -> google.protobuf.Timestamp
-	2,  // 3: fees.FeeList.fee:type_name -> fees.FeeList
-	3,  // 4: fees.FeeList.query:type_name -> fees.FeeQuery
-	0,  // 5: fees.FeeManager.CreateFee:input_type -> fees.Fee
-	2,  // 6: fees.FeeManager.UpdateFee:input_type -> fees.FeeList
-	0,  // 7: fees.FeeManager.GetFee:input_type -> fees.Fee
-	2,  // 8: fees.FeeManager.GetFees:input_type -> fees.FeeList
-	3,  // 9: fees.FeeManager.DeleteFee:input_type -> fees.FeeQuery
-	0,  // 10: fees.FeeManager.CreateFee:output_type -> fees.Fee
-	2,  // 11: fees.FeeManager.UpdateFee:output_type -> fees.FeeList
-	0,  // 12: fees.FeeManager.GetFee:output_type -> fees.Fee
-	2,  // 13: fees.FeeManager.GetFees:output_type -> fees.FeeList
-	2,  // 14: fees.FeeManager.DeleteFee:output_type -> fees.FeeList
+	1,  // 0: Fee.breakdown:type_name -> Breakdown
+	4,  // 1: Fee.created_at:type_name -> google.protobuf.Timestamp
+	4,  // 2: Fee.updated_at:type_name -> google.protobuf.Timestamp
+	2,  // 3: FeeList.fee:type_name -> FeeList
+	3,  // 4: FeeList.query:type_name -> FeeQuery
+	0,  // 5: FeeManager.CreateFee:input_type -> Fee
+	2,  // 6: FeeManager.UpdateFee:input_type -> FeeList
+	0,  // 7: FeeManager.GetFee:input_type -> Fee
+	2,  // 8: FeeManager.GetFees:input_type -> FeeList
+	3,  // 9: FeeManager.DeleteFee:input_type -> FeeQuery
+	0,  // 10: FeeManager.CreateFee:output_type -> Fee
+	2,  // 11: FeeManager.UpdateFee:output_type -> FeeList
+	0,  // 12: FeeManager.GetFee:output_type -> Fee
+	2,  // 13: FeeManager.GetFees:output_type -> FeeList
+	2,  // 14: FeeManager.DeleteFee:output_type -> FeeList
 	10, // [10:15] is the sub-list for method output_type
 	5,  // [5:10] is the sub-list for method input_type
 	5,  // [5:5] is the sub-list for extension type_name

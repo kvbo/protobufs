@@ -19,11 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	FeeManager_CreateFee_FullMethodName = "/fees.FeeManager/CreateFee"
-	FeeManager_UpdateFee_FullMethodName = "/fees.FeeManager/UpdateFee"
-	FeeManager_GetFee_FullMethodName    = "/fees.FeeManager/GetFee"
-	FeeManager_GetFees_FullMethodName   = "/fees.FeeManager/GetFees"
-	FeeManager_DeleteFee_FullMethodName = "/fees.FeeManager/DeleteFee"
+	FeeManager_CreateFee_FullMethodName = "/FeeManager/CreateFee"
+	FeeManager_UpdateFee_FullMethodName = "/FeeManager/UpdateFee"
+	FeeManager_GetFee_FullMethodName    = "/FeeManager/GetFee"
+	FeeManager_GetFees_FullMethodName   = "/FeeManager/GetFees"
+	FeeManager_DeleteFee_FullMethodName = "/FeeManager/DeleteFee"
 )
 
 // FeeManagerClient is the client API for FeeManager service.
@@ -244,7 +244,7 @@ func _FeeManager_DeleteFee_Handler(srv interface{}, ctx context.Context, dec fun
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var FeeManager_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "fees.FeeManager",
+	ServiceName: "FeeManager",
 	HandlerType: (*FeeManagerServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

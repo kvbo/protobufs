@@ -21,6 +21,8 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	TransactionService_InternalTransaction_FullMethodName           = "/TransactionService/InternalTransaction"
 	TransactionService_FromExternalTransction_FullMethodName        = "/TransactionService/FromExternalTransction"
+	TransactionService_InternalTransactionInitiate_FullMethodName   = "/TransactionService/InternalTransactionInitiate"
+	TransactionService_InternalTransactionComplete_FullMethodName   = "/TransactionService/InternalTransactionComplete"
 	TransactionService_ToExternalTransactionInitiate_FullMethodName = "/TransactionService/ToExternalTransactionInitiate"
 	TransactionService_ToExternalTransactionComplete_FullMethodName = "/TransactionService/ToExternalTransactionComplete"
 )
@@ -31,6 +33,8 @@ const (
 type TransactionServiceClient interface {
 	InternalTransaction(ctx context.Context, in *TransactionIn, opts ...grpc.CallOption) (*TransactionOut, error)
 	FromExternalTransction(ctx context.Context, in *TransactionIn, opts ...grpc.CallOption) (*TransactionOut, error)
+	InternalTransactionInitiate(ctx context.Context, in *TransactionIn, opts ...grpc.CallOption) (*TransactionOut, error)
+	InternalTransactionComplete(ctx context.Context, in *TransactionIn, opts ...grpc.CallOption) (*TransactionOut, error)
 	ToExternalTransactionInitiate(ctx context.Context, in *TransactionIn, opts ...grpc.CallOption) (*TransactionOut, error)
 	ToExternalTransactionComplete(ctx context.Context, in *TransactionIn, opts ...grpc.CallOption) (*TransactionOut, error)
 }
@@ -63,6 +67,26 @@ func (c *transactionServiceClient) FromExternalTransction(ctx context.Context, i
 	return out, nil
 }
 
+func (c *transactionServiceClient) InternalTransactionInitiate(ctx context.Context, in *TransactionIn, opts ...grpc.CallOption) (*TransactionOut, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TransactionOut)
+	err := c.cc.Invoke(ctx, TransactionService_InternalTransactionInitiate_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *transactionServiceClient) InternalTransactionComplete(ctx context.Context, in *TransactionIn, opts ...grpc.CallOption) (*TransactionOut, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TransactionOut)
+	err := c.cc.Invoke(ctx, TransactionService_InternalTransactionComplete_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *transactionServiceClient) ToExternalTransactionInitiate(ctx context.Context, in *TransactionIn, opts ...grpc.CallOption) (*TransactionOut, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TransactionOut)
@@ -89,6 +113,8 @@ func (c *transactionServiceClient) ToExternalTransactionComplete(ctx context.Con
 type TransactionServiceServer interface {
 	InternalTransaction(context.Context, *TransactionIn) (*TransactionOut, error)
 	FromExternalTransction(context.Context, *TransactionIn) (*TransactionOut, error)
+	InternalTransactionInitiate(context.Context, *TransactionIn) (*TransactionOut, error)
+	InternalTransactionComplete(context.Context, *TransactionIn) (*TransactionOut, error)
 	ToExternalTransactionInitiate(context.Context, *TransactionIn) (*TransactionOut, error)
 	ToExternalTransactionComplete(context.Context, *TransactionIn) (*TransactionOut, error)
 	mustEmbedUnimplementedTransactionServiceServer()
@@ -106,6 +132,12 @@ func (UnimplementedTransactionServiceServer) InternalTransaction(context.Context
 }
 func (UnimplementedTransactionServiceServer) FromExternalTransction(context.Context, *TransactionIn) (*TransactionOut, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FromExternalTransction not implemented")
+}
+func (UnimplementedTransactionServiceServer) InternalTransactionInitiate(context.Context, *TransactionIn) (*TransactionOut, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InternalTransactionInitiate not implemented")
+}
+func (UnimplementedTransactionServiceServer) InternalTransactionComplete(context.Context, *TransactionIn) (*TransactionOut, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InternalTransactionComplete not implemented")
 }
 func (UnimplementedTransactionServiceServer) ToExternalTransactionInitiate(context.Context, *TransactionIn) (*TransactionOut, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ToExternalTransactionInitiate not implemented")
@@ -170,6 +202,42 @@ func _TransactionService_FromExternalTransction_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TransactionService_InternalTransactionInitiate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransactionIn)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TransactionServiceServer).InternalTransactionInitiate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TransactionService_InternalTransactionInitiate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TransactionServiceServer).InternalTransactionInitiate(ctx, req.(*TransactionIn))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TransactionService_InternalTransactionComplete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransactionIn)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TransactionServiceServer).InternalTransactionComplete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TransactionService_InternalTransactionComplete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TransactionServiceServer).InternalTransactionComplete(ctx, req.(*TransactionIn))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _TransactionService_ToExternalTransactionInitiate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TransactionIn)
 	if err := dec(in); err != nil {
@@ -220,6 +288,14 @@ var TransactionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FromExternalTransction",
 			Handler:    _TransactionService_FromExternalTransction_Handler,
+		},
+		{
+			MethodName: "InternalTransactionInitiate",
+			Handler:    _TransactionService_InternalTransactionInitiate_Handler,
+		},
+		{
+			MethodName: "InternalTransactionComplete",
+			Handler:    _TransactionService_InternalTransactionComplete_Handler,
 		},
 		{
 			MethodName: "ToExternalTransactionInitiate",

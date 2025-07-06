@@ -310,8 +310,8 @@ type TransactionIn struct {
 	Ref                  string                 `protobuf:"bytes,1,opt,name=ref,proto3" json:"ref,omitempty"`
 	Description          string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
 	Currency             string                 `protobuf:"bytes,3,opt,name=currency,proto3" json:"currency,omitempty"`
-	Amount               string                 `protobuf:"bytes,4,opt,name=amount,proto3" json:"amount,omitempty"`
-	Service              *structpb.Struct       `protobuf:"bytes,5,opt,name=service,proto3" json:"service,omitempty"`
+	Amount               int64                  `protobuf:"varint,4,opt,name=amount,proto3" json:"amount,omitempty"`
+	Service              *Service               `protobuf:"bytes,5,opt,name=service,proto3" json:"service,omitempty"`
 	SourceAccountId      string                 `protobuf:"bytes,6,opt,name=source_account_id,json=sourceAccountId,proto3" json:"source_account_id,omitempty"`
 	DestinationAccountId string                 `protobuf:"bytes,7,opt,name=destination_account_id,json=destinationAccountId,proto3" json:"destination_account_id,omitempty"`
 	IdempotencyKey       string                 `protobuf:"bytes,8,opt,name=idempotency_key,json=idempotencyKey,proto3" json:"idempotency_key,omitempty"`
@@ -372,14 +372,14 @@ func (x *TransactionIn) GetCurrency() string {
 	return ""
 }
 
-func (x *TransactionIn) GetAmount() string {
+func (x *TransactionIn) GetAmount() int64 {
 	if x != nil {
 		return x.Amount
 	}
-	return ""
+	return 0
 }
 
-func (x *TransactionIn) GetService() *structpb.Struct {
+func (x *TransactionIn) GetService() *Service {
 	if x != nil {
 		return x.Service
 	}
@@ -425,7 +425,7 @@ var File_transactions_proto protoreflect.FileDescriptor
 
 const file_transactions_proto_rawDesc = "" +
 	"\n" +
-	"\x12transactions.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cgoogle/protobuf/struct.proto\"\xf6\x01\n" +
+	"\x12transactions.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cgoogle/protobuf/struct.proto\x1a\x0eservices.proto\"\xf6\x01\n" +
 	"\aSummary\x12'\n" +
 	"\x0famount_recieved\x18\x01 \x01(\x03R\x0eamountRecieved\x12\x1f\n" +
 	"\vamount_sent\x18\x02 \x01(\x03R\n" +
@@ -458,22 +458,24 @@ const file_transactions_proto_rawDesc = "" +
 	"updated_at\x18\x11 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12!\n" +
 	"\fcallback_url\x18\x12 \x01(\tR\vcallbackUrl\x123\n" +
 	"\bmetadata\x18\x13 \x01(\v2\x17.google.protobuf.StructR\bmetadata\x12\"\n" +
-	"\asummary\x18\x14 \x01(\v2\b.SummaryR\asummary\"\x8d\x03\n" +
+	"\asummary\x18\x14 \x01(\v2\b.SummaryR\asummary\"\xfe\x02\n" +
 	"\rTransactionIn\x12\x10\n" +
 	"\x03ref\x18\x01 \x01(\tR\x03ref\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1a\n" +
 	"\bcurrency\x18\x03 \x01(\tR\bcurrency\x12\x16\n" +
-	"\x06amount\x18\x04 \x01(\tR\x06amount\x121\n" +
-	"\aservice\x18\x05 \x01(\v2\x17.google.protobuf.StructR\aservice\x12*\n" +
+	"\x06amount\x18\x04 \x01(\x03R\x06amount\x12\"\n" +
+	"\aservice\x18\x05 \x01(\v2\b.ServiceR\aservice\x12*\n" +
 	"\x11source_account_id\x18\x06 \x01(\tR\x0fsourceAccountId\x124\n" +
 	"\x16destination_account_id\x18\a \x01(\tR\x14destinationAccountId\x12'\n" +
 	"\x0fidempotency_key\x18\b \x01(\tR\x0eidempotencyKey\x12!\n" +
 	"\fcallback_url\x18\t \x01(\tR\vcallbackUrl\x123\n" +
 	"\bmetadata\x18\n" +
-	" \x01(\v2\x17.google.protobuf.StructR\bmetadata2\x8b\x02\n" +
+	" \x01(\v2\x17.google.protobuf.StructR\bmetadata2\x8b\x03\n" +
 	"\x12TransactionService\x126\n" +
 	"\x13InternalTransaction\x12\x0e.TransactionIn\x1a\x0f.TransactionOut\x129\n" +
-	"\x16FromExternalTransction\x12\x0e.TransactionIn\x1a\x0f.TransactionOut\x12@\n" +
+	"\x16FromExternalTransction\x12\x0e.TransactionIn\x1a\x0f.TransactionOut\x12>\n" +
+	"\x1bInternalTransactionInitiate\x12\x0e.TransactionIn\x1a\x0f.TransactionOut\x12>\n" +
+	"\x1bInternalTransactionComplete\x12\x0e.TransactionIn\x1a\x0f.TransactionOut\x12@\n" +
 	"\x1dToExternalTransactionInitiate\x12\x0e.TransactionIn\x1a\x0f.TransactionOut\x12@\n" +
 	"\x1dToExternalTransactionComplete\x12\x0e.TransactionIn\x1a\x0f.TransactionOutB\x1eZ\x1cgithub.com/kvbo/protobufs;pbb\x06proto3"
 
@@ -496,6 +498,7 @@ var file_transactions_proto_goTypes = []any{
 	(*TransactionIn)(nil),         // 2: TransactionIn
 	(*structpb.Struct)(nil),       // 3: google.protobuf.Struct
 	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
+	(*Service)(nil),               // 5: Service
 }
 var file_transactions_proto_depIdxs = []int32{
 	3,  // 0: TransactionOut.service:type_name -> google.protobuf.Struct
@@ -507,18 +510,22 @@ var file_transactions_proto_depIdxs = []int32{
 	4,  // 6: TransactionOut.updated_at:type_name -> google.protobuf.Timestamp
 	3,  // 7: TransactionOut.metadata:type_name -> google.protobuf.Struct
 	0,  // 8: TransactionOut.summary:type_name -> Summary
-	3,  // 9: TransactionIn.service:type_name -> google.protobuf.Struct
+	5,  // 9: TransactionIn.service:type_name -> Service
 	3,  // 10: TransactionIn.metadata:type_name -> google.protobuf.Struct
 	2,  // 11: TransactionService.InternalTransaction:input_type -> TransactionIn
 	2,  // 12: TransactionService.FromExternalTransction:input_type -> TransactionIn
-	2,  // 13: TransactionService.ToExternalTransactionInitiate:input_type -> TransactionIn
-	2,  // 14: TransactionService.ToExternalTransactionComplete:input_type -> TransactionIn
-	1,  // 15: TransactionService.InternalTransaction:output_type -> TransactionOut
-	1,  // 16: TransactionService.FromExternalTransction:output_type -> TransactionOut
-	1,  // 17: TransactionService.ToExternalTransactionInitiate:output_type -> TransactionOut
-	1,  // 18: TransactionService.ToExternalTransactionComplete:output_type -> TransactionOut
-	15, // [15:19] is the sub-list for method output_type
-	11, // [11:15] is the sub-list for method input_type
+	2,  // 13: TransactionService.InternalTransactionInitiate:input_type -> TransactionIn
+	2,  // 14: TransactionService.InternalTransactionComplete:input_type -> TransactionIn
+	2,  // 15: TransactionService.ToExternalTransactionInitiate:input_type -> TransactionIn
+	2,  // 16: TransactionService.ToExternalTransactionComplete:input_type -> TransactionIn
+	1,  // 17: TransactionService.InternalTransaction:output_type -> TransactionOut
+	1,  // 18: TransactionService.FromExternalTransction:output_type -> TransactionOut
+	1,  // 19: TransactionService.InternalTransactionInitiate:output_type -> TransactionOut
+	1,  // 20: TransactionService.InternalTransactionComplete:output_type -> TransactionOut
+	1,  // 21: TransactionService.ToExternalTransactionInitiate:output_type -> TransactionOut
+	1,  // 22: TransactionService.ToExternalTransactionComplete:output_type -> TransactionOut
+	17, // [17:23] is the sub-list for method output_type
+	11, // [11:17] is the sub-list for method input_type
 	11, // [11:11] is the sub-list for extension type_name
 	11, // [11:11] is the sub-list for extension extendee
 	0,  // [0:11] is the sub-list for field type_name
@@ -529,6 +536,7 @@ func file_transactions_proto_init() {
 	if File_transactions_proto != nil {
 		return
 	}
+	file_services_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
