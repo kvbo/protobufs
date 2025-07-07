@@ -9,6 +9,7 @@ package pb
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -30,9 +31,10 @@ type Account struct {
 	HoldingBalance   int64                  `protobuf:"varint,5,opt,name=holding_balance,json=holdingBalance,proto3" json:"holding_balance,omitempty"`
 	Metadata         *Account_Metadata      `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	Currency         string                 `protobuf:"bytes,7,opt,name=currency,proto3" json:"currency,omitempty"`
-	CreatedAt        string                 `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt        string                 `protobuf:"bytes,9,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	CreatedAt        *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	Type             string                 `protobuf:"bytes,10,opt,name=type,proto3" json:"type,omitempty"`
+	Category         string                 `protobuf:"bytes,11,opt,name=category,proto3" json:"category,omitempty"`
+	IsSystemAccount  bool                   `protobuf:"varint,12,opt,name=is_system_account,json=isSystemAccount,proto3" json:"is_system_account,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -116,18 +118,11 @@ func (x *Account) GetCurrency() string {
 	return ""
 }
 
-func (x *Account) GetCreatedAt() string {
+func (x *Account) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreatedAt
 	}
-	return ""
-}
-
-func (x *Account) GetUpdatedAt() string {
-	if x != nil {
-		return x.UpdatedAt
-	}
-	return ""
+	return nil
 }
 
 func (x *Account) GetType() string {
@@ -135,6 +130,20 @@ func (x *Account) GetType() string {
 		return x.Type
 	}
 	return ""
+}
+
+func (x *Account) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
+}
+
+func (x *Account) GetIsSystemAccount() bool {
+	if x != nil {
+		return x.IsSystemAccount
+	}
+	return false
 }
 
 type AccountList struct {
@@ -689,7 +698,7 @@ var File_accounts_proto protoreflect.FileDescriptor
 
 const file_accounts_proto_rawDesc = "" +
 	"\n" +
-	"\x0eaccounts.proto\"\xfd\x02\n" +
+	"\x0eaccounts.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc2\x03\n" +
 	"\aAccount\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12'\n" +
@@ -697,13 +706,13 @@ const file_accounts_proto_rawDesc = "" +
 	"\x11available_balance\x18\x04 \x01(\x03R\x10availableBalance\x12'\n" +
 	"\x0fholding_balance\x18\x05 \x01(\x03R\x0eholdingBalance\x12-\n" +
 	"\bmetadata\x18\x06 \x01(\v2\x11.Account.MetadataR\bmetadata\x12\x1a\n" +
-	"\bcurrency\x18\a \x01(\tR\bcurrency\x12\x1d\n" +
+	"\bcurrency\x18\a \x01(\tR\bcurrency\x129\n" +
 	"\n" +
-	"created_at\x18\b \x01(\tR\tcreatedAt\x12\x1d\n" +
-	"\n" +
-	"updated_at\x18\t \x01(\tR\tupdatedAt\x12\x12\n" +
+	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12\x12\n" +
 	"\x04type\x18\n" +
-	" \x01(\tR\x04type\x1a2\n" +
+	" \x01(\tR\x04type\x12\x1a\n" +
+	"\bcategory\x18\v \x01(\tR\bcategory\x12*\n" +
+	"\x11is_system_account\x18\f \x01(\bR\x0fisSystemAccount\x1a2\n" +
 	"\bMetadata\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n" +
 	"\x04type\x18\x02 \x01(\tR\x04type\"X\n" +
@@ -770,52 +779,54 @@ func file_accounts_proto_rawDescGZIP() []byte {
 
 var file_accounts_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_accounts_proto_goTypes = []any{
-	(*Account)(nil),          // 0: Account
-	(*AccountList)(nil),      // 1: AccountList
-	(*AccountQuery)(nil),     // 2: AccountQuery
-	(*AccountUpdate)(nil),    // 3: AccountUpdate
-	(*Transfer)(nil),         // 4: Transfer
-	(*TransferResponse)(nil), // 5: TransferResponse
-	(*TransferRef)(nil),      // 6: TransferRef
-	(*BulkCreate)(nil),       // 7: BulkCreate
-	(*Account_Metadata)(nil), // 8: Account.Metadata
-	(*Transfer_Posting)(nil), // 9: Transfer.Posting
+	(*Account)(nil),               // 0: Account
+	(*AccountList)(nil),           // 1: AccountList
+	(*AccountQuery)(nil),          // 2: AccountQuery
+	(*AccountUpdate)(nil),         // 3: AccountUpdate
+	(*Transfer)(nil),              // 4: Transfer
+	(*TransferResponse)(nil),      // 5: TransferResponse
+	(*TransferRef)(nil),           // 6: TransferRef
+	(*BulkCreate)(nil),            // 7: BulkCreate
+	(*Account_Metadata)(nil),      // 8: Account.Metadata
+	(*Transfer_Posting)(nil),      // 9: Transfer.Posting
+	(*timestamppb.Timestamp)(nil), // 10: google.protobuf.Timestamp
 }
 var file_accounts_proto_depIdxs = []int32{
 	8,  // 0: Account.metadata:type_name -> Account.Metadata
-	0,  // 1: AccountList.accounts:type_name -> Account
-	2,  // 2: AccountList.query:type_name -> AccountQuery
-	0,  // 3: AccountUpdate.account:type_name -> Account
-	2,  // 4: AccountUpdate.query:type_name -> AccountQuery
-	9,  // 5: Transfer.postings:type_name -> Transfer.Posting
-	0,  // 6: BulkCreate.accounts:type_name -> Account
-	0,  // 7: Transfer.Posting.source:type_name -> Account
-	0,  // 8: Transfer.Posting.destination:type_name -> Account
-	2,  // 9: AccountService.GetAccounts:input_type -> AccountQuery
-	0,  // 10: AccountService.GetAccount:input_type -> Account
-	0,  // 11: AccountService.CreateAccount:input_type -> Account
-	7,  // 12: AccountService.BulkCreateAccount:input_type -> BulkCreate
-	3,  // 13: AccountService.UpdateAccount:input_type -> AccountUpdate
-	2,  // 14: AccountService.DeleteAccount:input_type -> AccountQuery
-	4,  // 15: AccountService.TransferAndCommit:input_type -> Transfer
-	4,  // 16: AccountService.TransferWithoutCommit:input_type -> Transfer
-	6,  // 17: AccountService.TranferCommit:input_type -> TransferRef
-	6,  // 18: AccountService.TransferCancel:input_type -> TransferRef
-	1,  // 19: AccountService.GetAccounts:output_type -> AccountList
-	0,  // 20: AccountService.GetAccount:output_type -> Account
-	0,  // 21: AccountService.CreateAccount:output_type -> Account
-	0,  // 22: AccountService.BulkCreateAccount:output_type -> Account
-	1,  // 23: AccountService.UpdateAccount:output_type -> AccountList
-	1,  // 24: AccountService.DeleteAccount:output_type -> AccountList
-	5,  // 25: AccountService.TransferAndCommit:output_type -> TransferResponse
-	5,  // 26: AccountService.TransferWithoutCommit:output_type -> TransferResponse
-	5,  // 27: AccountService.TranferCommit:output_type -> TransferResponse
-	5,  // 28: AccountService.TransferCancel:output_type -> TransferResponse
-	19, // [19:29] is the sub-list for method output_type
-	9,  // [9:19] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	10, // 1: Account.created_at:type_name -> google.protobuf.Timestamp
+	0,  // 2: AccountList.accounts:type_name -> Account
+	2,  // 3: AccountList.query:type_name -> AccountQuery
+	0,  // 4: AccountUpdate.account:type_name -> Account
+	2,  // 5: AccountUpdate.query:type_name -> AccountQuery
+	9,  // 6: Transfer.postings:type_name -> Transfer.Posting
+	0,  // 7: BulkCreate.accounts:type_name -> Account
+	0,  // 8: Transfer.Posting.source:type_name -> Account
+	0,  // 9: Transfer.Posting.destination:type_name -> Account
+	2,  // 10: AccountService.GetAccounts:input_type -> AccountQuery
+	0,  // 11: AccountService.GetAccount:input_type -> Account
+	0,  // 12: AccountService.CreateAccount:input_type -> Account
+	7,  // 13: AccountService.BulkCreateAccount:input_type -> BulkCreate
+	3,  // 14: AccountService.UpdateAccount:input_type -> AccountUpdate
+	2,  // 15: AccountService.DeleteAccount:input_type -> AccountQuery
+	4,  // 16: AccountService.TransferAndCommit:input_type -> Transfer
+	4,  // 17: AccountService.TransferWithoutCommit:input_type -> Transfer
+	6,  // 18: AccountService.TranferCommit:input_type -> TransferRef
+	6,  // 19: AccountService.TransferCancel:input_type -> TransferRef
+	1,  // 20: AccountService.GetAccounts:output_type -> AccountList
+	0,  // 21: AccountService.GetAccount:output_type -> Account
+	0,  // 22: AccountService.CreateAccount:output_type -> Account
+	0,  // 23: AccountService.BulkCreateAccount:output_type -> Account
+	1,  // 24: AccountService.UpdateAccount:output_type -> AccountList
+	1,  // 25: AccountService.DeleteAccount:output_type -> AccountList
+	5,  // 26: AccountService.TransferAndCommit:output_type -> TransferResponse
+	5,  // 27: AccountService.TransferWithoutCommit:output_type -> TransferResponse
+	5,  // 28: AccountService.TranferCommit:output_type -> TransferResponse
+	5,  // 29: AccountService.TransferCancel:output_type -> TransferResponse
+	20, // [20:30] is the sub-list for method output_type
+	10, // [10:20] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_accounts_proto_init() }
