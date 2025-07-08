@@ -10,6 +10,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -22,28 +23,89 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Breakdown struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Value         int64                  `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
+	Min           *wrapperspb.Int64Value `protobuf:"bytes,2,opt,name=min,proto3" json:"min,omitempty"`
+	Max           *wrapperspb.Int64Value `protobuf:"bytes,3,opt,name=max,proto3" json:"max,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Breakdown) Reset() {
+	*x = Breakdown{}
+	mi := &file_charges_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Breakdown) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Breakdown) ProtoMessage() {}
+
+func (x *Breakdown) ProtoReflect() protoreflect.Message {
+	mi := &file_charges_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Breakdown.ProtoReflect.Descriptor instead.
+func (*Breakdown) Descriptor() ([]byte, []int) {
+	return file_charges_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Breakdown) GetValue() int64 {
+	if x != nil {
+		return x.Value
+	}
+	return 0
+}
+
+func (x *Breakdown) GetMin() *wrapperspb.Int64Value {
+	if x != nil {
+		return x.Min
+	}
+	return nil
+}
+
+func (x *Breakdown) GetMax() *wrapperspb.Int64Value {
+	if x != nil {
+		return x.Max
+	}
+	return nil
+}
+
+// FEE STRUCT
 type Fee struct {
-	state                 protoimpl.MessageState `protogen:"open.v1"`
-	Id                    string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name                  string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description           string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Reversible            bool                   `protobuf:"varint,4,opt,name=reversible,proto3" json:"reversible,omitempty"`
-	Type                  string                 `protobuf:"bytes,5,opt,name=type,proto3" json:"type,omitempty"`                      // ChargeType (string: "fixed", "percentage", etc.)
-	FeeType               string                 `protobuf:"bytes,6,opt,name=fee_type,json=feeType,proto3" json:"fee_type,omitempty"` // FeeType (string: "cost", "charge")
-	Breakdown             []*Breakdown           `protobuf:"bytes,7,rep,name=breakdown,proto3" json:"breakdown,omitempty"`
-	SourceAccountRef      string                 `protobuf:"bytes,8,opt,name=source_account_ref,json=sourceAccountRef,proto3" json:"source_account_ref,omitempty"`
-	DestinationAccountRef string                 `protobuf:"bytes,9,opt,name=destination_account_ref,json=destinationAccountRef,proto3" json:"destination_account_ref,omitempty"`
-	Bbb                   uint32                 `protobuf:"varint,10,opt,name=bbb,proto3" json:"bbb,omitempty"`
-	ServiceIds            []string               `protobuf:"bytes,11,rep,name=service_ids,json=serviceIds,proto3" json:"service_ids,omitempty"`
-	CreatedAt             *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt             *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	state                 protoimpl.MessageState  `protogen:"open.v1"`
+	Id                    string                  `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name                  string                  `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description           string                  `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Reversible            *wrapperspb.BoolValue   `protobuf:"bytes,4,opt,name=reversible,proto3" json:"reversible,omitempty"`
+	Type                  string                  `protobuf:"bytes,5,opt,name=type,proto3" json:"type,omitempty"`                      // previously string, now enum
+	FeeType               string                  `protobuf:"bytes,6,opt,name=fee_type,json=feeType,proto3" json:"fee_type,omitempty"` // previously string, now enum
+	Breakdown             []*Breakdown            `protobuf:"bytes,7,rep,name=breakdown,proto3" json:"breakdown,omitempty"`
+	SourceAccountRef      *wrapperspb.StringValue `protobuf:"bytes,8,opt,name=source_account_ref,json=sourceAccountRef,proto3" json:"source_account_ref,omitempty"`
+	DestinationAccountRef *wrapperspb.StringValue `protobuf:"bytes,9,opt,name=destination_account_ref,json=destinationAccountRef,proto3" json:"destination_account_ref,omitempty"`
+	Source                string                  `protobuf:"bytes,10,opt,name=source,proto3" json:"source,omitempty"`
+	ServiceIds            []string                `protobuf:"bytes,11,rep,name=service_ids,json=serviceIds,proto3" json:"service_ids,omitempty"`
+	CreatedAt             *timestamppb.Timestamp  `protobuf:"bytes,12,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt             *timestamppb.Timestamp  `protobuf:"bytes,13,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
 
 func (x *Fee) Reset() {
 	*x = Fee{}
-	mi := &file_charges_proto_msgTypes[0]
+	mi := &file_charges_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -55,7 +117,7 @@ func (x *Fee) String() string {
 func (*Fee) ProtoMessage() {}
 
 func (x *Fee) ProtoReflect() protoreflect.Message {
-	mi := &file_charges_proto_msgTypes[0]
+	mi := &file_charges_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -68,7 +130,7 @@ func (x *Fee) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Fee.ProtoReflect.Descriptor instead.
 func (*Fee) Descriptor() ([]byte, []int) {
-	return file_charges_proto_rawDescGZIP(), []int{0}
+	return file_charges_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *Fee) GetId() string {
@@ -92,11 +154,11 @@ func (x *Fee) GetDescription() string {
 	return ""
 }
 
-func (x *Fee) GetReversible() bool {
+func (x *Fee) GetReversible() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.Reversible
 	}
-	return false
+	return nil
 }
 
 func (x *Fee) GetType() string {
@@ -120,25 +182,25 @@ func (x *Fee) GetBreakdown() []*Breakdown {
 	return nil
 }
 
-func (x *Fee) GetSourceAccountRef() string {
+func (x *Fee) GetSourceAccountRef() *wrapperspb.StringValue {
 	if x != nil {
 		return x.SourceAccountRef
 	}
-	return ""
+	return nil
 }
 
-func (x *Fee) GetDestinationAccountRef() string {
+func (x *Fee) GetDestinationAccountRef() *wrapperspb.StringValue {
 	if x != nil {
 		return x.DestinationAccountRef
 	}
-	return ""
+	return nil
 }
 
-func (x *Fee) GetBbb() uint32 {
+func (x *Fee) GetSource() string {
 	if x != nil {
-		return x.Bbb
+		return x.Source
 	}
-	return 0
+	return ""
 }
 
 func (x *Fee) GetServiceIds() []string {
@@ -162,69 +224,10 @@ func (x *Fee) GetUpdatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
-type Breakdown struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         int64                  `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
-	Min           int64                  `protobuf:"varint,2,opt,name=min,proto3" json:"min,omitempty"`
-	Max           int64                  `protobuf:"varint,3,opt,name=max,proto3" json:"max,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Breakdown) Reset() {
-	*x = Breakdown{}
-	mi := &file_charges_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Breakdown) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Breakdown) ProtoMessage() {}
-
-func (x *Breakdown) ProtoReflect() protoreflect.Message {
-	mi := &file_charges_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Breakdown.ProtoReflect.Descriptor instead.
-func (*Breakdown) Descriptor() ([]byte, []int) {
-	return file_charges_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *Breakdown) GetValue() int64 {
-	if x != nil {
-		return x.Value
-	}
-	return 0
-}
-
-func (x *Breakdown) GetMin() int64 {
-	if x != nil {
-		return x.Min
-	}
-	return 0
-}
-
-func (x *Breakdown) GetMax() int64 {
-	if x != nil {
-		return x.Max
-	}
-	return 0
-}
-
+// PAGINATED FEE LIST
 type FeeList struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Fee           []*FeeList             `protobuf:"bytes,1,rep,name=fee,proto3" json:"fee,omitempty"`
+	Fee           []*Fee                 `protobuf:"bytes,1,rep,name=fee,proto3" json:"fee,omitempty"`
 	Query         *FeeQuery              `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -260,7 +263,7 @@ func (*FeeList) Descriptor() ([]byte, []int) {
 	return file_charges_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *FeeList) GetFee() []*FeeList {
+func (x *FeeList) GetFee() []*Fee {
 	if x != nil {
 		return x.Fee
 	}
@@ -274,6 +277,7 @@ func (x *FeeList) GetQuery() *FeeQuery {
 	return nil
 }
 
+// FEE FILTERING QUERY
 type FeeQuery struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	IsActive      bool                   `protobuf:"varint,1,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
@@ -330,34 +334,34 @@ var File_charges_proto protoreflect.FileDescriptor
 
 const file_charges_proto_rawDesc = "" +
 	"\n" +
-	"\rcharges.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd3\x03\n" +
+	"\rcharges.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\x7f\n" +
+	"\tBreakdown\x12\x14\n" +
+	"\x05value\x18\x01 \x01(\x03R\x05value\x12-\n" +
+	"\x03min\x18\x02 \x01(\v2\x1b.google.protobuf.Int64ValueR\x03min\x12-\n" +
+	"\x03max\x18\x03 \x01(\v2\x1b.google.protobuf.Int64ValueR\x03max\"\xb1\x04\n" +
 	"\x03Fee\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1e\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12:\n" +
 	"\n" +
-	"reversible\x18\x04 \x01(\bR\n" +
+	"reversible\x18\x04 \x01(\v2\x1a.google.protobuf.BoolValueR\n" +
 	"reversible\x12\x12\n" +
 	"\x04type\x18\x05 \x01(\tR\x04type\x12\x19\n" +
 	"\bfee_type\x18\x06 \x01(\tR\afeeType\x12(\n" +
 	"\tbreakdown\x18\a \x03(\v2\n" +
-	".BreakdownR\tbreakdown\x12,\n" +
-	"\x12source_account_ref\x18\b \x01(\tR\x10sourceAccountRef\x126\n" +
-	"\x17destination_account_ref\x18\t \x01(\tR\x15destinationAccountRef\x12\x10\n" +
-	"\x03bbb\x18\n" +
-	" \x01(\rR\x03bbb\x12\x1f\n" +
+	".BreakdownR\tbreakdown\x12J\n" +
+	"\x12source_account_ref\x18\b \x01(\v2\x1c.google.protobuf.StringValueR\x10sourceAccountRef\x12T\n" +
+	"\x17destination_account_ref\x18\t \x01(\v2\x1c.google.protobuf.StringValueR\x15destinationAccountRef\x12\x16\n" +
+	"\x06source\x18\n" +
+	" \x01(\tR\x06source\x12\x1f\n" +
 	"\vservice_ids\x18\v \x03(\tR\n" +
 	"serviceIds\x129\n" +
 	"\n" +
 	"created_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"E\n" +
-	"\tBreakdown\x12\x14\n" +
-	"\x05value\x18\x01 \x01(\x03R\x05value\x12\x10\n" +
-	"\x03min\x18\x02 \x01(\x03R\x03min\x12\x10\n" +
-	"\x03max\x18\x03 \x01(\x03R\x03max\"F\n" +
-	"\aFeeList\x12\x1a\n" +
-	"\x03fee\x18\x01 \x03(\v2\b.FeeListR\x03fee\x12\x1f\n" +
+	"updated_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"B\n" +
+	"\aFeeList\x12\x16\n" +
+	"\x03fee\x18\x01 \x03(\v2\x04.FeeR\x03fee\x12\x1f\n" +
 	"\x05query\x18\x02 \x01(\v2\t.FeeQueryR\x05query\"9\n" +
 	"\bFeeQuery\x12\x1b\n" +
 	"\tis_active\x18\x01 \x01(\bR\bisActive\x12\x10\n" +
@@ -384,33 +388,41 @@ func file_charges_proto_rawDescGZIP() []byte {
 
 var file_charges_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_charges_proto_goTypes = []any{
-	(*Fee)(nil),                   // 0: Fee
-	(*Breakdown)(nil),             // 1: Breakdown
-	(*FeeList)(nil),               // 2: FeeList
-	(*FeeQuery)(nil),              // 3: FeeQuery
-	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
+	(*Breakdown)(nil),              // 0: Breakdown
+	(*Fee)(nil),                    // 1: Fee
+	(*FeeList)(nil),                // 2: FeeList
+	(*FeeQuery)(nil),               // 3: FeeQuery
+	(*wrapperspb.Int64Value)(nil),  // 4: google.protobuf.Int64Value
+	(*wrapperspb.BoolValue)(nil),   // 5: google.protobuf.BoolValue
+	(*wrapperspb.StringValue)(nil), // 6: google.protobuf.StringValue
+	(*timestamppb.Timestamp)(nil),  // 7: google.protobuf.Timestamp
 }
 var file_charges_proto_depIdxs = []int32{
-	1,  // 0: Fee.breakdown:type_name -> Breakdown
-	4,  // 1: Fee.created_at:type_name -> google.protobuf.Timestamp
-	4,  // 2: Fee.updated_at:type_name -> google.protobuf.Timestamp
-	2,  // 3: FeeList.fee:type_name -> FeeList
-	3,  // 4: FeeList.query:type_name -> FeeQuery
-	0,  // 5: FeeManager.CreateFee:input_type -> Fee
-	2,  // 6: FeeManager.UpdateFee:input_type -> FeeList
-	0,  // 7: FeeManager.GetFee:input_type -> Fee
-	2,  // 8: FeeManager.GetFees:input_type -> FeeList
-	3,  // 9: FeeManager.DeleteFee:input_type -> FeeQuery
-	0,  // 10: FeeManager.CreateFee:output_type -> Fee
-	2,  // 11: FeeManager.UpdateFee:output_type -> FeeList
-	0,  // 12: FeeManager.GetFee:output_type -> Fee
-	2,  // 13: FeeManager.GetFees:output_type -> FeeList
-	2,  // 14: FeeManager.DeleteFee:output_type -> FeeList
-	10, // [10:15] is the sub-list for method output_type
-	5,  // [5:10] is the sub-list for method input_type
-	5,  // [5:5] is the sub-list for extension type_name
-	5,  // [5:5] is the sub-list for extension extendee
-	0,  // [0:5] is the sub-list for field type_name
+	4,  // 0: Breakdown.min:type_name -> google.protobuf.Int64Value
+	4,  // 1: Breakdown.max:type_name -> google.protobuf.Int64Value
+	5,  // 2: Fee.reversible:type_name -> google.protobuf.BoolValue
+	0,  // 3: Fee.breakdown:type_name -> Breakdown
+	6,  // 4: Fee.source_account_ref:type_name -> google.protobuf.StringValue
+	6,  // 5: Fee.destination_account_ref:type_name -> google.protobuf.StringValue
+	7,  // 6: Fee.created_at:type_name -> google.protobuf.Timestamp
+	7,  // 7: Fee.updated_at:type_name -> google.protobuf.Timestamp
+	1,  // 8: FeeList.fee:type_name -> Fee
+	3,  // 9: FeeList.query:type_name -> FeeQuery
+	1,  // 10: FeeManager.CreateFee:input_type -> Fee
+	2,  // 11: FeeManager.UpdateFee:input_type -> FeeList
+	1,  // 12: FeeManager.GetFee:input_type -> Fee
+	2,  // 13: FeeManager.GetFees:input_type -> FeeList
+	3,  // 14: FeeManager.DeleteFee:input_type -> FeeQuery
+	1,  // 15: FeeManager.CreateFee:output_type -> Fee
+	2,  // 16: FeeManager.UpdateFee:output_type -> FeeList
+	1,  // 17: FeeManager.GetFee:output_type -> Fee
+	2,  // 18: FeeManager.GetFees:output_type -> FeeList
+	2,  // 19: FeeManager.DeleteFee:output_type -> FeeList
+	15, // [15:20] is the sub-list for method output_type
+	10, // [10:15] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_charges_proto_init() }

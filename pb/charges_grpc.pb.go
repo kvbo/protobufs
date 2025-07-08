@@ -29,6 +29,8 @@ const (
 // FeeManagerClient is the client API for FeeManager service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// SERVICE DEFINITION FOR FEE MANAGER
 type FeeManagerClient interface {
 	CreateFee(ctx context.Context, in *Fee, opts ...grpc.CallOption) (*Fee, error)
 	UpdateFee(ctx context.Context, in *FeeList, opts ...grpc.CallOption) (*FeeList, error)
@@ -98,6 +100,8 @@ func (c *feeManagerClient) DeleteFee(ctx context.Context, in *FeeQuery, opts ...
 // FeeManagerServer is the server API for FeeManager service.
 // All implementations must embed UnimplementedFeeManagerServer
 // for forward compatibility.
+//
+// SERVICE DEFINITION FOR FEE MANAGER
 type FeeManagerServer interface {
 	CreateFee(context.Context, *Fee) (*Fee, error)
 	UpdateFee(context.Context, *FeeList) (*FeeList, error)
