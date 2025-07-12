@@ -299,17 +299,18 @@ func (x *EmailOnly) GetEmail() string {
 
 type User struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	FirstName     string                 `protobuf:"bytes,1,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
-	LastName      string                 `protobuf:"bytes,2,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
-	Username      string                 `protobuf:"bytes,3,opt,name=username,proto3" json:"username,omitempty"`
-	AppId         string                 `protobuf:"bytes,4,opt,name=app_id,json=appId,proto3" json:"app_id,omitempty"`
-	TenantId      string                 `protobuf:"bytes,5,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	EmailId       string                 `protobuf:"bytes,6,opt,name=email_id,json=emailId,proto3" json:"email_id,omitempty"`
-	Phone         string                 `protobuf:"bytes,7,opt,name=phone,proto3" json:"phone,omitempty"`
-	CountryCode   string                 `protobuf:"bytes,8,opt,name=country_code,json=countryCode,proto3" json:"country_code,omitempty"`
-	Verified      string                 `protobuf:"bytes,9,opt,name=verified,proto3" json:"verified,omitempty"`
-	Status        string                 `protobuf:"bytes,10,opt,name=status,proto3" json:"status,omitempty"`
-	Avatar        string                 `protobuf:"bytes,11,opt,name=avatar,proto3" json:"avatar,omitempty"`
+	Id            *string                `protobuf:"bytes,12,opt,name=id,proto3,oneof" json:"id,omitempty"`
+	FirstName     *string                `protobuf:"bytes,1,opt,name=first_name,json=firstName,proto3,oneof" json:"first_name,omitempty"`
+	LastName      *string                `protobuf:"bytes,2,opt,name=last_name,json=lastName,proto3,oneof" json:"last_name,omitempty"`
+	Username      *string                `protobuf:"bytes,3,opt,name=username,proto3,oneof" json:"username,omitempty"`
+	AppId         *string                `protobuf:"bytes,4,opt,name=app_id,json=appId,proto3,oneof" json:"app_id,omitempty"`
+	TenantId      *string                `protobuf:"bytes,5,opt,name=tenant_id,json=tenantId,proto3,oneof" json:"tenant_id,omitempty"`
+	EmailId       *string                `protobuf:"bytes,6,opt,name=email_id,json=emailId,proto3,oneof" json:"email_id,omitempty"`
+	Phone         *string                `protobuf:"bytes,7,opt,name=phone,proto3,oneof" json:"phone,omitempty"`
+	CountryCode   *string                `protobuf:"bytes,8,opt,name=country_code,json=countryCode,proto3,oneof" json:"country_code,omitempty"`
+	Verified      *string                `protobuf:"bytes,9,opt,name=verified,proto3,oneof" json:"verified,omitempty"`
+	Status        *string                `protobuf:"bytes,10,opt,name=status,proto3,oneof" json:"status,omitempty"`
+	Avatar        *string                `protobuf:"bytes,11,opt,name=avatar,proto3,oneof" json:"avatar,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -344,79 +345,86 @@ func (*User) Descriptor() ([]byte, []int) {
 	return file_auth_proto_rawDescGZIP(), []int{5}
 }
 
+func (x *User) GetId() string {
+	if x != nil && x.Id != nil {
+		return *x.Id
+	}
+	return ""
+}
+
 func (x *User) GetFirstName() string {
-	if x != nil {
-		return x.FirstName
+	if x != nil && x.FirstName != nil {
+		return *x.FirstName
 	}
 	return ""
 }
 
 func (x *User) GetLastName() string {
-	if x != nil {
-		return x.LastName
+	if x != nil && x.LastName != nil {
+		return *x.LastName
 	}
 	return ""
 }
 
 func (x *User) GetUsername() string {
-	if x != nil {
-		return x.Username
+	if x != nil && x.Username != nil {
+		return *x.Username
 	}
 	return ""
 }
 
 func (x *User) GetAppId() string {
-	if x != nil {
-		return x.AppId
+	if x != nil && x.AppId != nil {
+		return *x.AppId
 	}
 	return ""
 }
 
 func (x *User) GetTenantId() string {
-	if x != nil {
-		return x.TenantId
+	if x != nil && x.TenantId != nil {
+		return *x.TenantId
 	}
 	return ""
 }
 
 func (x *User) GetEmailId() string {
-	if x != nil {
-		return x.EmailId
+	if x != nil && x.EmailId != nil {
+		return *x.EmailId
 	}
 	return ""
 }
 
 func (x *User) GetPhone() string {
-	if x != nil {
-		return x.Phone
+	if x != nil && x.Phone != nil {
+		return *x.Phone
 	}
 	return ""
 }
 
 func (x *User) GetCountryCode() string {
-	if x != nil {
-		return x.CountryCode
+	if x != nil && x.CountryCode != nil {
+		return *x.CountryCode
 	}
 	return ""
 }
 
 func (x *User) GetVerified() string {
-	if x != nil {
-		return x.Verified
+	if x != nil && x.Verified != nil {
+		return *x.Verified
 	}
 	return ""
 }
 
 func (x *User) GetStatus() string {
-	if x != nil {
-		return x.Status
+	if x != nil && x.Status != nil {
+		return *x.Status
 	}
 	return ""
 }
 
 func (x *User) GetAvatar() string {
-	if x != nil {
-		return x.Avatar
+	if x != nil && x.Avatar != nil {
+		return *x.Avatar
 	}
 	return ""
 }
@@ -907,21 +915,37 @@ const file_auth_proto_rawDesc = "" +
 	"\x05phone\x18\x01 \x01(\tR\x05phone\x12!\n" +
 	"\fcountry_code\x18\x02 \x01(\tR\vcountryCode\"!\n" +
 	"\tEmailOnly\x12\x14\n" +
-	"\x05email\x18\x01 \x01(\tR\x05email\"\xb2\x02\n" +
-	"\x04User\x12\x1d\n" +
+	"\x05email\x18\x01 \x01(\tR\x05email\"\x93\x04\n" +
+	"\x04User\x12\x13\n" +
+	"\x02id\x18\f \x01(\tH\x00R\x02id\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"first_name\x18\x01 \x01(\tR\tfirstName\x12\x1b\n" +
-	"\tlast_name\x18\x02 \x01(\tR\blastName\x12\x1a\n" +
-	"\busername\x18\x03 \x01(\tR\busername\x12\x15\n" +
-	"\x06app_id\x18\x04 \x01(\tR\x05appId\x12\x1b\n" +
-	"\ttenant_id\x18\x05 \x01(\tR\btenantId\x12\x19\n" +
-	"\bemail_id\x18\x06 \x01(\tR\aemailId\x12\x14\n" +
-	"\x05phone\x18\a \x01(\tR\x05phone\x12!\n" +
-	"\fcountry_code\x18\b \x01(\tR\vcountryCode\x12\x1a\n" +
-	"\bverified\x18\t \x01(\tR\bverified\x12\x16\n" +
+	"first_name\x18\x01 \x01(\tH\x01R\tfirstName\x88\x01\x01\x12 \n" +
+	"\tlast_name\x18\x02 \x01(\tH\x02R\blastName\x88\x01\x01\x12\x1f\n" +
+	"\busername\x18\x03 \x01(\tH\x03R\busername\x88\x01\x01\x12\x1a\n" +
+	"\x06app_id\x18\x04 \x01(\tH\x04R\x05appId\x88\x01\x01\x12 \n" +
+	"\ttenant_id\x18\x05 \x01(\tH\x05R\btenantId\x88\x01\x01\x12\x1e\n" +
+	"\bemail_id\x18\x06 \x01(\tH\x06R\aemailId\x88\x01\x01\x12\x19\n" +
+	"\x05phone\x18\a \x01(\tH\aR\x05phone\x88\x01\x01\x12&\n" +
+	"\fcountry_code\x18\b \x01(\tH\bR\vcountryCode\x88\x01\x01\x12\x1f\n" +
+	"\bverified\x18\t \x01(\tH\tR\bverified\x88\x01\x01\x12\x1b\n" +
 	"\x06status\x18\n" +
-	" \x01(\tR\x06status\x12\x16\n" +
-	"\x06avatar\x18\v \x01(\tR\x06avatar\"s\n" +
+	" \x01(\tH\n" +
+	"R\x06status\x88\x01\x01\x12\x1b\n" +
+	"\x06avatar\x18\v \x01(\tH\vR\x06avatar\x88\x01\x01B\x05\n" +
+	"\x03_idB\r\n" +
+	"\v_first_nameB\f\n" +
+	"\n" +
+	"_last_nameB\v\n" +
+	"\t_usernameB\t\n" +
+	"\a_app_idB\f\n" +
+	"\n" +
+	"_tenant_idB\v\n" +
+	"\t_email_idB\b\n" +
+	"\x06_phoneB\x0f\n" +
+	"\r_country_codeB\v\n" +
+	"\t_verifiedB\t\n" +
+	"\a_statusB\t\n" +
+	"\a_avatar\"s\n" +
 	"\x0eSigninResponse\x12#\n" +
 	"\rrefresh_token\x18\x01 \x01(\tR\frefreshToken\x12!\n" +
 	"\faccess_token\x18\x02 \x01(\tR\vaccessToken\x12\x19\n" +
@@ -1043,6 +1067,7 @@ func file_auth_proto_init() {
 	if File_auth_proto != nil {
 		return
 	}
+	file_auth_proto_msgTypes[5].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
