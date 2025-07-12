@@ -40,19 +40,19 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthServiceClient interface {
-	SigninWithEmail(ctx context.Context, in *EmailOnly, opts ...grpc.CallOption) (*SigninResponse, error)
-	SigninWithEmailPassword(ctx context.Context, in *EmailPassword, opts ...grpc.CallOption) (*SigninResponse, error)
-	SigninWithEmailPhonePassword(ctx context.Context, in *EmailPhonePassword, opts ...grpc.CallOption) (*SigninResponse, error)
-	SigninWithPhone(ctx context.Context, in *PhoneOnly, opts ...grpc.CallOption) (*SigninResponse, error)
-	SigninWithPhonePassword(ctx context.Context, in *PhonePassword, opts ...grpc.CallOption) (*SigninResponse, error)
-	SignupWithEmail(ctx context.Context, in *EmailOnly, opts ...grpc.CallOption) (*SigninResponse, error)
-	SignupWithEmailPassword(ctx context.Context, in *EmailPassword, opts ...grpc.CallOption) (*SigninResponse, error)
-	SignupWithEmailPhonePassword(ctx context.Context, in *EmailPhonePassword, opts ...grpc.CallOption) (*SigninResponse, error)
-	SignupWithPhone(ctx context.Context, in *PhoneOnly, opts ...grpc.CallOption) (*SigninResponse, error)
-	SignupWithPhonePassword(ctx context.Context, in *PhonePassword, opts ...grpc.CallOption) (*SigninResponse, error)
-	VerifyToken(ctx context.Context, in *VerifyTokenRequest, opts ...grpc.CallOption) (*SigninResponse, error)
+	SigninWithEmail(ctx context.Context, in *EmailOnly, opts ...grpc.CallOption) (*AuthorizedUser, error)
+	SigninWithEmailPassword(ctx context.Context, in *EmailPassword, opts ...grpc.CallOption) (*AuthorizedUser, error)
+	SigninWithEmailPhonePassword(ctx context.Context, in *EmailPhonePassword, opts ...grpc.CallOption) (*AuthorizedUser, error)
+	SigninWithPhone(ctx context.Context, in *PhoneOnly, opts ...grpc.CallOption) (*AuthorizedUser, error)
+	SigninWithPhonePassword(ctx context.Context, in *PhonePassword, opts ...grpc.CallOption) (*AuthorizedUser, error)
+	SignupWithEmail(ctx context.Context, in *EmailOnly, opts ...grpc.CallOption) (*AuthorizedUser, error)
+	SignupWithEmailPassword(ctx context.Context, in *EmailPassword, opts ...grpc.CallOption) (*AuthorizedUser, error)
+	SignupWithEmailPhonePassword(ctx context.Context, in *EmailPhonePassword, opts ...grpc.CallOption) (*AuthorizedUser, error)
+	SignupWithPhone(ctx context.Context, in *PhoneOnly, opts ...grpc.CallOption) (*AuthorizedUser, error)
+	SignupWithPhonePassword(ctx context.Context, in *PhonePassword, opts ...grpc.CallOption) (*AuthorizedUser, error)
+	VerifyToken(ctx context.Context, in *VerifyTokenRequest, opts ...grpc.CallOption) (*AuthorizedUser, error)
 	AssignRole(ctx context.Context, in *AssignRoleRequest, opts ...grpc.CallOption) (*AssignRoleResponse, error)
-	RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*SigninResponse, error)
+	RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*AuthorizedUser, error)
 	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*LogoutResponse, error)
 	GetPublicKey(ctx context.Context, in *PublickeyRequest, opts ...grpc.CallOption) (*PublickeyResponse, error)
 }
@@ -65,9 +65,9 @@ func NewAuthServiceClient(cc grpc.ClientConnInterface) AuthServiceClient {
 	return &authServiceClient{cc}
 }
 
-func (c *authServiceClient) SigninWithEmail(ctx context.Context, in *EmailOnly, opts ...grpc.CallOption) (*SigninResponse, error) {
+func (c *authServiceClient) SigninWithEmail(ctx context.Context, in *EmailOnly, opts ...grpc.CallOption) (*AuthorizedUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SigninResponse)
+	out := new(AuthorizedUser)
 	err := c.cc.Invoke(ctx, AuthService_SigninWithEmail_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -75,9 +75,9 @@ func (c *authServiceClient) SigninWithEmail(ctx context.Context, in *EmailOnly, 
 	return out, nil
 }
 
-func (c *authServiceClient) SigninWithEmailPassword(ctx context.Context, in *EmailPassword, opts ...grpc.CallOption) (*SigninResponse, error) {
+func (c *authServiceClient) SigninWithEmailPassword(ctx context.Context, in *EmailPassword, opts ...grpc.CallOption) (*AuthorizedUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SigninResponse)
+	out := new(AuthorizedUser)
 	err := c.cc.Invoke(ctx, AuthService_SigninWithEmailPassword_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -85,9 +85,9 @@ func (c *authServiceClient) SigninWithEmailPassword(ctx context.Context, in *Ema
 	return out, nil
 }
 
-func (c *authServiceClient) SigninWithEmailPhonePassword(ctx context.Context, in *EmailPhonePassword, opts ...grpc.CallOption) (*SigninResponse, error) {
+func (c *authServiceClient) SigninWithEmailPhonePassword(ctx context.Context, in *EmailPhonePassword, opts ...grpc.CallOption) (*AuthorizedUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SigninResponse)
+	out := new(AuthorizedUser)
 	err := c.cc.Invoke(ctx, AuthService_SigninWithEmailPhonePassword_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -95,9 +95,9 @@ func (c *authServiceClient) SigninWithEmailPhonePassword(ctx context.Context, in
 	return out, nil
 }
 
-func (c *authServiceClient) SigninWithPhone(ctx context.Context, in *PhoneOnly, opts ...grpc.CallOption) (*SigninResponse, error) {
+func (c *authServiceClient) SigninWithPhone(ctx context.Context, in *PhoneOnly, opts ...grpc.CallOption) (*AuthorizedUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SigninResponse)
+	out := new(AuthorizedUser)
 	err := c.cc.Invoke(ctx, AuthService_SigninWithPhone_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -105,9 +105,9 @@ func (c *authServiceClient) SigninWithPhone(ctx context.Context, in *PhoneOnly, 
 	return out, nil
 }
 
-func (c *authServiceClient) SigninWithPhonePassword(ctx context.Context, in *PhonePassword, opts ...grpc.CallOption) (*SigninResponse, error) {
+func (c *authServiceClient) SigninWithPhonePassword(ctx context.Context, in *PhonePassword, opts ...grpc.CallOption) (*AuthorizedUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SigninResponse)
+	out := new(AuthorizedUser)
 	err := c.cc.Invoke(ctx, AuthService_SigninWithPhonePassword_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -115,9 +115,9 @@ func (c *authServiceClient) SigninWithPhonePassword(ctx context.Context, in *Pho
 	return out, nil
 }
 
-func (c *authServiceClient) SignupWithEmail(ctx context.Context, in *EmailOnly, opts ...grpc.CallOption) (*SigninResponse, error) {
+func (c *authServiceClient) SignupWithEmail(ctx context.Context, in *EmailOnly, opts ...grpc.CallOption) (*AuthorizedUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SigninResponse)
+	out := new(AuthorizedUser)
 	err := c.cc.Invoke(ctx, AuthService_SignupWithEmail_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -125,9 +125,9 @@ func (c *authServiceClient) SignupWithEmail(ctx context.Context, in *EmailOnly, 
 	return out, nil
 }
 
-func (c *authServiceClient) SignupWithEmailPassword(ctx context.Context, in *EmailPassword, opts ...grpc.CallOption) (*SigninResponse, error) {
+func (c *authServiceClient) SignupWithEmailPassword(ctx context.Context, in *EmailPassword, opts ...grpc.CallOption) (*AuthorizedUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SigninResponse)
+	out := new(AuthorizedUser)
 	err := c.cc.Invoke(ctx, AuthService_SignupWithEmailPassword_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -135,9 +135,9 @@ func (c *authServiceClient) SignupWithEmailPassword(ctx context.Context, in *Ema
 	return out, nil
 }
 
-func (c *authServiceClient) SignupWithEmailPhonePassword(ctx context.Context, in *EmailPhonePassword, opts ...grpc.CallOption) (*SigninResponse, error) {
+func (c *authServiceClient) SignupWithEmailPhonePassword(ctx context.Context, in *EmailPhonePassword, opts ...grpc.CallOption) (*AuthorizedUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SigninResponse)
+	out := new(AuthorizedUser)
 	err := c.cc.Invoke(ctx, AuthService_SignupWithEmailPhonePassword_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -145,9 +145,9 @@ func (c *authServiceClient) SignupWithEmailPhonePassword(ctx context.Context, in
 	return out, nil
 }
 
-func (c *authServiceClient) SignupWithPhone(ctx context.Context, in *PhoneOnly, opts ...grpc.CallOption) (*SigninResponse, error) {
+func (c *authServiceClient) SignupWithPhone(ctx context.Context, in *PhoneOnly, opts ...grpc.CallOption) (*AuthorizedUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SigninResponse)
+	out := new(AuthorizedUser)
 	err := c.cc.Invoke(ctx, AuthService_SignupWithPhone_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -155,9 +155,9 @@ func (c *authServiceClient) SignupWithPhone(ctx context.Context, in *PhoneOnly, 
 	return out, nil
 }
 
-func (c *authServiceClient) SignupWithPhonePassword(ctx context.Context, in *PhonePassword, opts ...grpc.CallOption) (*SigninResponse, error) {
+func (c *authServiceClient) SignupWithPhonePassword(ctx context.Context, in *PhonePassword, opts ...grpc.CallOption) (*AuthorizedUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SigninResponse)
+	out := new(AuthorizedUser)
 	err := c.cc.Invoke(ctx, AuthService_SignupWithPhonePassword_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -165,9 +165,9 @@ func (c *authServiceClient) SignupWithPhonePassword(ctx context.Context, in *Pho
 	return out, nil
 }
 
-func (c *authServiceClient) VerifyToken(ctx context.Context, in *VerifyTokenRequest, opts ...grpc.CallOption) (*SigninResponse, error) {
+func (c *authServiceClient) VerifyToken(ctx context.Context, in *VerifyTokenRequest, opts ...grpc.CallOption) (*AuthorizedUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SigninResponse)
+	out := new(AuthorizedUser)
 	err := c.cc.Invoke(ctx, AuthService_VerifyToken_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -185,9 +185,9 @@ func (c *authServiceClient) AssignRole(ctx context.Context, in *AssignRoleReques
 	return out, nil
 }
 
-func (c *authServiceClient) RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*SigninResponse, error) {
+func (c *authServiceClient) RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*AuthorizedUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SigninResponse)
+	out := new(AuthorizedUser)
 	err := c.cc.Invoke(ctx, AuthService_RefreshToken_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -219,19 +219,19 @@ func (c *authServiceClient) GetPublicKey(ctx context.Context, in *PublickeyReque
 // All implementations must embed UnimplementedAuthServiceServer
 // for forward compatibility.
 type AuthServiceServer interface {
-	SigninWithEmail(context.Context, *EmailOnly) (*SigninResponse, error)
-	SigninWithEmailPassword(context.Context, *EmailPassword) (*SigninResponse, error)
-	SigninWithEmailPhonePassword(context.Context, *EmailPhonePassword) (*SigninResponse, error)
-	SigninWithPhone(context.Context, *PhoneOnly) (*SigninResponse, error)
-	SigninWithPhonePassword(context.Context, *PhonePassword) (*SigninResponse, error)
-	SignupWithEmail(context.Context, *EmailOnly) (*SigninResponse, error)
-	SignupWithEmailPassword(context.Context, *EmailPassword) (*SigninResponse, error)
-	SignupWithEmailPhonePassword(context.Context, *EmailPhonePassword) (*SigninResponse, error)
-	SignupWithPhone(context.Context, *PhoneOnly) (*SigninResponse, error)
-	SignupWithPhonePassword(context.Context, *PhonePassword) (*SigninResponse, error)
-	VerifyToken(context.Context, *VerifyTokenRequest) (*SigninResponse, error)
+	SigninWithEmail(context.Context, *EmailOnly) (*AuthorizedUser, error)
+	SigninWithEmailPassword(context.Context, *EmailPassword) (*AuthorizedUser, error)
+	SigninWithEmailPhonePassword(context.Context, *EmailPhonePassword) (*AuthorizedUser, error)
+	SigninWithPhone(context.Context, *PhoneOnly) (*AuthorizedUser, error)
+	SigninWithPhonePassword(context.Context, *PhonePassword) (*AuthorizedUser, error)
+	SignupWithEmail(context.Context, *EmailOnly) (*AuthorizedUser, error)
+	SignupWithEmailPassword(context.Context, *EmailPassword) (*AuthorizedUser, error)
+	SignupWithEmailPhonePassword(context.Context, *EmailPhonePassword) (*AuthorizedUser, error)
+	SignupWithPhone(context.Context, *PhoneOnly) (*AuthorizedUser, error)
+	SignupWithPhonePassword(context.Context, *PhonePassword) (*AuthorizedUser, error)
+	VerifyToken(context.Context, *VerifyTokenRequest) (*AuthorizedUser, error)
 	AssignRole(context.Context, *AssignRoleRequest) (*AssignRoleResponse, error)
-	RefreshToken(context.Context, *RefreshTokenRequest) (*SigninResponse, error)
+	RefreshToken(context.Context, *RefreshTokenRequest) (*AuthorizedUser, error)
 	Logout(context.Context, *LogoutRequest) (*LogoutResponse, error)
 	GetPublicKey(context.Context, *PublickeyRequest) (*PublickeyResponse, error)
 	mustEmbedUnimplementedAuthServiceServer()
@@ -244,43 +244,43 @@ type AuthServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedAuthServiceServer struct{}
 
-func (UnimplementedAuthServiceServer) SigninWithEmail(context.Context, *EmailOnly) (*SigninResponse, error) {
+func (UnimplementedAuthServiceServer) SigninWithEmail(context.Context, *EmailOnly) (*AuthorizedUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SigninWithEmail not implemented")
 }
-func (UnimplementedAuthServiceServer) SigninWithEmailPassword(context.Context, *EmailPassword) (*SigninResponse, error) {
+func (UnimplementedAuthServiceServer) SigninWithEmailPassword(context.Context, *EmailPassword) (*AuthorizedUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SigninWithEmailPassword not implemented")
 }
-func (UnimplementedAuthServiceServer) SigninWithEmailPhonePassword(context.Context, *EmailPhonePassword) (*SigninResponse, error) {
+func (UnimplementedAuthServiceServer) SigninWithEmailPhonePassword(context.Context, *EmailPhonePassword) (*AuthorizedUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SigninWithEmailPhonePassword not implemented")
 }
-func (UnimplementedAuthServiceServer) SigninWithPhone(context.Context, *PhoneOnly) (*SigninResponse, error) {
+func (UnimplementedAuthServiceServer) SigninWithPhone(context.Context, *PhoneOnly) (*AuthorizedUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SigninWithPhone not implemented")
 }
-func (UnimplementedAuthServiceServer) SigninWithPhonePassword(context.Context, *PhonePassword) (*SigninResponse, error) {
+func (UnimplementedAuthServiceServer) SigninWithPhonePassword(context.Context, *PhonePassword) (*AuthorizedUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SigninWithPhonePassword not implemented")
 }
-func (UnimplementedAuthServiceServer) SignupWithEmail(context.Context, *EmailOnly) (*SigninResponse, error) {
+func (UnimplementedAuthServiceServer) SignupWithEmail(context.Context, *EmailOnly) (*AuthorizedUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignupWithEmail not implemented")
 }
-func (UnimplementedAuthServiceServer) SignupWithEmailPassword(context.Context, *EmailPassword) (*SigninResponse, error) {
+func (UnimplementedAuthServiceServer) SignupWithEmailPassword(context.Context, *EmailPassword) (*AuthorizedUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignupWithEmailPassword not implemented")
 }
-func (UnimplementedAuthServiceServer) SignupWithEmailPhonePassword(context.Context, *EmailPhonePassword) (*SigninResponse, error) {
+func (UnimplementedAuthServiceServer) SignupWithEmailPhonePassword(context.Context, *EmailPhonePassword) (*AuthorizedUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignupWithEmailPhonePassword not implemented")
 }
-func (UnimplementedAuthServiceServer) SignupWithPhone(context.Context, *PhoneOnly) (*SigninResponse, error) {
+func (UnimplementedAuthServiceServer) SignupWithPhone(context.Context, *PhoneOnly) (*AuthorizedUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignupWithPhone not implemented")
 }
-func (UnimplementedAuthServiceServer) SignupWithPhonePassword(context.Context, *PhonePassword) (*SigninResponse, error) {
+func (UnimplementedAuthServiceServer) SignupWithPhonePassword(context.Context, *PhonePassword) (*AuthorizedUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignupWithPhonePassword not implemented")
 }
-func (UnimplementedAuthServiceServer) VerifyToken(context.Context, *VerifyTokenRequest) (*SigninResponse, error) {
+func (UnimplementedAuthServiceServer) VerifyToken(context.Context, *VerifyTokenRequest) (*AuthorizedUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyToken not implemented")
 }
 func (UnimplementedAuthServiceServer) AssignRole(context.Context, *AssignRoleRequest) (*AssignRoleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AssignRole not implemented")
 }
-func (UnimplementedAuthServiceServer) RefreshToken(context.Context, *RefreshTokenRequest) (*SigninResponse, error) {
+func (UnimplementedAuthServiceServer) RefreshToken(context.Context, *RefreshTokenRequest) (*AuthorizedUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RefreshToken not implemented")
 }
 func (UnimplementedAuthServiceServer) Logout(context.Context, *LogoutRequest) (*LogoutResponse, error) {

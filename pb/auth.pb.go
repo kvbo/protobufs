@@ -303,12 +303,13 @@ type User struct {
 	FirstName     *string                `protobuf:"bytes,1,opt,name=first_name,json=firstName,proto3,oneof" json:"first_name,omitempty"`
 	LastName      *string                `protobuf:"bytes,2,opt,name=last_name,json=lastName,proto3,oneof" json:"last_name,omitempty"`
 	Username      *string                `protobuf:"bytes,3,opt,name=username,proto3,oneof" json:"username,omitempty"`
+	Email         *string                `protobuf:"bytes,13,opt,name=email,proto3,oneof" json:"email,omitempty"`
 	AppId         *string                `protobuf:"bytes,4,opt,name=app_id,json=appId,proto3,oneof" json:"app_id,omitempty"`
 	TenantId      *string                `protobuf:"bytes,5,opt,name=tenant_id,json=tenantId,proto3,oneof" json:"tenant_id,omitempty"`
 	EmailId       *string                `protobuf:"bytes,6,opt,name=email_id,json=emailId,proto3,oneof" json:"email_id,omitempty"`
 	Phone         *string                `protobuf:"bytes,7,opt,name=phone,proto3,oneof" json:"phone,omitempty"`
 	CountryCode   *string                `protobuf:"bytes,8,opt,name=country_code,json=countryCode,proto3,oneof" json:"country_code,omitempty"`
-	Verified      *string                `protobuf:"bytes,9,opt,name=verified,proto3,oneof" json:"verified,omitempty"`
+	Verified      *bool                  `protobuf:"varint,9,opt,name=verified,proto3,oneof" json:"verified,omitempty"`
 	Status        *string                `protobuf:"bytes,10,opt,name=status,proto3,oneof" json:"status,omitempty"`
 	Avatar        *string                `protobuf:"bytes,11,opt,name=avatar,proto3,oneof" json:"avatar,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -373,6 +374,13 @@ func (x *User) GetUsername() string {
 	return ""
 }
 
+func (x *User) GetEmail() string {
+	if x != nil && x.Email != nil {
+		return *x.Email
+	}
+	return ""
+}
+
 func (x *User) GetAppId() string {
 	if x != nil && x.AppId != nil {
 		return *x.AppId
@@ -408,11 +416,11 @@ func (x *User) GetCountryCode() string {
 	return ""
 }
 
-func (x *User) GetVerified() string {
+func (x *User) GetVerified() bool {
 	if x != nil && x.Verified != nil {
 		return *x.Verified
 	}
-	return ""
+	return false
 }
 
 func (x *User) GetStatus() string {
@@ -429,7 +437,7 @@ func (x *User) GetAvatar() string {
 	return ""
 }
 
-type SigninResponse struct {
+type AuthorizedUser struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	RefreshToken  string                 `protobuf:"bytes,1,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
 	AccessToken   string                 `protobuf:"bytes,2,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
@@ -438,20 +446,20 @@ type SigninResponse struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *SigninResponse) Reset() {
-	*x = SigninResponse{}
+func (x *AuthorizedUser) Reset() {
+	*x = AuthorizedUser{}
 	mi := &file_auth_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *SigninResponse) String() string {
+func (x *AuthorizedUser) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*SigninResponse) ProtoMessage() {}
+func (*AuthorizedUser) ProtoMessage() {}
 
-func (x *SigninResponse) ProtoReflect() protoreflect.Message {
+func (x *AuthorizedUser) ProtoReflect() protoreflect.Message {
 	mi := &file_auth_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -463,26 +471,26 @@ func (x *SigninResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SigninResponse.ProtoReflect.Descriptor instead.
-func (*SigninResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use AuthorizedUser.ProtoReflect.Descriptor instead.
+func (*AuthorizedUser) Descriptor() ([]byte, []int) {
 	return file_auth_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *SigninResponse) GetRefreshToken() string {
+func (x *AuthorizedUser) GetRefreshToken() string {
 	if x != nil {
 		return x.RefreshToken
 	}
 	return ""
 }
 
-func (x *SigninResponse) GetAccessToken() string {
+func (x *AuthorizedUser) GetAccessToken() string {
 	if x != nil {
 		return x.AccessToken
 	}
 	return ""
 }
 
-func (x *SigninResponse) GetUser() *User {
+func (x *AuthorizedUser) GetUser() *User {
 	if x != nil {
 		return x.User
 	}
@@ -915,28 +923,30 @@ const file_auth_proto_rawDesc = "" +
 	"\x05phone\x18\x01 \x01(\tR\x05phone\x12!\n" +
 	"\fcountry_code\x18\x02 \x01(\tR\vcountryCode\"!\n" +
 	"\tEmailOnly\x12\x14\n" +
-	"\x05email\x18\x01 \x01(\tR\x05email\"\x93\x04\n" +
+	"\x05email\x18\x01 \x01(\tR\x05email\"\xb8\x04\n" +
 	"\x04User\x12\x13\n" +
 	"\x02id\x18\f \x01(\tH\x00R\x02id\x88\x01\x01\x12\"\n" +
 	"\n" +
 	"first_name\x18\x01 \x01(\tH\x01R\tfirstName\x88\x01\x01\x12 \n" +
 	"\tlast_name\x18\x02 \x01(\tH\x02R\blastName\x88\x01\x01\x12\x1f\n" +
-	"\busername\x18\x03 \x01(\tH\x03R\busername\x88\x01\x01\x12\x1a\n" +
-	"\x06app_id\x18\x04 \x01(\tH\x04R\x05appId\x88\x01\x01\x12 \n" +
-	"\ttenant_id\x18\x05 \x01(\tH\x05R\btenantId\x88\x01\x01\x12\x1e\n" +
-	"\bemail_id\x18\x06 \x01(\tH\x06R\aemailId\x88\x01\x01\x12\x19\n" +
-	"\x05phone\x18\a \x01(\tH\aR\x05phone\x88\x01\x01\x12&\n" +
-	"\fcountry_code\x18\b \x01(\tH\bR\vcountryCode\x88\x01\x01\x12\x1f\n" +
-	"\bverified\x18\t \x01(\tH\tR\bverified\x88\x01\x01\x12\x1b\n" +
+	"\busername\x18\x03 \x01(\tH\x03R\busername\x88\x01\x01\x12\x19\n" +
+	"\x05email\x18\r \x01(\tH\x04R\x05email\x88\x01\x01\x12\x1a\n" +
+	"\x06app_id\x18\x04 \x01(\tH\x05R\x05appId\x88\x01\x01\x12 \n" +
+	"\ttenant_id\x18\x05 \x01(\tH\x06R\btenantId\x88\x01\x01\x12\x1e\n" +
+	"\bemail_id\x18\x06 \x01(\tH\aR\aemailId\x88\x01\x01\x12\x19\n" +
+	"\x05phone\x18\a \x01(\tH\bR\x05phone\x88\x01\x01\x12&\n" +
+	"\fcountry_code\x18\b \x01(\tH\tR\vcountryCode\x88\x01\x01\x12\x1f\n" +
+	"\bverified\x18\t \x01(\bH\n" +
+	"R\bverified\x88\x01\x01\x12\x1b\n" +
 	"\x06status\x18\n" +
-	" \x01(\tH\n" +
-	"R\x06status\x88\x01\x01\x12\x1b\n" +
-	"\x06avatar\x18\v \x01(\tH\vR\x06avatar\x88\x01\x01B\x05\n" +
+	" \x01(\tH\vR\x06status\x88\x01\x01\x12\x1b\n" +
+	"\x06avatar\x18\v \x01(\tH\fR\x06avatar\x88\x01\x01B\x05\n" +
 	"\x03_idB\r\n" +
 	"\v_first_nameB\f\n" +
 	"\n" +
 	"_last_nameB\v\n" +
-	"\t_usernameB\t\n" +
+	"\t_usernameB\b\n" +
+	"\x06_emailB\t\n" +
 	"\a_app_idB\f\n" +
 	"\n" +
 	"_tenant_idB\v\n" +
@@ -946,7 +956,7 @@ const file_auth_proto_rawDesc = "" +
 	"\t_verifiedB\t\n" +
 	"\a_statusB\t\n" +
 	"\a_avatar\"s\n" +
-	"\x0eSigninResponse\x12#\n" +
+	"\x0eAuthorizedUser\x12#\n" +
 	"\rrefresh_token\x18\x01 \x01(\tR\frefreshToken\x12!\n" +
 	"\faccess_token\x18\x02 \x01(\tR\vaccessToken\x12\x19\n" +
 	"\x04user\x18\x03 \x01(\v2\x05.UserR\x04user\"7\n" +
@@ -972,23 +982,23 @@ const file_auth_proto_rawDesc = "" +
 	"\amessage\x18\x02 \x01(\tR\amessage2\xce\x06\n" +
 	"\vAuthService\x12.\n" +
 	"\x0fSigninWithEmail\x12\n" +
-	".EmailOnly\x1a\x0f.SigninResponse\x12:\n" +
-	"\x17SigninWithEmailPassword\x12\x0e.EmailPassword\x1a\x0f.SigninResponse\x12D\n" +
-	"\x1cSigninWithEmailPhonePassword\x12\x13.EmailPhonePassword\x1a\x0f.SigninResponse\x12.\n" +
+	".EmailOnly\x1a\x0f.AuthorizedUser\x12:\n" +
+	"\x17SigninWithEmailPassword\x12\x0e.EmailPassword\x1a\x0f.AuthorizedUser\x12D\n" +
+	"\x1cSigninWithEmailPhonePassword\x12\x13.EmailPhonePassword\x1a\x0f.AuthorizedUser\x12.\n" +
 	"\x0fSigninWithPhone\x12\n" +
-	".PhoneOnly\x1a\x0f.SigninResponse\x12:\n" +
-	"\x17SigninWithPhonePassword\x12\x0e.PhonePassword\x1a\x0f.SigninResponse\x12.\n" +
+	".PhoneOnly\x1a\x0f.AuthorizedUser\x12:\n" +
+	"\x17SigninWithPhonePassword\x12\x0e.PhonePassword\x1a\x0f.AuthorizedUser\x12.\n" +
 	"\x0fSignupWithEmail\x12\n" +
-	".EmailOnly\x1a\x0f.SigninResponse\x12:\n" +
-	"\x17SignupWithEmailPassword\x12\x0e.EmailPassword\x1a\x0f.SigninResponse\x12D\n" +
-	"\x1cSignupWithEmailPhonePassword\x12\x13.EmailPhonePassword\x1a\x0f.SigninResponse\x12.\n" +
+	".EmailOnly\x1a\x0f.AuthorizedUser\x12:\n" +
+	"\x17SignupWithEmailPassword\x12\x0e.EmailPassword\x1a\x0f.AuthorizedUser\x12D\n" +
+	"\x1cSignupWithEmailPhonePassword\x12\x13.EmailPhonePassword\x1a\x0f.AuthorizedUser\x12.\n" +
 	"\x0fSignupWithPhone\x12\n" +
-	".PhoneOnly\x1a\x0f.SigninResponse\x12:\n" +
-	"\x17SignupWithPhonePassword\x12\x0e.PhonePassword\x1a\x0f.SigninResponse\x123\n" +
-	"\vVerifyToken\x12\x13.VerifyTokenRequest\x1a\x0f.SigninResponse\x125\n" +
+	".PhoneOnly\x1a\x0f.AuthorizedUser\x12:\n" +
+	"\x17SignupWithPhonePassword\x12\x0e.PhonePassword\x1a\x0f.AuthorizedUser\x123\n" +
+	"\vVerifyToken\x12\x13.VerifyTokenRequest\x1a\x0f.AuthorizedUser\x125\n" +
 	"\n" +
 	"AssignRole\x12\x12.AssignRoleRequest\x1a\x13.AssignRoleResponse\x125\n" +
-	"\fRefreshToken\x12\x14.RefreshTokenRequest\x1a\x0f.SigninResponse\x12)\n" +
+	"\fRefreshToken\x12\x14.RefreshTokenRequest\x1a\x0f.AuthorizedUser\x12)\n" +
 	"\x06Logout\x12\x0e.LogoutRequest\x1a\x0f.LogoutResponse\x125\n" +
 	"\fGetPublicKey\x12\x11.PublickeyRequest\x1a\x12.PublickeyResponseB\x1eZ\x1cgithub.com/kvbo/protobufs;pbb\x06proto3"
 
@@ -1012,7 +1022,7 @@ var file_auth_proto_goTypes = []any{
 	(*PhoneOnly)(nil),            // 3: PhoneOnly
 	(*EmailOnly)(nil),            // 4: EmailOnly
 	(*User)(nil),                 // 5: User
-	(*SigninResponse)(nil),       // 6: SigninResponse
+	(*AuthorizedUser)(nil),       // 6: AuthorizedUser
 	(*VerifyTokenRequest)(nil),   // 7: VerifyTokenRequest
 	(*RefreshTokenRequest)(nil),  // 8: RefreshTokenRequest
 	(*RefreshTokenResponse)(nil), // 9: RefreshTokenResponse
@@ -1024,7 +1034,7 @@ var file_auth_proto_goTypes = []any{
 	(*AssignRoleResponse)(nil),   // 15: AssignRoleResponse
 }
 var file_auth_proto_depIdxs = []int32{
-	5,  // 0: SigninResponse.user:type_name -> User
+	5,  // 0: AuthorizedUser.user:type_name -> User
 	4,  // 1: AuthService.SigninWithEmail:input_type -> EmailOnly
 	0,  // 2: AuthService.SigninWithEmailPassword:input_type -> EmailPassword
 	1,  // 3: AuthService.SigninWithEmailPhonePassword:input_type -> EmailPhonePassword
@@ -1040,19 +1050,19 @@ var file_auth_proto_depIdxs = []int32{
 	8,  // 13: AuthService.RefreshToken:input_type -> RefreshTokenRequest
 	10, // 14: AuthService.Logout:input_type -> LogoutRequest
 	12, // 15: AuthService.GetPublicKey:input_type -> PublickeyRequest
-	6,  // 16: AuthService.SigninWithEmail:output_type -> SigninResponse
-	6,  // 17: AuthService.SigninWithEmailPassword:output_type -> SigninResponse
-	6,  // 18: AuthService.SigninWithEmailPhonePassword:output_type -> SigninResponse
-	6,  // 19: AuthService.SigninWithPhone:output_type -> SigninResponse
-	6,  // 20: AuthService.SigninWithPhonePassword:output_type -> SigninResponse
-	6,  // 21: AuthService.SignupWithEmail:output_type -> SigninResponse
-	6,  // 22: AuthService.SignupWithEmailPassword:output_type -> SigninResponse
-	6,  // 23: AuthService.SignupWithEmailPhonePassword:output_type -> SigninResponse
-	6,  // 24: AuthService.SignupWithPhone:output_type -> SigninResponse
-	6,  // 25: AuthService.SignupWithPhonePassword:output_type -> SigninResponse
-	6,  // 26: AuthService.VerifyToken:output_type -> SigninResponse
+	6,  // 16: AuthService.SigninWithEmail:output_type -> AuthorizedUser
+	6,  // 17: AuthService.SigninWithEmailPassword:output_type -> AuthorizedUser
+	6,  // 18: AuthService.SigninWithEmailPhonePassword:output_type -> AuthorizedUser
+	6,  // 19: AuthService.SigninWithPhone:output_type -> AuthorizedUser
+	6,  // 20: AuthService.SigninWithPhonePassword:output_type -> AuthorizedUser
+	6,  // 21: AuthService.SignupWithEmail:output_type -> AuthorizedUser
+	6,  // 22: AuthService.SignupWithEmailPassword:output_type -> AuthorizedUser
+	6,  // 23: AuthService.SignupWithEmailPhonePassword:output_type -> AuthorizedUser
+	6,  // 24: AuthService.SignupWithPhone:output_type -> AuthorizedUser
+	6,  // 25: AuthService.SignupWithPhonePassword:output_type -> AuthorizedUser
+	6,  // 26: AuthService.VerifyToken:output_type -> AuthorizedUser
 	15, // 27: AuthService.AssignRole:output_type -> AssignRoleResponse
-	6,  // 28: AuthService.RefreshToken:output_type -> SigninResponse
+	6,  // 28: AuthService.RefreshToken:output_type -> AuthorizedUser
 	11, // 29: AuthService.Logout:output_type -> LogoutResponse
 	13, // 30: AuthService.GetPublicKey:output_type -> PublickeyResponse
 	16, // [16:31] is the sub-list for method output_type
