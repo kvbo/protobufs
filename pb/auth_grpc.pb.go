@@ -50,7 +50,7 @@ type AuthServiceClient interface {
 	SignupWithEmailPhonePassword(ctx context.Context, in *EmailPhonePassword, opts ...grpc.CallOption) (*AuthorizedUser, error)
 	SignupWithPhone(ctx context.Context, in *PhoneOnly, opts ...grpc.CallOption) (*AuthorizedUser, error)
 	SignupWithPhonePassword(ctx context.Context, in *PhonePassword, opts ...grpc.CallOption) (*AuthorizedUser, error)
-	VerifyToken(ctx context.Context, in *VerifyTokenRequest, opts ...grpc.CallOption) (*AuthorizedUser, error)
+	VerifyToken(ctx context.Context, in *VerifyTokenRequest, opts ...grpc.CallOption) (*VerifyTokenResponse, error)
 	AssignRole(ctx context.Context, in *AssignRoleRequest, opts ...grpc.CallOption) (*AssignRoleResponse, error)
 	RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*AuthorizedUser, error)
 	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*LogoutResponse, error)
@@ -165,9 +165,9 @@ func (c *authServiceClient) SignupWithPhonePassword(ctx context.Context, in *Pho
 	return out, nil
 }
 
-func (c *authServiceClient) VerifyToken(ctx context.Context, in *VerifyTokenRequest, opts ...grpc.CallOption) (*AuthorizedUser, error) {
+func (c *authServiceClient) VerifyToken(ctx context.Context, in *VerifyTokenRequest, opts ...grpc.CallOption) (*VerifyTokenResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AuthorizedUser)
+	out := new(VerifyTokenResponse)
 	err := c.cc.Invoke(ctx, AuthService_VerifyToken_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -229,7 +229,7 @@ type AuthServiceServer interface {
 	SignupWithEmailPhonePassword(context.Context, *EmailPhonePassword) (*AuthorizedUser, error)
 	SignupWithPhone(context.Context, *PhoneOnly) (*AuthorizedUser, error)
 	SignupWithPhonePassword(context.Context, *PhonePassword) (*AuthorizedUser, error)
-	VerifyToken(context.Context, *VerifyTokenRequest) (*AuthorizedUser, error)
+	VerifyToken(context.Context, *VerifyTokenRequest) (*VerifyTokenResponse, error)
 	AssignRole(context.Context, *AssignRoleRequest) (*AssignRoleResponse, error)
 	RefreshToken(context.Context, *RefreshTokenRequest) (*AuthorizedUser, error)
 	Logout(context.Context, *LogoutRequest) (*LogoutResponse, error)
@@ -274,7 +274,7 @@ func (UnimplementedAuthServiceServer) SignupWithPhone(context.Context, *PhoneOnl
 func (UnimplementedAuthServiceServer) SignupWithPhonePassword(context.Context, *PhonePassword) (*AuthorizedUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignupWithPhonePassword not implemented")
 }
-func (UnimplementedAuthServiceServer) VerifyToken(context.Context, *VerifyTokenRequest) (*AuthorizedUser, error) {
+func (UnimplementedAuthServiceServer) VerifyToken(context.Context, *VerifyTokenRequest) (*VerifyTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyToken not implemented")
 }
 func (UnimplementedAuthServiceServer) AssignRole(context.Context, *AssignRoleRequest) (*AssignRoleResponse, error) {

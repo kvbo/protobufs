@@ -541,16 +541,60 @@ func (x *VerifyTokenRequest) GetAccessToken() string {
 	return ""
 }
 
+type VerifyTokenResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Valid         bool                   `protobuf:"varint,1,opt,name=valid,proto3" json:"valid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *VerifyTokenResponse) Reset() {
+	*x = VerifyTokenResponse{}
+	mi := &file_auth_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VerifyTokenResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerifyTokenResponse) ProtoMessage() {}
+
+func (x *VerifyTokenResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_auth_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerifyTokenResponse.ProtoReflect.Descriptor instead.
+func (*VerifyTokenResponse) Descriptor() ([]byte, []int) {
+	return file_auth_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *VerifyTokenResponse) GetValid() bool {
+	if x != nil {
+		return x.Valid
+	}
+	return false
+}
+
 type RefreshTokenRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	AccessToken   string                 `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
+	RefreshToken  string                 `protobuf:"bytes,1,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RefreshTokenRequest) Reset() {
 	*x = RefreshTokenRequest{}
-	mi := &file_auth_proto_msgTypes[8]
+	mi := &file_auth_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -562,7 +606,7 @@ func (x *RefreshTokenRequest) String() string {
 func (*RefreshTokenRequest) ProtoMessage() {}
 
 func (x *RefreshTokenRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_auth_proto_msgTypes[8]
+	mi := &file_auth_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -575,63 +619,19 @@ func (x *RefreshTokenRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RefreshTokenRequest.ProtoReflect.Descriptor instead.
 func (*RefreshTokenRequest) Descriptor() ([]byte, []int) {
-	return file_auth_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *RefreshTokenRequest) GetAccessToken() string {
-	if x != nil {
-		return x.AccessToken
-	}
-	return ""
-}
-
-type RefreshTokenResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	AccessToken   string                 `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *RefreshTokenResponse) Reset() {
-	*x = RefreshTokenResponse{}
-	mi := &file_auth_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *RefreshTokenResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RefreshTokenResponse) ProtoMessage() {}
-
-func (x *RefreshTokenResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_auth_proto_msgTypes[9]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RefreshTokenResponse.ProtoReflect.Descriptor instead.
-func (*RefreshTokenResponse) Descriptor() ([]byte, []int) {
 	return file_auth_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *RefreshTokenResponse) GetAccessToken() string {
+func (x *RefreshTokenRequest) GetRefreshToken() string {
 	if x != nil {
-		return x.AccessToken
+		return x.RefreshToken
 	}
 	return ""
 }
 
 type LogoutRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	AccessToken   string                 `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
+	RefreshToken  string                 `protobuf:"bytes,1,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -666,16 +666,16 @@ func (*LogoutRequest) Descriptor() ([]byte, []int) {
 	return file_auth_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *LogoutRequest) GetAccessToken() string {
+func (x *LogoutRequest) GetRefreshToken() string {
 	if x != nil {
-		return x.AccessToken
+		return x.RefreshToken
 	}
 	return ""
 }
 
 type LogoutResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	AccessToken   string                 `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
+	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -710,9 +710,9 @@ func (*LogoutResponse) Descriptor() ([]byte, []int) {
 	return file_auth_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *LogoutResponse) GetAccessToken() string {
+func (x *LogoutResponse) GetMessage() string {
 	if x != nil {
-		return x.AccessToken
+		return x.Message
 	}
 	return ""
 }
@@ -961,15 +961,15 @@ const file_auth_proto_rawDesc = "" +
 	"\faccess_token\x18\x02 \x01(\tR\vaccessToken\x12\x19\n" +
 	"\x04user\x18\x03 \x01(\v2\x05.UserR\x04user\"7\n" +
 	"\x12VerifyTokenRequest\x12!\n" +
-	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\"8\n" +
-	"\x13RefreshTokenRequest\x12!\n" +
-	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\"9\n" +
-	"\x14RefreshTokenResponse\x12!\n" +
-	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\"2\n" +
-	"\rLogoutRequest\x12!\n" +
-	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\"3\n" +
-	"\x0eLogoutResponse\x12!\n" +
-	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\"\x12\n" +
+	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\"+\n" +
+	"\x13VerifyTokenResponse\x12\x14\n" +
+	"\x05valid\x18\x01 \x01(\bR\x05valid\":\n" +
+	"\x13RefreshTokenRequest\x12#\n" +
+	"\rrefresh_token\x18\x01 \x01(\tR\frefreshToken\"4\n" +
+	"\rLogoutRequest\x12#\n" +
+	"\rrefresh_token\x18\x01 \x01(\tR\frefreshToken\"*\n" +
+	"\x0eLogoutResponse\x12\x18\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage\"\x12\n" +
 	"\x10PublickeyRequest\"2\n" +
 	"\x11PublickeyResponse\x12\x1d\n" +
 	"\n" +
@@ -979,7 +979,7 @@ const file_auth_proto_rawDesc = "" +
 	"\x04role\x18\x02 \x01(\tR\x04role\"F\n" +
 	"\x12AssignRoleResponse\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\tR\x06status\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage2\xce\x06\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage2\xd3\x06\n" +
 	"\vAuthService\x12.\n" +
 	"\x0fSigninWithEmail\x12\n" +
 	".EmailOnly\x1a\x0f.AuthorizedUser\x12:\n" +
@@ -994,8 +994,8 @@ const file_auth_proto_rawDesc = "" +
 	"\x1cSignupWithEmailPhonePassword\x12\x13.EmailPhonePassword\x1a\x0f.AuthorizedUser\x12.\n" +
 	"\x0fSignupWithPhone\x12\n" +
 	".PhoneOnly\x1a\x0f.AuthorizedUser\x12:\n" +
-	"\x17SignupWithPhonePassword\x12\x0e.PhonePassword\x1a\x0f.AuthorizedUser\x123\n" +
-	"\vVerifyToken\x12\x13.VerifyTokenRequest\x1a\x0f.AuthorizedUser\x125\n" +
+	"\x17SignupWithPhonePassword\x12\x0e.PhonePassword\x1a\x0f.AuthorizedUser\x128\n" +
+	"\vVerifyToken\x12\x13.VerifyTokenRequest\x1a\x14.VerifyTokenResponse\x125\n" +
 	"\n" +
 	"AssignRole\x12\x12.AssignRoleRequest\x1a\x13.AssignRoleResponse\x125\n" +
 	"\fRefreshToken\x12\x14.RefreshTokenRequest\x1a\x0f.AuthorizedUser\x12)\n" +
@@ -1016,22 +1016,22 @@ func file_auth_proto_rawDescGZIP() []byte {
 
 var file_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_auth_proto_goTypes = []any{
-	(*EmailPassword)(nil),        // 0: EmailPassword
-	(*EmailPhonePassword)(nil),   // 1: EmailPhonePassword
-	(*PhonePassword)(nil),        // 2: PhonePassword
-	(*PhoneOnly)(nil),            // 3: PhoneOnly
-	(*EmailOnly)(nil),            // 4: EmailOnly
-	(*User)(nil),                 // 5: User
-	(*AuthorizedUser)(nil),       // 6: AuthorizedUser
-	(*VerifyTokenRequest)(nil),   // 7: VerifyTokenRequest
-	(*RefreshTokenRequest)(nil),  // 8: RefreshTokenRequest
-	(*RefreshTokenResponse)(nil), // 9: RefreshTokenResponse
-	(*LogoutRequest)(nil),        // 10: LogoutRequest
-	(*LogoutResponse)(nil),       // 11: LogoutResponse
-	(*PublickeyRequest)(nil),     // 12: PublickeyRequest
-	(*PublickeyResponse)(nil),    // 13: PublickeyResponse
-	(*AssignRoleRequest)(nil),    // 14: AssignRoleRequest
-	(*AssignRoleResponse)(nil),   // 15: AssignRoleResponse
+	(*EmailPassword)(nil),       // 0: EmailPassword
+	(*EmailPhonePassword)(nil),  // 1: EmailPhonePassword
+	(*PhonePassword)(nil),       // 2: PhonePassword
+	(*PhoneOnly)(nil),           // 3: PhoneOnly
+	(*EmailOnly)(nil),           // 4: EmailOnly
+	(*User)(nil),                // 5: User
+	(*AuthorizedUser)(nil),      // 6: AuthorizedUser
+	(*VerifyTokenRequest)(nil),  // 7: VerifyTokenRequest
+	(*VerifyTokenResponse)(nil), // 8: VerifyTokenResponse
+	(*RefreshTokenRequest)(nil), // 9: RefreshTokenRequest
+	(*LogoutRequest)(nil),       // 10: LogoutRequest
+	(*LogoutResponse)(nil),      // 11: LogoutResponse
+	(*PublickeyRequest)(nil),    // 12: PublickeyRequest
+	(*PublickeyResponse)(nil),   // 13: PublickeyResponse
+	(*AssignRoleRequest)(nil),   // 14: AssignRoleRequest
+	(*AssignRoleResponse)(nil),  // 15: AssignRoleResponse
 }
 var file_auth_proto_depIdxs = []int32{
 	5,  // 0: AuthorizedUser.user:type_name -> User
@@ -1047,7 +1047,7 @@ var file_auth_proto_depIdxs = []int32{
 	2,  // 10: AuthService.SignupWithPhonePassword:input_type -> PhonePassword
 	7,  // 11: AuthService.VerifyToken:input_type -> VerifyTokenRequest
 	14, // 12: AuthService.AssignRole:input_type -> AssignRoleRequest
-	8,  // 13: AuthService.RefreshToken:input_type -> RefreshTokenRequest
+	9,  // 13: AuthService.RefreshToken:input_type -> RefreshTokenRequest
 	10, // 14: AuthService.Logout:input_type -> LogoutRequest
 	12, // 15: AuthService.GetPublicKey:input_type -> PublickeyRequest
 	6,  // 16: AuthService.SigninWithEmail:output_type -> AuthorizedUser
@@ -1060,7 +1060,7 @@ var file_auth_proto_depIdxs = []int32{
 	6,  // 23: AuthService.SignupWithEmailPhonePassword:output_type -> AuthorizedUser
 	6,  // 24: AuthService.SignupWithPhone:output_type -> AuthorizedUser
 	6,  // 25: AuthService.SignupWithPhonePassword:output_type -> AuthorizedUser
-	6,  // 26: AuthService.VerifyToken:output_type -> AuthorizedUser
+	8,  // 26: AuthService.VerifyToken:output_type -> VerifyTokenResponse
 	15, // 27: AuthService.AssignRole:output_type -> AssignRoleResponse
 	6,  // 28: AuthService.RefreshToken:output_type -> AuthorizedUser
 	11, // 29: AuthService.Logout:output_type -> LogoutResponse
