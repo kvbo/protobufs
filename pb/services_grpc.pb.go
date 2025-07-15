@@ -26,6 +26,7 @@ const (
 	ServiceManager_DeleteService_FullMethodName      = "/ServiceManager/DeleteService"
 	ServiceManager_AddFeeToService_FullMethodName    = "/ServiceManager/AddFeeToService"
 	ServiceManager_RemoveFeeToService_FullMethodName = "/ServiceManager/RemoveFeeToService"
+	ServiceManager_CalculateCharges_FullMethodName   = "/ServiceManager/CalculateCharges"
 )
 
 // ServiceManagerClient is the client API for ServiceManager service.
@@ -39,6 +40,7 @@ type ServiceManagerClient interface {
 	DeleteService(ctx context.Context, in *ServiceQuery, opts ...grpc.CallOption) (*ServiceList, error)
 	AddFeeToService(ctx context.Context, in *AddRemoveFees, opts ...grpc.CallOption) (*AddRemoveFees, error)
 	RemoveFeeToService(ctx context.Context, in *AddRemoveFees, opts ...grpc.CallOption) (*AddRemoveFees, error)
+	CalculateCharges(ctx context.Context, in *ChargesRequest, opts ...grpc.CallOption) (*ChargesResponse, error)
 }
 
 type serviceManagerClient struct {
@@ -119,6 +121,16 @@ func (c *serviceManagerClient) RemoveFeeToService(ctx context.Context, in *AddRe
 	return out, nil
 }
 
+func (c *serviceManagerClient) CalculateCharges(ctx context.Context, in *ChargesRequest, opts ...grpc.CallOption) (*ChargesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ChargesResponse)
+	err := c.cc.Invoke(ctx, ServiceManager_CalculateCharges_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ServiceManagerServer is the server API for ServiceManager service.
 // All implementations must embed UnimplementedServiceManagerServer
 // for forward compatibility.
@@ -130,6 +142,7 @@ type ServiceManagerServer interface {
 	DeleteService(context.Context, *ServiceQuery) (*ServiceList, error)
 	AddFeeToService(context.Context, *AddRemoveFees) (*AddRemoveFees, error)
 	RemoveFeeToService(context.Context, *AddRemoveFees) (*AddRemoveFees, error)
+	CalculateCharges(context.Context, *ChargesRequest) (*ChargesResponse, error)
 	mustEmbedUnimplementedServiceManagerServer()
 }
 
@@ -160,6 +173,9 @@ func (UnimplementedServiceManagerServer) AddFeeToService(context.Context, *AddRe
 }
 func (UnimplementedServiceManagerServer) RemoveFeeToService(context.Context, *AddRemoveFees) (*AddRemoveFees, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveFeeToService not implemented")
+}
+func (UnimplementedServiceManagerServer) CalculateCharges(context.Context, *ChargesRequest) (*ChargesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CalculateCharges not implemented")
 }
 func (UnimplementedServiceManagerServer) mustEmbedUnimplementedServiceManagerServer() {}
 func (UnimplementedServiceManagerServer) testEmbeddedByValue()                        {}
@@ -308,6 +324,24 @@ func _ServiceManager_RemoveFeeToService_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ServiceManager_CalculateCharges_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChargesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ServiceManagerServer).CalculateCharges(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ServiceManager_CalculateCharges_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ServiceManagerServer).CalculateCharges(ctx, req.(*ChargesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ServiceManager_ServiceDesc is the grpc.ServiceDesc for ServiceManager service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -342,6 +376,10 @@ var ServiceManager_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RemoveFeeToService",
 			Handler:    _ServiceManager_RemoveFeeToService_Handler,
+		},
+		{
+			MethodName: "CalculateCharges",
+			Handler:    _ServiceManager_CalculateCharges_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

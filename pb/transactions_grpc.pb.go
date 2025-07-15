@@ -25,6 +25,7 @@ const (
 	TransactionService_InternalTransactionComplete_FullMethodName   = "/TransactionService/InternalTransactionComplete"
 	TransactionService_ToExternalTransactionInitiate_FullMethodName = "/TransactionService/ToExternalTransactionInitiate"
 	TransactionService_ToExternalTransactionComplete_FullMethodName = "/TransactionService/ToExternalTransactionComplete"
+	TransactionService_ValidateTransaction_FullMethodName           = "/TransactionService/ValidateTransaction"
 )
 
 // TransactionServiceClient is the client API for TransactionService service.
@@ -37,6 +38,7 @@ type TransactionServiceClient interface {
 	InternalTransactionComplete(ctx context.Context, in *TransactionIn, opts ...grpc.CallOption) (*TransactionOut, error)
 	ToExternalTransactionInitiate(ctx context.Context, in *TransactionIn, opts ...grpc.CallOption) (*TransactionOut, error)
 	ToExternalTransactionComplete(ctx context.Context, in *TransactionIn, opts ...grpc.CallOption) (*TransactionOut, error)
+	ValidateTransaction(ctx context.Context, in *TransactionIn, opts ...grpc.CallOption) (*TransactionOut, error)
 }
 
 type transactionServiceClient struct {
@@ -107,6 +109,16 @@ func (c *transactionServiceClient) ToExternalTransactionComplete(ctx context.Con
 	return out, nil
 }
 
+func (c *transactionServiceClient) ValidateTransaction(ctx context.Context, in *TransactionIn, opts ...grpc.CallOption) (*TransactionOut, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TransactionOut)
+	err := c.cc.Invoke(ctx, TransactionService_ValidateTransaction_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TransactionServiceServer is the server API for TransactionService service.
 // All implementations must embed UnimplementedTransactionServiceServer
 // for forward compatibility.
@@ -117,6 +129,7 @@ type TransactionServiceServer interface {
 	InternalTransactionComplete(context.Context, *TransactionIn) (*TransactionOut, error)
 	ToExternalTransactionInitiate(context.Context, *TransactionIn) (*TransactionOut, error)
 	ToExternalTransactionComplete(context.Context, *TransactionIn) (*TransactionOut, error)
+	ValidateTransaction(context.Context, *TransactionIn) (*TransactionOut, error)
 	mustEmbedUnimplementedTransactionServiceServer()
 }
 
@@ -144,6 +157,9 @@ func (UnimplementedTransactionServiceServer) ToExternalTransactionInitiate(conte
 }
 func (UnimplementedTransactionServiceServer) ToExternalTransactionComplete(context.Context, *TransactionIn) (*TransactionOut, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ToExternalTransactionComplete not implemented")
+}
+func (UnimplementedTransactionServiceServer) ValidateTransaction(context.Context, *TransactionIn) (*TransactionOut, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateTransaction not implemented")
 }
 func (UnimplementedTransactionServiceServer) mustEmbedUnimplementedTransactionServiceServer() {}
 func (UnimplementedTransactionServiceServer) testEmbeddedByValue()                            {}
@@ -274,6 +290,24 @@ func _TransactionService_ToExternalTransactionComplete_Handler(srv interface{}, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TransactionService_ValidateTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransactionIn)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TransactionServiceServer).ValidateTransaction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TransactionService_ValidateTransaction_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TransactionServiceServer).ValidateTransaction(ctx, req.(*TransactionIn))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TransactionService_ServiceDesc is the grpc.ServiceDesc for TransactionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -304,6 +338,10 @@ var TransactionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ToExternalTransactionComplete",
 			Handler:    _TransactionService_ToExternalTransactionComplete_Handler,
+		},
+		{
+			MethodName: "ValidateTransaction",
+			Handler:    _TransactionService_ValidateTransaction_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

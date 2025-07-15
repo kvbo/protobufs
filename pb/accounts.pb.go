@@ -7,13 +7,11 @@
 package pb
 
 import (
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
-
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 const (
@@ -27,15 +25,16 @@ type Account struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
 	Id               string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name             string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Slug             string                 `protobuf:"bytes,13,opt,name=slug,proto3" json:"slug,omitempty"`
 	CurrentBalance   int64                  `protobuf:"varint,3,opt,name=current_balance,json=currentBalance,proto3" json:"current_balance,omitempty"`
 	AvailableBalance int64                  `protobuf:"varint,4,opt,name=available_balance,json=availableBalance,proto3" json:"available_balance,omitempty"`
 	HoldingBalance   int64                  `protobuf:"varint,5,opt,name=holding_balance,json=holdingBalance,proto3" json:"holding_balance,omitempty"`
 	Metadata         *Account_Metadata      `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	Currency         string                 `protobuf:"bytes,7,opt,name=currency,proto3" json:"currency,omitempty"`
-	CreatedAt        *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	CreatedAt        string                 `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	Type             string                 `protobuf:"bytes,10,opt,name=type,proto3" json:"type,omitempty"`
 	Category         string                 `protobuf:"bytes,11,opt,name=category,proto3" json:"category,omitempty"`
-	IsSystemAccount  bool                   `protobuf:"varint,12,opt,name=is_system_account,json=isSystemAccount,proto3" json:"is_system_account,omitempty"`
+	IsSystemAccount  *bool                  `protobuf:"varint,12,opt,name=is_system_account,json=isSystemAccount,proto3,oneof" json:"is_system_account,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -84,6 +83,13 @@ func (x *Account) GetName() string {
 	return ""
 }
 
+func (x *Account) GetSlug() string {
+	if x != nil {
+		return x.Slug
+	}
+	return ""
+}
+
 func (x *Account) GetCurrentBalance() int64 {
 	if x != nil {
 		return x.CurrentBalance
@@ -119,11 +125,11 @@ func (x *Account) GetCurrency() string {
 	return ""
 }
 
-func (x *Account) GetCreatedAt() *timestamppb.Timestamp {
+func (x *Account) GetCreatedAt() string {
 	if x != nil {
 		return x.CreatedAt
 	}
-	return nil
+	return ""
 }
 
 func (x *Account) GetType() string {
@@ -141,8 +147,8 @@ func (x *Account) GetCategory() string {
 }
 
 func (x *Account) GetIsSystemAccount() bool {
-	if x != nil {
-		return x.IsSystemAccount
+	if x != nil && x.IsSystemAccount != nil {
+		return *x.IsSystemAccount
 	}
 	return false
 }
@@ -202,13 +208,13 @@ func (x *AccountList) GetQuery() *AccountQuery {
 type AccountQuery struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	Ids             []string               `protobuf:"bytes,1,rep,name=ids,proto3" json:"ids,omitempty"`
-	Status          string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
-	StartDate       string                 `protobuf:"bytes,3,opt,name=start_date,json=startDate,proto3" json:"start_date,omitempty"`
-	EndDate         string                 `protobuf:"bytes,4,opt,name=end_date,json=endDate,proto3" json:"end_date,omitempty"`
-	Type            string                 `protobuf:"bytes,5,opt,name=type,proto3" json:"type,omitempty"`
-	Currency        string                 `protobuf:"bytes,6,opt,name=currency,proto3" json:"currency,omitempty"`
-	Name            string                 `protobuf:"bytes,7,opt,name=name,proto3" json:"name,omitempty"`
-	PlatformAccount bool                   `protobuf:"varint,8,opt,name=platform_account,json=platformAccount,proto3" json:"platform_account,omitempty"`
+	Status          *string                `protobuf:"bytes,2,opt,name=status,proto3,oneof" json:"status,omitempty"`
+	StartDate       *string                `protobuf:"bytes,3,opt,name=start_date,json=startDate,proto3,oneof" json:"start_date,omitempty"`
+	EndDate         *string                `protobuf:"bytes,4,opt,name=end_date,json=endDate,proto3,oneof" json:"end_date,omitempty"`
+	Type            *string                `protobuf:"bytes,5,opt,name=type,proto3,oneof" json:"type,omitempty"`
+	Currency        *string                `protobuf:"bytes,6,opt,name=currency,proto3,oneof" json:"currency,omitempty"`
+	Name            *string                `protobuf:"bytes,7,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	IsSystemAccount *bool                  `protobuf:"varint,8,opt,name=is_system_account,json=isSystemAccount,proto3,oneof" json:"is_system_account,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -251,50 +257,50 @@ func (x *AccountQuery) GetIds() []string {
 }
 
 func (x *AccountQuery) GetStatus() string {
-	if x != nil {
-		return x.Status
+	if x != nil && x.Status != nil {
+		return *x.Status
 	}
 	return ""
 }
 
 func (x *AccountQuery) GetStartDate() string {
-	if x != nil {
-		return x.StartDate
+	if x != nil && x.StartDate != nil {
+		return *x.StartDate
 	}
 	return ""
 }
 
 func (x *AccountQuery) GetEndDate() string {
-	if x != nil {
-		return x.EndDate
+	if x != nil && x.EndDate != nil {
+		return *x.EndDate
 	}
 	return ""
 }
 
 func (x *AccountQuery) GetType() string {
-	if x != nil {
-		return x.Type
+	if x != nil && x.Type != nil {
+		return *x.Type
 	}
 	return ""
 }
 
 func (x *AccountQuery) GetCurrency() string {
-	if x != nil {
-		return x.Currency
+	if x != nil && x.Currency != nil {
+		return *x.Currency
 	}
 	return ""
 }
 
 func (x *AccountQuery) GetName() string {
-	if x != nil {
-		return x.Name
+	if x != nil && x.Name != nil {
+		return *x.Name
 	}
 	return ""
 }
 
-func (x *AccountQuery) GetPlatformAccount() bool {
-	if x != nil {
-		return x.PlatformAccount
+func (x *AccountQuery) GetIsSystemAccount() bool {
+	if x != nil && x.IsSystemAccount != nil {
+		return *x.IsSystemAccount
 	}
 	return false
 }
@@ -537,8 +543,8 @@ func (x *BulkCreate) GetAccounts() []*Account {
 
 type Account_Metadata struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Type          string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
+	Name          *string                `protobuf:"bytes,1,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Type          *string                `protobuf:"bytes,2,opt,name=type,proto3,oneof" json:"type,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -574,15 +580,15 @@ func (*Account_Metadata) Descriptor() ([]byte, []int) {
 }
 
 func (x *Account_Metadata) GetName() string {
-	if x != nil {
-		return x.Name
+	if x != nil && x.Name != nil {
+		return *x.Name
 	}
 	return ""
 }
 
 func (x *Account_Metadata) GetType() string {
-	if x != nil {
-		return x.Type
+	if x != nil && x.Type != nil {
+		return *x.Type
 	}
 	return ""
 }
@@ -699,37 +705,48 @@ var File_accounts_proto protoreflect.FileDescriptor
 
 const file_accounts_proto_rawDesc = "" +
 	"\n" +
-	"\x0eaccounts.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc2\x03\n" +
+	"\x0eaccounts.proto\"\xf1\x03\n" +
 	"\aAccount\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12'\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
+	"\x04slug\x18\r \x01(\tR\x04slug\x12'\n" +
 	"\x0fcurrent_balance\x18\x03 \x01(\x03R\x0ecurrentBalance\x12+\n" +
 	"\x11available_balance\x18\x04 \x01(\x03R\x10availableBalance\x12'\n" +
 	"\x0fholding_balance\x18\x05 \x01(\x03R\x0eholdingBalance\x12-\n" +
 	"\bmetadata\x18\x06 \x01(\v2\x11.Account.MetadataR\bmetadata\x12\x1a\n" +
-	"\bcurrency\x18\a \x01(\tR\bcurrency\x129\n" +
+	"\bcurrency\x18\a \x01(\tR\bcurrency\x12\x1d\n" +
 	"\n" +
-	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12\x12\n" +
+	"created_at\x18\b \x01(\tR\tcreatedAt\x12\x12\n" +
 	"\x04type\x18\n" +
 	" \x01(\tR\x04type\x12\x1a\n" +
-	"\bcategory\x18\v \x01(\tR\bcategory\x12*\n" +
-	"\x11is_system_account\x18\f \x01(\bR\x0fisSystemAccount\x1a2\n" +
-	"\bMetadata\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n" +
-	"\x04type\x18\x02 \x01(\tR\x04type\"X\n" +
+	"\bcategory\x18\v \x01(\tR\bcategory\x12/\n" +
+	"\x11is_system_account\x18\f \x01(\bH\x00R\x0fisSystemAccount\x88\x01\x01\x1aN\n" +
+	"\bMetadata\x12\x17\n" +
+	"\x04name\x18\x01 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x17\n" +
+	"\x04type\x18\x02 \x01(\tH\x01R\x04type\x88\x01\x01B\a\n" +
+	"\x05_nameB\a\n" +
+	"\x05_typeB\x14\n" +
+	"\x12_is_system_account\"X\n" +
 	"\vAccountList\x12$\n" +
 	"\baccounts\x18\x01 \x03(\v2\b.AccountR\baccounts\x12#\n" +
-	"\x05query\x18\x02 \x01(\v2\r.AccountQueryR\x05query\"\xe1\x01\n" +
+	"\x05query\x18\x02 \x01(\v2\r.AccountQueryR\x05query\"\xe1\x02\n" +
 	"\fAccountQuery\x12\x10\n" +
-	"\x03ids\x18\x01 \x03(\tR\x03ids\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\tR\x06status\x12\x1d\n" +
+	"\x03ids\x18\x01 \x03(\tR\x03ids\x12\x1b\n" +
+	"\x06status\x18\x02 \x01(\tH\x00R\x06status\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"start_date\x18\x03 \x01(\tR\tstartDate\x12\x19\n" +
-	"\bend_date\x18\x04 \x01(\tR\aendDate\x12\x12\n" +
-	"\x04type\x18\x05 \x01(\tR\x04type\x12\x1a\n" +
-	"\bcurrency\x18\x06 \x01(\tR\bcurrency\x12\x12\n" +
-	"\x04name\x18\a \x01(\tR\x04name\x12)\n" +
-	"\x10platform_account\x18\b \x01(\bR\x0fplatformAccount\"X\n" +
+	"start_date\x18\x03 \x01(\tH\x01R\tstartDate\x88\x01\x01\x12\x1e\n" +
+	"\bend_date\x18\x04 \x01(\tH\x02R\aendDate\x88\x01\x01\x12\x17\n" +
+	"\x04type\x18\x05 \x01(\tH\x03R\x04type\x88\x01\x01\x12\x1f\n" +
+	"\bcurrency\x18\x06 \x01(\tH\x04R\bcurrency\x88\x01\x01\x12\x17\n" +
+	"\x04name\x18\a \x01(\tH\x05R\x04name\x88\x01\x01\x12/\n" +
+	"\x11is_system_account\x18\b \x01(\bH\x06R\x0fisSystemAccount\x88\x01\x01B\t\n" +
+	"\a_statusB\r\n" +
+	"\v_start_dateB\v\n" +
+	"\t_end_dateB\a\n" +
+	"\x05_typeB\v\n" +
+	"\t_currencyB\a\n" +
+	"\x05_nameB\x14\n" +
+	"\x12_is_system_account\"X\n" +
 	"\rAccountUpdate\x12\"\n" +
 	"\aaccount\x18\x01 \x01(\v2\b.AccountR\aaccount\x12#\n" +
 	"\x05query\x18\x02 \x01(\v2\r.AccountQueryR\x05query\"\xd2\x02\n" +
@@ -780,54 +797,52 @@ func file_accounts_proto_rawDescGZIP() []byte {
 
 var file_accounts_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_accounts_proto_goTypes = []any{
-	(*Account)(nil),               // 0: Account
-	(*AccountList)(nil),           // 1: AccountList
-	(*AccountQuery)(nil),          // 2: AccountQuery
-	(*AccountUpdate)(nil),         // 3: AccountUpdate
-	(*Transfer)(nil),              // 4: Transfer
-	(*TransferResponse)(nil),      // 5: TransferResponse
-	(*TransferRef)(nil),           // 6: TransferRef
-	(*BulkCreate)(nil),            // 7: BulkCreate
-	(*Account_Metadata)(nil),      // 8: Account.Metadata
-	(*Transfer_Posting)(nil),      // 9: Transfer.Posting
-	(*timestamppb.Timestamp)(nil), // 10: google.protobuf.Timestamp
+	(*Account)(nil),          // 0: Account
+	(*AccountList)(nil),      // 1: AccountList
+	(*AccountQuery)(nil),     // 2: AccountQuery
+	(*AccountUpdate)(nil),    // 3: AccountUpdate
+	(*Transfer)(nil),         // 4: Transfer
+	(*TransferResponse)(nil), // 5: TransferResponse
+	(*TransferRef)(nil),      // 6: TransferRef
+	(*BulkCreate)(nil),       // 7: BulkCreate
+	(*Account_Metadata)(nil), // 8: Account.Metadata
+	(*Transfer_Posting)(nil), // 9: Transfer.Posting
 }
 var file_accounts_proto_depIdxs = []int32{
 	8,  // 0: Account.metadata:type_name -> Account.Metadata
-	10, // 1: Account.created_at:type_name -> google.protobuf.Timestamp
-	0,  // 2: AccountList.accounts:type_name -> Account
-	2,  // 3: AccountList.query:type_name -> AccountQuery
-	0,  // 4: AccountUpdate.account:type_name -> Account
-	2,  // 5: AccountUpdate.query:type_name -> AccountQuery
-	9,  // 6: Transfer.postings:type_name -> Transfer.Posting
-	0,  // 7: BulkCreate.accounts:type_name -> Account
-	0,  // 8: Transfer.Posting.source:type_name -> Account
-	0,  // 9: Transfer.Posting.destination:type_name -> Account
-	2,  // 10: AccountService.GetAccounts:input_type -> AccountQuery
-	0,  // 11: AccountService.GetAccount:input_type -> Account
-	0,  // 12: AccountService.CreateAccount:input_type -> Account
-	7,  // 13: AccountService.BulkCreateAccount:input_type -> BulkCreate
-	3,  // 14: AccountService.UpdateAccount:input_type -> AccountUpdate
-	2,  // 15: AccountService.DeleteAccount:input_type -> AccountQuery
-	4,  // 16: AccountService.TransferAndCommit:input_type -> Transfer
-	4,  // 17: AccountService.TransferWithoutCommit:input_type -> Transfer
-	6,  // 18: AccountService.TranferCommit:input_type -> TransferRef
-	6,  // 19: AccountService.TransferCancel:input_type -> TransferRef
-	1,  // 20: AccountService.GetAccounts:output_type -> AccountList
-	0,  // 21: AccountService.GetAccount:output_type -> Account
-	0,  // 22: AccountService.CreateAccount:output_type -> Account
-	0,  // 23: AccountService.BulkCreateAccount:output_type -> Account
-	1,  // 24: AccountService.UpdateAccount:output_type -> AccountList
-	1,  // 25: AccountService.DeleteAccount:output_type -> AccountList
-	5,  // 26: AccountService.TransferAndCommit:output_type -> TransferResponse
-	5,  // 27: AccountService.TransferWithoutCommit:output_type -> TransferResponse
-	5,  // 28: AccountService.TranferCommit:output_type -> TransferResponse
-	5,  // 29: AccountService.TransferCancel:output_type -> TransferResponse
-	20, // [20:30] is the sub-list for method output_type
-	10, // [10:20] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	0,  // 1: AccountList.accounts:type_name -> Account
+	2,  // 2: AccountList.query:type_name -> AccountQuery
+	0,  // 3: AccountUpdate.account:type_name -> Account
+	2,  // 4: AccountUpdate.query:type_name -> AccountQuery
+	9,  // 5: Transfer.postings:type_name -> Transfer.Posting
+	0,  // 6: BulkCreate.accounts:type_name -> Account
+	0,  // 7: Transfer.Posting.source:type_name -> Account
+	0,  // 8: Transfer.Posting.destination:type_name -> Account
+	2,  // 9: AccountService.GetAccounts:input_type -> AccountQuery
+	0,  // 10: AccountService.GetAccount:input_type -> Account
+	0,  // 11: AccountService.CreateAccount:input_type -> Account
+	7,  // 12: AccountService.BulkCreateAccount:input_type -> BulkCreate
+	3,  // 13: AccountService.UpdateAccount:input_type -> AccountUpdate
+	2,  // 14: AccountService.DeleteAccount:input_type -> AccountQuery
+	4,  // 15: AccountService.TransferAndCommit:input_type -> Transfer
+	4,  // 16: AccountService.TransferWithoutCommit:input_type -> Transfer
+	6,  // 17: AccountService.TranferCommit:input_type -> TransferRef
+	6,  // 18: AccountService.TransferCancel:input_type -> TransferRef
+	1,  // 19: AccountService.GetAccounts:output_type -> AccountList
+	0,  // 20: AccountService.GetAccount:output_type -> Account
+	0,  // 21: AccountService.CreateAccount:output_type -> Account
+	0,  // 22: AccountService.BulkCreateAccount:output_type -> Account
+	1,  // 23: AccountService.UpdateAccount:output_type -> AccountList
+	1,  // 24: AccountService.DeleteAccount:output_type -> AccountList
+	5,  // 25: AccountService.TransferAndCommit:output_type -> TransferResponse
+	5,  // 26: AccountService.TransferWithoutCommit:output_type -> TransferResponse
+	5,  // 27: AccountService.TranferCommit:output_type -> TransferResponse
+	5,  // 28: AccountService.TransferCancel:output_type -> TransferResponse
+	19, // [19:29] is the sub-list for method output_type
+	9,  // [9:19] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_accounts_proto_init() }
@@ -835,6 +850,9 @@ func file_accounts_proto_init() {
 	if File_accounts_proto != nil {
 		return
 	}
+	file_accounts_proto_msgTypes[0].OneofWrappers = []any{}
+	file_accounts_proto_msgTypes[2].OneofWrappers = []any{}
+	file_accounts_proto_msgTypes[8].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

@@ -9,7 +9,6 @@ package pb
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -27,13 +26,13 @@ type Service struct {
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Slug          string                 `protobuf:"bytes,3,opt,name=slug,proto3" json:"slug,omitempty"`
-	MinAmount     *wrapperspb.Int64Value `protobuf:"bytes,4,opt,name=min_amount,json=minAmount,proto3" json:"min_amount,omitempty"`
-	MaxAmount     *wrapperspb.Int64Value `protobuf:"bytes,5,opt,name=max_amount,json=maxAmount,proto3" json:"max_amount,omitempty"`
+	MinAmount     *int64                 `protobuf:"varint,4,opt,name=min_amount,json=minAmount,proto3,oneof" json:"min_amount,omitempty"`
+	MaxAmount     *int64                 `protobuf:"varint,5,opt,name=max_amount,json=maxAmount,proto3,oneof" json:"max_amount,omitempty"`
 	Description   string                 `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
 	Img           string                 `protobuf:"bytes,7,opt,name=img,proto3" json:"img,omitempty"`
-	Reversible    *wrapperspb.BoolValue  `protobuf:"bytes,8,opt,name=reversible,proto3" json:"reversible,omitempty"`
+	Reversible    *bool                  `protobuf:"varint,8,opt,name=reversible,proto3,oneof" json:"reversible,omitempty"`
 	Fees          []*Fee                 `protobuf:"bytes,9,rep,name=fees,proto3" json:"fees,omitempty"`
-	IsActive      *wrapperspb.BoolValue  `protobuf:"bytes,10,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
+	IsActive      *bool                  `protobuf:"varint,10,opt,name=is_active,json=isActive,proto3,oneof" json:"is_active,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -89,18 +88,18 @@ func (x *Service) GetSlug() string {
 	return ""
 }
 
-func (x *Service) GetMinAmount() *wrapperspb.Int64Value {
-	if x != nil {
-		return x.MinAmount
+func (x *Service) GetMinAmount() int64 {
+	if x != nil && x.MinAmount != nil {
+		return *x.MinAmount
 	}
-	return nil
+	return 0
 }
 
-func (x *Service) GetMaxAmount() *wrapperspb.Int64Value {
-	if x != nil {
-		return x.MaxAmount
+func (x *Service) GetMaxAmount() int64 {
+	if x != nil && x.MaxAmount != nil {
+		return *x.MaxAmount
 	}
-	return nil
+	return 0
 }
 
 func (x *Service) GetDescription() string {
@@ -117,11 +116,11 @@ func (x *Service) GetImg() string {
 	return ""
 }
 
-func (x *Service) GetReversible() *wrapperspb.BoolValue {
-	if x != nil {
-		return x.Reversible
+func (x *Service) GetReversible() bool {
+	if x != nil && x.Reversible != nil {
+		return *x.Reversible
 	}
-	return nil
+	return false
 }
 
 func (x *Service) GetFees() []*Fee {
@@ -131,11 +130,11 @@ func (x *Service) GetFees() []*Fee {
 	return nil
 }
 
-func (x *Service) GetIsActive() *wrapperspb.BoolValue {
-	if x != nil {
-		return x.IsActive
+func (x *Service) GetIsActive() bool {
+	if x != nil && x.IsActive != nil {
+		return *x.IsActive
 	}
-	return nil
+	return false
 }
 
 type UpdateServiceRequest struct {
@@ -378,27 +377,220 @@ func (x *AddRemoveFees) GetFeeIds() []string {
 	return nil
 }
 
+type ChargesRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ServiceId     string                 `protobuf:"bytes,1,opt,name=service_id,json=serviceId,proto3" json:"service_id,omitempty"`
+	Amount        int64                  `protobuf:"varint,2,opt,name=amount,proto3" json:"amount,omitempty"`
+	Currency      string                 `protobuf:"bytes,3,opt,name=currency,proto3" json:"currency,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ChargesRequest) Reset() {
+	*x = ChargesRequest{}
+	mi := &file_services_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChargesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChargesRequest) ProtoMessage() {}
+
+func (x *ChargesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_services_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChargesRequest.ProtoReflect.Descriptor instead.
+func (*ChargesRequest) Descriptor() ([]byte, []int) {
+	return file_services_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ChargesRequest) GetServiceId() string {
+	if x != nil {
+		return x.ServiceId
+	}
+	return ""
+}
+
+func (x *ChargesRequest) GetAmount() int64 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+func (x *ChargesRequest) GetCurrency() string {
+	if x != nil {
+		return x.Currency
+	}
+	return ""
+}
+
+type Charge struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Amount        string                 `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount,omitempty"`
+	Currency      string                 `protobuf:"bytes,3,opt,name=currency,proto3" json:"currency,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Charge) Reset() {
+	*x = Charge{}
+	mi := &file_services_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Charge) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Charge) ProtoMessage() {}
+
+func (x *Charge) ProtoReflect() protoreflect.Message {
+	mi := &file_services_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Charge.ProtoReflect.Descriptor instead.
+func (*Charge) Descriptor() ([]byte, []int) {
+	return file_services_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *Charge) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Charge) GetAmount() string {
+	if x != nil {
+		return x.Amount
+	}
+	return ""
+}
+
+func (x *Charge) GetCurrency() string {
+	if x != nil {
+		return x.Currency
+	}
+	return ""
+}
+
+type ChargesResponse struct {
+	state                   protoimpl.MessageState `protogen:"open.v1"`
+	SourceCharges           []*Charge              `protobuf:"bytes,1,rep,name=source_charges,json=sourceCharges,proto3" json:"source_charges,omitempty"`
+	DestinationCharges      []*Charge              `protobuf:"bytes,2,rep,name=destination_charges,json=destinationCharges,proto3" json:"destination_charges,omitempty"`
+	TotalSourceCharges      int64                  `protobuf:"varint,3,opt,name=total_source_charges,json=totalSourceCharges,proto3" json:"total_source_charges,omitempty"`
+	TotalDestinationCharges int64                  `protobuf:"varint,4,opt,name=total_destination_charges,json=totalDestinationCharges,proto3" json:"total_destination_charges,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
+}
+
+func (x *ChargesResponse) Reset() {
+	*x = ChargesResponse{}
+	mi := &file_services_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChargesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChargesResponse) ProtoMessage() {}
+
+func (x *ChargesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_services_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChargesResponse.ProtoReflect.Descriptor instead.
+func (*ChargesResponse) Descriptor() ([]byte, []int) {
+	return file_services_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ChargesResponse) GetSourceCharges() []*Charge {
+	if x != nil {
+		return x.SourceCharges
+	}
+	return nil
+}
+
+func (x *ChargesResponse) GetDestinationCharges() []*Charge {
+	if x != nil {
+		return x.DestinationCharges
+	}
+	return nil
+}
+
+func (x *ChargesResponse) GetTotalSourceCharges() int64 {
+	if x != nil {
+		return x.TotalSourceCharges
+	}
+	return 0
+}
+
+func (x *ChargesResponse) GetTotalDestinationCharges() int64 {
+	if x != nil {
+		return x.TotalDestinationCharges
+	}
+	return 0
+}
+
 var File_services_proto protoreflect.FileDescriptor
 
 const file_services_proto_rawDesc = "" +
 	"\n" +
-	"\x0eservices.proto\x1a\rcharges.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\xfc\x02\n" +
+	"\x0eservices.proto\x1a\rcharges.proto\"\xd9\x02\n" +
 	"\aService\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
-	"\x04slug\x18\x03 \x01(\tR\x04slug\x12:\n" +
+	"\x04slug\x18\x03 \x01(\tR\x04slug\x12\"\n" +
 	"\n" +
-	"min_amount\x18\x04 \x01(\v2\x1b.google.protobuf.Int64ValueR\tminAmount\x12:\n" +
+	"min_amount\x18\x04 \x01(\x03H\x00R\tminAmount\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"max_amount\x18\x05 \x01(\v2\x1b.google.protobuf.Int64ValueR\tmaxAmount\x12 \n" +
+	"max_amount\x18\x05 \x01(\x03H\x01R\tmaxAmount\x88\x01\x01\x12 \n" +
 	"\vdescription\x18\x06 \x01(\tR\vdescription\x12\x10\n" +
-	"\x03img\x18\a \x01(\tR\x03img\x12:\n" +
+	"\x03img\x18\a \x01(\tR\x03img\x12#\n" +
 	"\n" +
-	"reversible\x18\b \x01(\v2\x1a.google.protobuf.BoolValueR\n" +
-	"reversible\x12\x18\n" +
-	"\x04fees\x18\t \x03(\v2\x04.FeeR\x04fees\x127\n" +
+	"reversible\x18\b \x01(\bH\x02R\n" +
+	"reversible\x88\x01\x01\x12\x18\n" +
+	"\x04fees\x18\t \x03(\v2\x04.FeeR\x04fees\x12 \n" +
 	"\tis_active\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.BoolValueR\bisActive\"_\n" +
+	" \x01(\bH\x03R\bisActive\x88\x01\x01B\r\n" +
+	"\v_min_amountB\r\n" +
+	"\v_max_amountB\r\n" +
+	"\v_reversibleB\f\n" +
+	"\n" +
+	"_is_active\"_\n" +
 	"\x14UpdateServiceRequest\x12\"\n" +
 	"\aservice\x18\x01 \x01(\v2\b.ServiceR\aservice\x12#\n" +
 	"\x05query\x18\x02 \x01(\v2\r.ServiceQueryR\x05query\"X\n" +
@@ -416,7 +608,21 @@ const file_services_proto_rawDesc = "" +
 	"\rAddRemoveFees\x12\x1d\n" +
 	"\n" +
 	"service_id\x18\x01 \x01(\tR\tserviceId\x12\x17\n" +
-	"\afee_ids\x18\x02 \x03(\tR\x06feeIds2\xd0\x02\n" +
+	"\afee_ids\x18\x02 \x03(\tR\x06feeIds\"c\n" +
+	"\x0eChargesRequest\x12\x1d\n" +
+	"\n" +
+	"service_id\x18\x01 \x01(\tR\tserviceId\x12\x16\n" +
+	"\x06amount\x18\x02 \x01(\x03R\x06amount\x12\x1a\n" +
+	"\bcurrency\x18\x03 \x01(\tR\bcurrency\"P\n" +
+	"\x06Charge\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x16\n" +
+	"\x06amount\x18\x02 \x01(\tR\x06amount\x12\x1a\n" +
+	"\bcurrency\x18\x03 \x01(\tR\bcurrency\"\xe9\x01\n" +
+	"\x0fChargesResponse\x12.\n" +
+	"\x0esource_charges\x18\x01 \x03(\v2\a.ChargeR\rsourceCharges\x128\n" +
+	"\x13destination_charges\x18\x02 \x03(\v2\a.ChargeR\x12destinationCharges\x120\n" +
+	"\x14total_source_charges\x18\x03 \x01(\x03R\x12totalSourceCharges\x12:\n" +
+	"\x19total_destination_charges\x18\x04 \x01(\x03R\x17totalDestinationCharges2\x87\x03\n" +
 	"\x0eServiceManager\x12#\n" +
 	"\rCreateService\x12\b.Service\x1a\b.Service\x124\n" +
 	"\rUpdateService\x12\x15.UpdateServiceRequest\x1a\f.ServiceList\x12 \n" +
@@ -425,7 +631,8 @@ const file_services_proto_rawDesc = "" +
 	"\vGetServices\x12\r.ServiceQuery\x1a\f.ServiceList\x12,\n" +
 	"\rDeleteService\x12\r.ServiceQuery\x1a\f.ServiceList\x121\n" +
 	"\x0fAddFeeToService\x12\x0e.AddRemoveFees\x1a\x0e.AddRemoveFees\x124\n" +
-	"\x12RemoveFeeToService\x12\x0e.AddRemoveFees\x1a\x0e.AddRemoveFeesB\x1eZ\x1cgithub.com/kvbo/protobufs;pbb\x06proto3"
+	"\x12RemoveFeeToService\x12\x0e.AddRemoveFees\x1a\x0e.AddRemoveFees\x125\n" +
+	"\x10CalculateCharges\x12\x0f.ChargesRequest\x1a\x10.ChargesResponseB\x1eZ\x1cgithub.com/kvbo/protobufs;pbb\x06proto3"
 
 var (
 	file_services_proto_rawDescOnce sync.Once
@@ -439,46 +646,47 @@ func file_services_proto_rawDescGZIP() []byte {
 	return file_services_proto_rawDescData
 }
 
-var file_services_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_services_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_services_proto_goTypes = []any{
-	(*Service)(nil),               // 0: Service
-	(*UpdateServiceRequest)(nil),  // 1: UpdateServiceRequest
-	(*ServiceList)(nil),           // 2: ServiceList
-	(*ServiceQuery)(nil),          // 3: ServiceQuery
-	(*AddRemoveFees)(nil),         // 4: AddRemoveFees
-	(*wrapperspb.Int64Value)(nil), // 5: google.protobuf.Int64Value
-	(*wrapperspb.BoolValue)(nil),  // 6: google.protobuf.BoolValue
-	(*Fee)(nil),                   // 7: Fee
+	(*Service)(nil),              // 0: Service
+	(*UpdateServiceRequest)(nil), // 1: UpdateServiceRequest
+	(*ServiceList)(nil),          // 2: ServiceList
+	(*ServiceQuery)(nil),         // 3: ServiceQuery
+	(*AddRemoveFees)(nil),        // 4: AddRemoveFees
+	(*ChargesRequest)(nil),       // 5: ChargesRequest
+	(*Charge)(nil),               // 6: Charge
+	(*ChargesResponse)(nil),      // 7: ChargesResponse
+	(*Fee)(nil),                  // 8: Fee
 }
 var file_services_proto_depIdxs = []int32{
-	5,  // 0: Service.min_amount:type_name -> google.protobuf.Int64Value
-	5,  // 1: Service.max_amount:type_name -> google.protobuf.Int64Value
-	6,  // 2: Service.reversible:type_name -> google.protobuf.BoolValue
-	7,  // 3: Service.fees:type_name -> Fee
-	6,  // 4: Service.is_active:type_name -> google.protobuf.BoolValue
-	0,  // 5: UpdateServiceRequest.service:type_name -> Service
-	3,  // 6: UpdateServiceRequest.query:type_name -> ServiceQuery
-	0,  // 7: ServiceList.services:type_name -> Service
-	3,  // 8: ServiceList.query:type_name -> ServiceQuery
-	0,  // 9: ServiceManager.CreateService:input_type -> Service
-	1,  // 10: ServiceManager.UpdateService:input_type -> UpdateServiceRequest
-	0,  // 11: ServiceManager.GetService:input_type -> Service
-	3,  // 12: ServiceManager.GetServices:input_type -> ServiceQuery
-	3,  // 13: ServiceManager.DeleteService:input_type -> ServiceQuery
-	4,  // 14: ServiceManager.AddFeeToService:input_type -> AddRemoveFees
-	4,  // 15: ServiceManager.RemoveFeeToService:input_type -> AddRemoveFees
-	0,  // 16: ServiceManager.CreateService:output_type -> Service
-	2,  // 17: ServiceManager.UpdateService:output_type -> ServiceList
-	0,  // 18: ServiceManager.GetService:output_type -> Service
-	2,  // 19: ServiceManager.GetServices:output_type -> ServiceList
-	2,  // 20: ServiceManager.DeleteService:output_type -> ServiceList
-	4,  // 21: ServiceManager.AddFeeToService:output_type -> AddRemoveFees
-	4,  // 22: ServiceManager.RemoveFeeToService:output_type -> AddRemoveFees
-	16, // [16:23] is the sub-list for method output_type
-	9,  // [9:16] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	8,  // 0: Service.fees:type_name -> Fee
+	0,  // 1: UpdateServiceRequest.service:type_name -> Service
+	3,  // 2: UpdateServiceRequest.query:type_name -> ServiceQuery
+	0,  // 3: ServiceList.services:type_name -> Service
+	3,  // 4: ServiceList.query:type_name -> ServiceQuery
+	6,  // 5: ChargesResponse.source_charges:type_name -> Charge
+	6,  // 6: ChargesResponse.destination_charges:type_name -> Charge
+	0,  // 7: ServiceManager.CreateService:input_type -> Service
+	1,  // 8: ServiceManager.UpdateService:input_type -> UpdateServiceRequest
+	0,  // 9: ServiceManager.GetService:input_type -> Service
+	3,  // 10: ServiceManager.GetServices:input_type -> ServiceQuery
+	3,  // 11: ServiceManager.DeleteService:input_type -> ServiceQuery
+	4,  // 12: ServiceManager.AddFeeToService:input_type -> AddRemoveFees
+	4,  // 13: ServiceManager.RemoveFeeToService:input_type -> AddRemoveFees
+	5,  // 14: ServiceManager.CalculateCharges:input_type -> ChargesRequest
+	0,  // 15: ServiceManager.CreateService:output_type -> Service
+	2,  // 16: ServiceManager.UpdateService:output_type -> ServiceList
+	0,  // 17: ServiceManager.GetService:output_type -> Service
+	2,  // 18: ServiceManager.GetServices:output_type -> ServiceList
+	2,  // 19: ServiceManager.DeleteService:output_type -> ServiceList
+	4,  // 20: ServiceManager.AddFeeToService:output_type -> AddRemoveFees
+	4,  // 21: ServiceManager.RemoveFeeToService:output_type -> AddRemoveFees
+	7,  // 22: ServiceManager.CalculateCharges:output_type -> ChargesResponse
+	15, // [15:23] is the sub-list for method output_type
+	7,  // [7:15] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_services_proto_init() }
@@ -487,13 +695,14 @@ func file_services_proto_init() {
 		return
 	}
 	file_charges_proto_init()
+	file_services_proto_msgTypes[0].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_services_proto_rawDesc), len(file_services_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

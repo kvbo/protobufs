@@ -9,8 +9,6 @@ package pb
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -26,8 +24,8 @@ const (
 type Breakdown struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Value         int64                  `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
-	Min           *wrapperspb.Int64Value `protobuf:"bytes,2,opt,name=min,proto3" json:"min,omitempty"`
-	Max           *wrapperspb.Int64Value `protobuf:"bytes,3,opt,name=max,proto3" json:"max,omitempty"`
+	Min           *int64                 `protobuf:"varint,2,opt,name=min,proto3,oneof" json:"min,omitempty"`
+	Max           *int64                 `protobuf:"varint,3,opt,name=max,proto3,oneof" json:"max,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -69,36 +67,36 @@ func (x *Breakdown) GetValue() int64 {
 	return 0
 }
 
-func (x *Breakdown) GetMin() *wrapperspb.Int64Value {
-	if x != nil {
-		return x.Min
+func (x *Breakdown) GetMin() int64 {
+	if x != nil && x.Min != nil {
+		return *x.Min
 	}
-	return nil
+	return 0
 }
 
-func (x *Breakdown) GetMax() *wrapperspb.Int64Value {
-	if x != nil {
-		return x.Max
+func (x *Breakdown) GetMax() int64 {
+	if x != nil && x.Max != nil {
+		return *x.Max
 	}
-	return nil
+	return 0
 }
 
 // FEE STRUCT
 type Fee struct {
-	state                 protoimpl.MessageState  `protogen:"open.v1"`
-	Id                    string                  `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name                  string                  `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description           string                  `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Reversible            *wrapperspb.BoolValue   `protobuf:"bytes,4,opt,name=reversible,proto3" json:"reversible,omitempty"`
-	Type                  string                  `protobuf:"bytes,5,opt,name=type,proto3" json:"type,omitempty"`                      // previously string, now enum
-	FeeType               string                  `protobuf:"bytes,6,opt,name=fee_type,json=feeType,proto3" json:"fee_type,omitempty"` // previously string, now enum
-	Breakdown             []*Breakdown            `protobuf:"bytes,7,rep,name=breakdown,proto3" json:"breakdown,omitempty"`
-	SourceAccountRef      *wrapperspb.StringValue `protobuf:"bytes,8,opt,name=source_account_ref,json=sourceAccountRef,proto3" json:"source_account_ref,omitempty"`
-	DestinationAccountRef *wrapperspb.StringValue `protobuf:"bytes,9,opt,name=destination_account_ref,json=destinationAccountRef,proto3" json:"destination_account_ref,omitempty"`
-	Source                string                  `protobuf:"bytes,10,opt,name=source,proto3" json:"source,omitempty"`
-	ServiceIds            []string                `protobuf:"bytes,11,rep,name=service_ids,json=serviceIds,proto3" json:"service_ids,omitempty"`
-	CreatedAt             *timestamppb.Timestamp  `protobuf:"bytes,12,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt             *timestamppb.Timestamp  `protobuf:"bytes,13,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	Id          string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name        string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Reversible  *bool                  `protobuf:"varint,4,opt,name=reversible,proto3,oneof" json:"reversible,omitempty"`
+	Type        string                 `protobuf:"bytes,5,opt,name=type,proto3" json:"type,omitempty"`                      // previously string, now enum
+	FeeType     string                 `protobuf:"bytes,6,opt,name=fee_type,json=feeType,proto3" json:"fee_type,omitempty"` // previously string, now enum
+	Breakdown   []*Breakdown           `protobuf:"bytes,7,rep,name=breakdown,proto3" json:"breakdown,omitempty"`
+	// for a cost..whose paying
+	SourceAccountRef *string `protobuf:"bytes,8,opt,name=source_account_ref,json=sourceAccountRef,proto3,oneof" json:"source_account_ref,omitempty"`
+	DestinationAccountRef *string  `protobuf:"bytes,9,opt,name=destination_account_ref,json=destinationAccountRef,proto3,oneof" json:"destination_account_ref,omitempty"`
+	Source                *string  `protobuf:"bytes,10,opt,name=source,proto3,oneof" json:"source,omitempty"`
+	ServiceIds            []string `protobuf:"bytes,11,rep,name=service_ids,json=serviceIds,proto3" json:"service_ids,omitempty"`
+	CreatedAt             *string  `protobuf:"bytes,12,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
@@ -154,11 +152,11 @@ func (x *Fee) GetDescription() string {
 	return ""
 }
 
-func (x *Fee) GetReversible() *wrapperspb.BoolValue {
-	if x != nil {
-		return x.Reversible
+func (x *Fee) GetReversible() bool {
+	if x != nil && x.Reversible != nil {
+		return *x.Reversible
 	}
-	return nil
+	return false
 }
 
 func (x *Fee) GetType() string {
@@ -182,23 +180,23 @@ func (x *Fee) GetBreakdown() []*Breakdown {
 	return nil
 }
 
-func (x *Fee) GetSourceAccountRef() *wrapperspb.StringValue {
-	if x != nil {
-		return x.SourceAccountRef
+func (x *Fee) GetSourceAccountRef() string {
+	if x != nil && x.SourceAccountRef != nil {
+		return *x.SourceAccountRef
 	}
-	return nil
+	return ""
 }
 
-func (x *Fee) GetDestinationAccountRef() *wrapperspb.StringValue {
-	if x != nil {
-		return x.DestinationAccountRef
+func (x *Fee) GetDestinationAccountRef() string {
+	if x != nil && x.DestinationAccountRef != nil {
+		return *x.DestinationAccountRef
 	}
-	return nil
+	return ""
 }
 
 func (x *Fee) GetSource() string {
-	if x != nil {
-		return x.Source
+	if x != nil && x.Source != nil {
+		return *x.Source
 	}
 	return ""
 }
@@ -210,18 +208,11 @@ func (x *Fee) GetServiceIds() []string {
 	return nil
 }
 
-func (x *Fee) GetCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CreatedAt
+func (x *Fee) GetCreatedAt() string {
+	if x != nil && x.CreatedAt != nil {
+		return *x.CreatedAt
 	}
-	return nil
-}
-
-func (x *Fee) GetUpdatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.UpdatedAt
-	}
-	return nil
+	return ""
 }
 
 // PAGINATED FEE LIST
@@ -334,32 +325,37 @@ var File_charges_proto protoreflect.FileDescriptor
 
 const file_charges_proto_rawDesc = "" +
 	"\n" +
-	"\rcharges.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\x7f\n" +
+	"\rcharges.proto\"_\n" +
 	"\tBreakdown\x12\x14\n" +
-	"\x05value\x18\x01 \x01(\x03R\x05value\x12-\n" +
-	"\x03min\x18\x02 \x01(\v2\x1b.google.protobuf.Int64ValueR\x03min\x12-\n" +
-	"\x03max\x18\x03 \x01(\v2\x1b.google.protobuf.Int64ValueR\x03max\"\xb1\x04\n" +
+	"\x05value\x18\x01 \x01(\x03R\x05value\x12\x15\n" +
+	"\x03min\x18\x02 \x01(\x03H\x00R\x03min\x88\x01\x01\x12\x15\n" +
+	"\x03max\x18\x03 \x01(\x03H\x01R\x03max\x88\x01\x01B\x06\n" +
+	"\x04_minB\x06\n" +
+	"\x04_max\"\xf7\x03\n" +
 	"\x03Fee\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12:\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12#\n" +
 	"\n" +
-	"reversible\x18\x04 \x01(\v2\x1a.google.protobuf.BoolValueR\n" +
-	"reversible\x12\x12\n" +
+	"reversible\x18\x04 \x01(\bH\x00R\n" +
+	"reversible\x88\x01\x01\x12\x12\n" +
 	"\x04type\x18\x05 \x01(\tR\x04type\x12\x19\n" +
 	"\bfee_type\x18\x06 \x01(\tR\afeeType\x12(\n" +
 	"\tbreakdown\x18\a \x03(\v2\n" +
-	".BreakdownR\tbreakdown\x12J\n" +
-	"\x12source_account_ref\x18\b \x01(\v2\x1c.google.protobuf.StringValueR\x10sourceAccountRef\x12T\n" +
-	"\x17destination_account_ref\x18\t \x01(\v2\x1c.google.protobuf.StringValueR\x15destinationAccountRef\x12\x16\n" +
+	".BreakdownR\tbreakdown\x121\n" +
+	"\x12source_account_ref\x18\b \x01(\tH\x01R\x10sourceAccountRef\x88\x01\x01\x12;\n" +
+	"\x17destination_account_ref\x18\t \x01(\tH\x02R\x15destinationAccountRef\x88\x01\x01\x12\x1b\n" +
 	"\x06source\x18\n" +
-	" \x01(\tR\x06source\x12\x1f\n" +
+	" \x01(\tH\x03R\x06source\x88\x01\x01\x12\x1f\n" +
 	"\vservice_ids\x18\v \x03(\tR\n" +
-	"serviceIds\x129\n" +
+	"serviceIds\x12\"\n" +
 	"\n" +
-	"created_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
-	"\n" +
-	"updated_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"B\n" +
+	"created_at\x18\f \x01(\tH\x04R\tcreatedAt\x88\x01\x01B\r\n" +
+	"\v_reversibleB\x15\n" +
+	"\x13_source_account_refB\x1a\n" +
+	"\x18_destination_account_refB\t\n" +
+	"\a_sourceB\r\n" +
+	"\v_created_at\"B\n" +
 	"\aFeeList\x12\x16\n" +
 	"\x03fee\x18\x01 \x03(\v2\x04.FeeR\x03fee\x12\x1f\n" +
 	"\x05query\x18\x02 \x01(\v2\t.FeeQueryR\x05query\"9\n" +
@@ -388,41 +384,30 @@ func file_charges_proto_rawDescGZIP() []byte {
 
 var file_charges_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_charges_proto_goTypes = []any{
-	(*Breakdown)(nil),              // 0: Breakdown
-	(*Fee)(nil),                    // 1: Fee
-	(*FeeList)(nil),                // 2: FeeList
-	(*FeeQuery)(nil),               // 3: FeeQuery
-	(*wrapperspb.Int64Value)(nil),  // 4: google.protobuf.Int64Value
-	(*wrapperspb.BoolValue)(nil),   // 5: google.protobuf.BoolValue
-	(*wrapperspb.StringValue)(nil), // 6: google.protobuf.StringValue
-	(*timestamppb.Timestamp)(nil),  // 7: google.protobuf.Timestamp
+	(*Breakdown)(nil), // 0: Breakdown
+	(*Fee)(nil),       // 1: Fee
+	(*FeeList)(nil),   // 2: FeeList
+	(*FeeQuery)(nil),  // 3: FeeQuery
 }
 var file_charges_proto_depIdxs = []int32{
-	4,  // 0: Breakdown.min:type_name -> google.protobuf.Int64Value
-	4,  // 1: Breakdown.max:type_name -> google.protobuf.Int64Value
-	5,  // 2: Fee.reversible:type_name -> google.protobuf.BoolValue
-	0,  // 3: Fee.breakdown:type_name -> Breakdown
-	6,  // 4: Fee.source_account_ref:type_name -> google.protobuf.StringValue
-	6,  // 5: Fee.destination_account_ref:type_name -> google.protobuf.StringValue
-	7,  // 6: Fee.created_at:type_name -> google.protobuf.Timestamp
-	7,  // 7: Fee.updated_at:type_name -> google.protobuf.Timestamp
-	1,  // 8: FeeList.fee:type_name -> Fee
-	3,  // 9: FeeList.query:type_name -> FeeQuery
-	1,  // 10: FeeManager.CreateFee:input_type -> Fee
-	2,  // 11: FeeManager.UpdateFee:input_type -> FeeList
-	1,  // 12: FeeManager.GetFee:input_type -> Fee
-	2,  // 13: FeeManager.GetFees:input_type -> FeeList
-	3,  // 14: FeeManager.DeleteFee:input_type -> FeeQuery
-	1,  // 15: FeeManager.CreateFee:output_type -> Fee
-	2,  // 16: FeeManager.UpdateFee:output_type -> FeeList
-	1,  // 17: FeeManager.GetFee:output_type -> Fee
-	2,  // 18: FeeManager.GetFees:output_type -> FeeList
-	2,  // 19: FeeManager.DeleteFee:output_type -> FeeList
-	15, // [15:20] is the sub-list for method output_type
-	10, // [10:15] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	0, // 0: Fee.breakdown:type_name -> Breakdown
+	1, // 1: FeeList.fee:type_name -> Fee
+	3, // 2: FeeList.query:type_name -> FeeQuery
+	1, // 3: FeeManager.CreateFee:input_type -> Fee
+	2, // 4: FeeManager.UpdateFee:input_type -> FeeList
+	1, // 5: FeeManager.GetFee:input_type -> Fee
+	2, // 6: FeeManager.GetFees:input_type -> FeeList
+	3, // 7: FeeManager.DeleteFee:input_type -> FeeQuery
+	1, // 8: FeeManager.CreateFee:output_type -> Fee
+	2, // 9: FeeManager.UpdateFee:output_type -> FeeList
+	1, // 10: FeeManager.GetFee:output_type -> Fee
+	2, // 11: FeeManager.GetFees:output_type -> FeeList
+	2, // 12: FeeManager.DeleteFee:output_type -> FeeList
+	8, // [8:13] is the sub-list for method output_type
+	3, // [3:8] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_charges_proto_init() }
@@ -430,6 +415,8 @@ func file_charges_proto_init() {
 	if File_charges_proto != nil {
 		return
 	}
+	file_charges_proto_msgTypes[0].OneofWrappers = []any{}
+	file_charges_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
