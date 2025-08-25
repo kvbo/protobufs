@@ -9,7 +9,6 @@ package pb
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -224,8 +223,8 @@ type Document struct {
 	Type           *string                `protobuf:"bytes,1,opt,name=type,proto3,oneof" json:"type,omitempty"`
 	IssuingCountry *string                `protobuf:"bytes,2,opt,name=issuing_country,json=issuingCountry,proto3,oneof" json:"issuing_country,omitempty"`
 	Number         *string                `protobuf:"bytes,3,opt,name=number,proto3,oneof" json:"number,omitempty"`
-	ExpiryDate     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=expiry_date,json=expiryDate,proto3,oneof" json:"expiry_date,omitempty"`
-	IssueDate      *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=issue_date,json=issueDate,proto3,oneof" json:"issue_date,omitempty"`
+	ExpiryDate     *string                `protobuf:"bytes,4,opt,name=expiry_date,json=expiryDate,proto3,oneof" json:"expiry_date,omitempty"`
+	IssueDate      *string                `protobuf:"bytes,5,opt,name=issue_date,json=issueDate,proto3,oneof" json:"issue_date,omitempty"`
 	Scans          []string               `protobuf:"bytes,6,rep,name=scans,proto3" json:"scans,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -282,18 +281,18 @@ func (x *Document) GetNumber() string {
 	return ""
 }
 
-func (x *Document) GetExpiryDate() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ExpiryDate
+func (x *Document) GetExpiryDate() string {
+	if x != nil && x.ExpiryDate != nil {
+		return *x.ExpiryDate
 	}
-	return nil
+	return ""
 }
 
-func (x *Document) GetIssueDate() *timestamppb.Timestamp {
-	if x != nil {
-		return x.IssueDate
+func (x *Document) GetIssueDate() string {
+	if x != nil && x.IssueDate != nil {
+		return *x.IssueDate
 	}
-	return nil
+	return ""
 }
 
 func (x *Document) GetScans() []string {
@@ -311,7 +310,6 @@ type Person struct {
 	OtherName     *string                `protobuf:"bytes,3,opt,name=other_name,json=otherName,proto3,oneof" json:"other_name,omitempty"`
 	Dob           *string                `protobuf:"bytes,4,opt,name=dob,proto3,oneof" json:"dob,omitempty"`
 	Nationality   *string                `protobuf:"bytes,5,opt,name=nationality,proto3,oneof" json:"nationality,omitempty"`
-	Address       *Address               `protobuf:"bytes,6,opt,name=address,proto3,oneof" json:"address,omitempty"`
 	Gender        *string                `protobuf:"bytes,7,opt,name=gender,proto3,oneof" json:"gender,omitempty"` // male, female, other
 	Contacts      []*Contact             `protobuf:"bytes,8,rep,name=contacts,proto3" json:"contacts,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -383,13 +381,6 @@ func (x *Person) GetNationality() string {
 	return ""
 }
 
-func (x *Person) GetAddress() *Address {
-	if x != nil {
-		return x.Address
-	}
-	return nil
-}
-
 func (x *Person) GetGender() string {
 	if x != nil && x.Gender != nil {
 		return *x.Gender
@@ -410,7 +401,7 @@ type Business struct {
 	Name                  *string                     `protobuf:"bytes,1,opt,name=name,proto3,oneof" json:"name,omitempty"`
 	Industry              *string                     `protobuf:"bytes,2,opt,name=industry,proto3,oneof" json:"industry,omitempty"`
 	CountryOfRegistration *string                     `protobuf:"bytes,3,opt,name=country_of_registration,json=countryOfRegistration,proto3,oneof" json:"country_of_registration,omitempty"`
-	IncorporationDate     *timestamppb.Timestamp      `protobuf:"bytes,4,opt,name=incorporation_date,json=incorporationDate,proto3,oneof" json:"incorporation_date,omitempty"`
+	IncorporationDate     *string                     `protobuf:"bytes,4,opt,name=incorporation_date,json=incorporationDate,proto3,oneof" json:"incorporation_date,omitempty"`
 	RegistrationNumber    *string                     `protobuf:"bytes,5,opt,name=registration_number,json=registrationNumber,proto3,oneof" json:"registration_number,omitempty"`
 	Contacts              []*Contact                  `protobuf:"bytes,6,rep,name=contacts,proto3" json:"contacts,omitempty"`
 	BeneficialOwners      []*Business_BeneficialOwner `protobuf:"bytes,7,rep,name=beneficial_owners,json=beneficialOwners,proto3" json:"beneficial_owners,omitempty"`
@@ -469,11 +460,11 @@ func (x *Business) GetCountryOfRegistration() string {
 	return ""
 }
 
-func (x *Business) GetIncorporationDate() *timestamppb.Timestamp {
-	if x != nil {
-		return x.IncorporationDate
+func (x *Business) GetIncorporationDate() string {
+	if x != nil && x.IncorporationDate != nil {
+		return *x.IncorporationDate
 	}
-	return nil
+	return ""
 }
 
 func (x *Business) GetRegistrationNumber() string {
@@ -509,7 +500,7 @@ type Entity struct {
 	Phone              *string                `protobuf:"bytes,7,opt,name=phone,proto3,oneof" json:"phone,omitempty"`
 	Address            *Address               `protobuf:"bytes,8,opt,name=address,proto3,oneof" json:"address,omitempty"`
 	VerificationStatus *string                `protobuf:"bytes,9,opt,name=verification_status,json=verificationStatus,proto3,oneof" json:"verification_status,omitempty"`
-	VerificationDate   *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=verification_date,json=verificationDate,proto3,oneof" json:"verification_date,omitempty"`
+	VerificationDate   *string                `protobuf:"bytes,10,opt,name=verification_date,json=verificationDate,proto3,oneof" json:"verification_date,omitempty"`
 	VerifiedBy         *string                `protobuf:"bytes,11,opt,name=verified_by,json=verifiedBy,proto3,oneof" json:"verified_by,omitempty"`
 	Documents          []*Document            `protobuf:"bytes,12,rep,name=documents,proto3" json:"documents,omitempty"`
 	Tpin               *string                `protobuf:"bytes,13,opt,name=tpin,proto3,oneof" json:"tpin,omitempty"`
@@ -517,8 +508,8 @@ type Entity struct {
 	//
 	//	*Entity_Person
 	//	*Entity_Business
-	Details       isEntity_Details       `protobuf_oneof:"details"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,16,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`
+	Details       isEntity_Details `protobuf_oneof:"details"`
+	CreatedAt     *string          `protobuf:"bytes,16,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -616,11 +607,11 @@ func (x *Entity) GetVerificationStatus() string {
 	return ""
 }
 
-func (x *Entity) GetVerificationDate() *timestamppb.Timestamp {
-	if x != nil {
-		return x.VerificationDate
+func (x *Entity) GetVerificationDate() string {
+	if x != nil && x.VerificationDate != nil {
+		return *x.VerificationDate
 	}
-	return nil
+	return ""
 }
 
 func (x *Entity) GetVerifiedBy() string {
@@ -669,11 +660,11 @@ func (x *Entity) GetBusiness() *Business {
 	return nil
 }
 
-func (x *Entity) GetCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CreatedAt
+func (x *Entity) GetCreatedAt() string {
+	if x != nil && x.CreatedAt != nil {
+		return *x.CreatedAt
 	}
-	return nil
+	return ""
 }
 
 type isEntity_Details interface {
@@ -1213,7 +1204,7 @@ var File_kyc_proto protoreflect.FileDescriptor
 
 const file_kyc_proto_rawDesc = "" +
 	"\n" +
-	"\tkyc.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xac\x02\n" +
+	"\tkyc.proto\"\xac\x02\n" +
 	"\aAddress\x12!\n" +
 	"\tapartment\x18\x01 \x01(\tH\x00R\tapartment\x88\x01\x01\x12\x19\n" +
 	"\x05line1\x18\x02 \x01(\tH\x01R\x05line1\x88\x01\x01\x12\x19\n" +
@@ -1236,21 +1227,21 @@ const file_kyc_proto_rawDesc = "" +
 	"\x04type\x18\x01 \x01(\tH\x00R\x04type\x88\x01\x01\x12\x19\n" +
 	"\x05value\x18\x02 \x01(\tH\x01R\x05value\x88\x01\x01B\a\n" +
 	"\x05_typeB\b\n" +
-	"\x06_value\"\xcd\x02\n" +
+	"\x06_value\"\x95\x02\n" +
 	"\bDocument\x12\x17\n" +
 	"\x04type\x18\x01 \x01(\tH\x00R\x04type\x88\x01\x01\x12,\n" +
 	"\x0fissuing_country\x18\x02 \x01(\tH\x01R\x0eissuingCountry\x88\x01\x01\x12\x1b\n" +
-	"\x06number\x18\x03 \x01(\tH\x02R\x06number\x88\x01\x01\x12@\n" +
-	"\vexpiry_date\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampH\x03R\n" +
-	"expiryDate\x88\x01\x01\x12>\n" +
+	"\x06number\x18\x03 \x01(\tH\x02R\x06number\x88\x01\x01\x12$\n" +
+	"\vexpiry_date\x18\x04 \x01(\tH\x03R\n" +
+	"expiryDate\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"issue_date\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampH\x04R\tissueDate\x88\x01\x01\x12\x14\n" +
+	"issue_date\x18\x05 \x01(\tH\x04R\tissueDate\x88\x01\x01\x12\x14\n" +
 	"\x05scans\x18\x06 \x03(\tR\x05scansB\a\n" +
 	"\x05_typeB\x12\n" +
 	"\x10_issuing_countryB\t\n" +
 	"\a_numberB\x0e\n" +
 	"\f_expiry_dateB\r\n" +
-	"\v_issue_date\"\xf7\x02\n" +
+	"\v_issue_date\"\xc2\x02\n" +
 	"\x06Person\x12\"\n" +
 	"\n" +
 	"first_name\x18\x01 \x01(\tH\x00R\tfirstName\x88\x01\x01\x12 \n" +
@@ -1258,24 +1249,21 @@ const file_kyc_proto_rawDesc = "" +
 	"\n" +
 	"other_name\x18\x03 \x01(\tH\x02R\totherName\x88\x01\x01\x12\x15\n" +
 	"\x03dob\x18\x04 \x01(\tH\x03R\x03dob\x88\x01\x01\x12%\n" +
-	"\vnationality\x18\x05 \x01(\tH\x04R\vnationality\x88\x01\x01\x12'\n" +
-	"\aaddress\x18\x06 \x01(\v2\b.AddressH\x05R\aaddress\x88\x01\x01\x12\x1b\n" +
-	"\x06gender\x18\a \x01(\tH\x06R\x06gender\x88\x01\x01\x12$\n" +
+	"\vnationality\x18\x05 \x01(\tH\x04R\vnationality\x88\x01\x01\x12\x1b\n" +
+	"\x06gender\x18\a \x01(\tH\x05R\x06gender\x88\x01\x01\x12$\n" +
 	"\bcontacts\x18\b \x03(\v2\b.ContactR\bcontactsB\r\n" +
 	"\v_first_nameB\f\n" +
 	"\n" +
 	"_last_nameB\r\n" +
 	"\v_other_nameB\x06\n" +
 	"\x04_dobB\x0e\n" +
-	"\f_nationalityB\n" +
-	"\n" +
-	"\b_addressB\t\n" +
-	"\a_gender\"\xcf\x04\n" +
+	"\f_nationalityB\t\n" +
+	"\a_gender\"\xb3\x04\n" +
 	"\bBusiness\x12\x17\n" +
 	"\x04name\x18\x01 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x1f\n" +
 	"\bindustry\x18\x02 \x01(\tH\x01R\bindustry\x88\x01\x01\x12;\n" +
-	"\x17country_of_registration\x18\x03 \x01(\tH\x02R\x15countryOfRegistration\x88\x01\x01\x12N\n" +
-	"\x12incorporation_date\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampH\x03R\x11incorporationDate\x88\x01\x01\x124\n" +
+	"\x17country_of_registration\x18\x03 \x01(\tH\x02R\x15countryOfRegistration\x88\x01\x01\x122\n" +
+	"\x12incorporation_date\x18\x04 \x01(\tH\x03R\x11incorporationDate\x88\x01\x01\x124\n" +
 	"\x13registration_number\x18\x05 \x01(\tH\x04R\x12registrationNumber\x88\x01\x01\x12$\n" +
 	"\bcontacts\x18\x06 \x03(\v2\b.ContactR\bcontacts\x12F\n" +
 	"\x11beneficial_owners\x18\a \x03(\v2\x19.Business.BeneficialOwnerR\x10beneficialOwners\x1aw\n" +
@@ -1289,7 +1277,7 @@ const file_kyc_proto_rawDesc = "" +
 	"\t_industryB\x1a\n" +
 	"\x18_country_of_registrationB\x15\n" +
 	"\x13_incorporation_dateB\x16\n" +
-	"\x14_registration_number\"\xd1\x06\n" +
+	"\x14_registration_number\"\x99\x06\n" +
 	"\x06Entity\x12\x13\n" +
 	"\x02id\x18\x01 \x01(\tH\x01R\x02id\x88\x01\x01\x122\n" +
 	"\x12external_reference\x18\x02 \x01(\tH\x02R\x11externalReference\x88\x01\x01\x12\x17\n" +
@@ -1299,18 +1287,18 @@ const file_kyc_proto_rawDesc = "" +
 	"\fcountry_code\x18\x06 \x01(\tH\x06R\vcountryCode\x88\x01\x01\x12\x19\n" +
 	"\x05phone\x18\a \x01(\tH\aR\x05phone\x88\x01\x01\x12'\n" +
 	"\aaddress\x18\b \x01(\v2\b.AddressH\bR\aaddress\x88\x01\x01\x124\n" +
-	"\x13verification_status\x18\t \x01(\tH\tR\x12verificationStatus\x88\x01\x01\x12L\n" +
+	"\x13verification_status\x18\t \x01(\tH\tR\x12verificationStatus\x88\x01\x01\x120\n" +
 	"\x11verification_date\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampH\n" +
+	" \x01(\tH\n" +
 	"R\x10verificationDate\x88\x01\x01\x12$\n" +
 	"\vverified_by\x18\v \x01(\tH\vR\n" +
 	"verifiedBy\x88\x01\x01\x12'\n" +
 	"\tdocuments\x18\f \x03(\v2\t.DocumentR\tdocuments\x12\x17\n" +
 	"\x04tpin\x18\r \x01(\tH\fR\x04tpin\x88\x01\x01\x12!\n" +
 	"\x06person\x18\x0e \x01(\v2\a.PersonH\x00R\x06person\x12'\n" +
-	"\bbusiness\x18\x0f \x01(\v2\t.BusinessH\x00R\bbusiness\x12>\n" +
+	"\bbusiness\x18\x0f \x01(\v2\t.BusinessH\x00R\bbusiness\x12\"\n" +
 	"\n" +
-	"created_at\x18\x10 \x01(\v2\x1a.google.protobuf.TimestampH\rR\tcreatedAt\x88\x01\x01B\t\n" +
+	"created_at\x18\x10 \x01(\tH\rR\tcreatedAt\x88\x01\x01B\t\n" +
 	"\adetailsB\x05\n" +
 	"\x03_idB\x15\n" +
 	"\x13_external_referenceB\a\n" +
@@ -1397,46 +1385,39 @@ var file_kyc_proto_goTypes = []any{
 	(*RemoveEntityByRefRequest)(nil),  // 15: RemoveEntityByRefRequest
 	(*RemoveEntityByRefResponse)(nil), // 16: RemoveEntityByRefResponse
 	(*Business_BeneficialOwner)(nil),  // 17: Business.BeneficialOwner
-	(*timestamppb.Timestamp)(nil),     // 18: google.protobuf.Timestamp
 }
 var file_kyc_proto_depIdxs = []int32{
-	18, // 0: Document.expiry_date:type_name -> google.protobuf.Timestamp
-	18, // 1: Document.issue_date:type_name -> google.protobuf.Timestamp
-	1,  // 2: Person.address:type_name -> Address
-	2,  // 3: Person.contacts:type_name -> Contact
-	18, // 4: Business.incorporation_date:type_name -> google.protobuf.Timestamp
-	2,  // 5: Business.contacts:type_name -> Contact
-	17, // 6: Business.beneficial_owners:type_name -> Business.BeneficialOwner
-	0,  // 7: Entity.type:type_name -> EntityType
-	1,  // 8: Entity.address:type_name -> Address
-	18, // 9: Entity.verification_date:type_name -> google.protobuf.Timestamp
-	3,  // 10: Entity.documents:type_name -> Document
-	4,  // 11: Entity.person:type_name -> Person
-	5,  // 12: Entity.business:type_name -> Business
-	18, // 13: Entity.created_at:type_name -> google.protobuf.Timestamp
-	6,  // 14: CreateEntityRequest.entity:type_name -> Entity
-	6,  // 15: CreateEntityResponse.entity:type_name -> Entity
-	6,  // 16: GetEntitiesResponse.entities:type_name -> Entity
-	6,  // 17: GetEntityByRefResponse.entity:type_name -> Entity
-	6,  // 18: UpdateEntityByRefRequest.update:type_name -> Entity
-	6,  // 19: UpdateEntityByRefResponse.entity:type_name -> Entity
-	4,  // 20: Business.BeneficialOwner.person:type_name -> Person
-	1,  // 21: Business.BeneficialOwner.address:type_name -> Address
-	7,  // 22: EntityService.CreateEntity:input_type -> CreateEntityRequest
-	9,  // 23: EntityService.GetEntities:input_type -> GetEntitiesRequest
-	11, // 24: EntityService.GetEntityByRef:input_type -> GetEntityByRefRequest
-	13, // 25: EntityService.UpdateEntityByRef:input_type -> UpdateEntityByRefRequest
-	15, // 26: EntityService.RemoveEntityByRef:input_type -> RemoveEntityByRefRequest
-	8,  // 27: EntityService.CreateEntity:output_type -> CreateEntityResponse
-	10, // 28: EntityService.GetEntities:output_type -> GetEntitiesResponse
-	12, // 29: EntityService.GetEntityByRef:output_type -> GetEntityByRefResponse
-	14, // 30: EntityService.UpdateEntityByRef:output_type -> UpdateEntityByRefResponse
-	16, // 31: EntityService.RemoveEntityByRef:output_type -> RemoveEntityByRefResponse
-	27, // [27:32] is the sub-list for method output_type
-	22, // [22:27] is the sub-list for method input_type
-	22, // [22:22] is the sub-list for extension type_name
-	22, // [22:22] is the sub-list for extension extendee
-	0,  // [0:22] is the sub-list for field type_name
+	2,  // 0: Person.contacts:type_name -> Contact
+	2,  // 1: Business.contacts:type_name -> Contact
+	17, // 2: Business.beneficial_owners:type_name -> Business.BeneficialOwner
+	0,  // 3: Entity.type:type_name -> EntityType
+	1,  // 4: Entity.address:type_name -> Address
+	3,  // 5: Entity.documents:type_name -> Document
+	4,  // 6: Entity.person:type_name -> Person
+	5,  // 7: Entity.business:type_name -> Business
+	6,  // 8: CreateEntityRequest.entity:type_name -> Entity
+	6,  // 9: CreateEntityResponse.entity:type_name -> Entity
+	6,  // 10: GetEntitiesResponse.entities:type_name -> Entity
+	6,  // 11: GetEntityByRefResponse.entity:type_name -> Entity
+	6,  // 12: UpdateEntityByRefRequest.update:type_name -> Entity
+	6,  // 13: UpdateEntityByRefResponse.entity:type_name -> Entity
+	4,  // 14: Business.BeneficialOwner.person:type_name -> Person
+	1,  // 15: Business.BeneficialOwner.address:type_name -> Address
+	7,  // 16: EntityService.CreateEntity:input_type -> CreateEntityRequest
+	9,  // 17: EntityService.GetEntities:input_type -> GetEntitiesRequest
+	11, // 18: EntityService.GetEntityByRef:input_type -> GetEntityByRefRequest
+	13, // 19: EntityService.UpdateEntityByRef:input_type -> UpdateEntityByRefRequest
+	15, // 20: EntityService.RemoveEntityByRef:input_type -> RemoveEntityByRefRequest
+	8,  // 21: EntityService.CreateEntity:output_type -> CreateEntityResponse
+	10, // 22: EntityService.GetEntities:output_type -> GetEntitiesResponse
+	12, // 23: EntityService.GetEntityByRef:output_type -> GetEntityByRefResponse
+	14, // 24: EntityService.UpdateEntityByRef:output_type -> UpdateEntityByRefResponse
+	16, // 25: EntityService.RemoveEntityByRef:output_type -> RemoveEntityByRefResponse
+	21, // [21:26] is the sub-list for method output_type
+	16, // [16:21] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_kyc_proto_init() }
