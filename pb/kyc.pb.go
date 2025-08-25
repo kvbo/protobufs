@@ -843,7 +843,7 @@ func (x *GetEntitiesRequest) GetOffset() int64 {
 
 type GetEntitiesResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Entities      *Entity                `protobuf:"bytes,1,opt,name=entities,proto3" json:"entities,omitempty"`
+	Entities      []*Entity              `protobuf:"bytes,1,rep,name=entities,proto3" json:"entities,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -878,7 +878,7 @@ func (*GetEntitiesResponse) Descriptor() ([]byte, []int) {
 	return file_kyc_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *GetEntitiesResponse) GetEntities() *Entity {
+func (x *GetEntitiesResponse) GetEntities() []*Entity {
 	if x != nil {
 		return x.Entities
 	}
@@ -1338,7 +1338,7 @@ const file_kyc_proto_rawDesc = "" +
 	"\x06_limitB\t\n" +
 	"\a_offset\":\n" +
 	"\x13GetEntitiesResponse\x12#\n" +
-	"\bentities\x18\x01 \x01(\v2\a.EntityR\bentities\"F\n" +
+	"\bentities\x18\x01 \x03(\v2\a.EntityR\bentities\"F\n" +
 	"\x15GetEntityByRefRequest\x12-\n" +
 	"\x12external_reference\x18\x01 \x01(\tR\x11externalReference\"9\n" +
 	"\x16GetEntityByRefResponse\x12\x1f\n" +
