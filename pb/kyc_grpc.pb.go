@@ -24,6 +24,7 @@ const (
 	EntityService_GetEntityByRef_FullMethodName    = "/EntityService/GetEntityByRef"
 	EntityService_UpdateEntityByRef_FullMethodName = "/EntityService/UpdateEntityByRef"
 	EntityService_RemoveEntityByRef_FullMethodName = "/EntityService/RemoveEntityByRef"
+	EntityService_CheckStatus_FullMethodName       = "/EntityService/CheckStatus"
 )
 
 // EntityServiceClient is the client API for EntityService service.
@@ -37,6 +38,7 @@ type EntityServiceClient interface {
 	GetEntityByRef(ctx context.Context, in *GetEntityByRefRequest, opts ...grpc.CallOption) (*GetEntityByRefResponse, error)
 	UpdateEntityByRef(ctx context.Context, in *UpdateEntityByRefRequest, opts ...grpc.CallOption) (*UpdateEntityByRefResponse, error)
 	RemoveEntityByRef(ctx context.Context, in *RemoveEntityByRefRequest, opts ...grpc.CallOption) (*RemoveEntityByRefResponse, error)
+	CheckStatus(ctx context.Context, in *CheckStatusRequest, opts ...grpc.CallOption) (*CheckStatusResponse, error)
 }
 
 type entityServiceClient struct {
@@ -97,6 +99,16 @@ func (c *entityServiceClient) RemoveEntityByRef(ctx context.Context, in *RemoveE
 	return out, nil
 }
 
+func (c *entityServiceClient) CheckStatus(ctx context.Context, in *CheckStatusRequest, opts ...grpc.CallOption) (*CheckStatusResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CheckStatusResponse)
+	err := c.cc.Invoke(ctx, EntityService_CheckStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // EntityServiceServer is the server API for EntityService service.
 // All implementations must embed UnimplementedEntityServiceServer
 // for forward compatibility.
@@ -108,6 +120,7 @@ type EntityServiceServer interface {
 	GetEntityByRef(context.Context, *GetEntityByRefRequest) (*GetEntityByRefResponse, error)
 	UpdateEntityByRef(context.Context, *UpdateEntityByRefRequest) (*UpdateEntityByRefResponse, error)
 	RemoveEntityByRef(context.Context, *RemoveEntityByRefRequest) (*RemoveEntityByRefResponse, error)
+	CheckStatus(context.Context, *CheckStatusRequest) (*CheckStatusResponse, error)
 	mustEmbedUnimplementedEntityServiceServer()
 }
 
@@ -132,6 +145,9 @@ func (UnimplementedEntityServiceServer) UpdateEntityByRef(context.Context, *Upda
 }
 func (UnimplementedEntityServiceServer) RemoveEntityByRef(context.Context, *RemoveEntityByRefRequest) (*RemoveEntityByRefResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveEntityByRef not implemented")
+}
+func (UnimplementedEntityServiceServer) CheckStatus(context.Context, *CheckStatusRequest) (*CheckStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckStatus not implemented")
 }
 func (UnimplementedEntityServiceServer) mustEmbedUnimplementedEntityServiceServer() {}
 func (UnimplementedEntityServiceServer) testEmbeddedByValue()                       {}
@@ -244,6 +260,24 @@ func _EntityService_RemoveEntityByRef_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _EntityService_CheckStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckStatusRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EntityServiceServer).CheckStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EntityService_CheckStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EntityServiceServer).CheckStatus(ctx, req.(*CheckStatusRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // EntityService_ServiceDesc is the grpc.ServiceDesc for EntityService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -270,6 +304,10 @@ var EntityService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RemoveEntityByRef",
 			Handler:    _EntityService_RemoveEntityByRef_Handler,
+		},
+		{
+			MethodName: "CheckStatus",
+			Handler:    _EntityService_CheckStatus_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

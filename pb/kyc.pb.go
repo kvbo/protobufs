@@ -1148,6 +1148,110 @@ func (x *RemoveEntityByRefResponse) GetSuccess() bool {
 	return false
 }
 
+type CheckStatusRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	IdType        string                 `protobuf:"bytes,1,opt,name=id_type,json=idType,proto3" json:"id_type,omitempty"` //tping,number,account_number,
+	Value         string                 `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CheckStatusRequest) Reset() {
+	*x = CheckStatusRequest{}
+	mi := &file_kyc_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CheckStatusRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CheckStatusRequest) ProtoMessage() {}
+
+func (x *CheckStatusRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_kyc_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CheckStatusRequest.ProtoReflect.Descriptor instead.
+func (*CheckStatusRequest) Descriptor() ([]byte, []int) {
+	return file_kyc_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *CheckStatusRequest) GetIdType() string {
+	if x != nil {
+		return x.IdType
+	}
+	return ""
+}
+
+func (x *CheckStatusRequest) GetValue() string {
+	if x != nil {
+		return x.Value
+	}
+	return ""
+}
+
+type CheckStatusResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Entity        *Entity                `protobuf:"bytes,1,opt,name=entity,proto3" json:"entity,omitempty"`
+	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CheckStatusResponse) Reset() {
+	*x = CheckStatusResponse{}
+	mi := &file_kyc_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CheckStatusResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CheckStatusResponse) ProtoMessage() {}
+
+func (x *CheckStatusResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_kyc_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CheckStatusResponse.ProtoReflect.Descriptor instead.
+func (*CheckStatusResponse) Descriptor() ([]byte, []int) {
+	return file_kyc_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *CheckStatusResponse) GetEntity() *Entity {
+	if x != nil {
+		return x.Entity
+	}
+	return nil
+}
+
+func (x *CheckStatusResponse) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
 type Business_BeneficialOwner struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Person        *Person                `protobuf:"bytes,1,opt,name=person,proto3,oneof" json:"person,omitempty"`
@@ -1158,7 +1262,7 @@ type Business_BeneficialOwner struct {
 
 func (x *Business_BeneficialOwner) Reset() {
 	*x = Business_BeneficialOwner{}
-	mi := &file_kyc_proto_msgTypes[16]
+	mi := &file_kyc_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1170,7 +1274,7 @@ func (x *Business_BeneficialOwner) String() string {
 func (*Business_BeneficialOwner) ProtoMessage() {}
 
 func (x *Business_BeneficialOwner) ProtoReflect() protoreflect.Message {
-	mi := &file_kyc_proto_msgTypes[16]
+	mi := &file_kyc_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1339,18 +1443,25 @@ const file_kyc_proto_rawDesc = "" +
 	"\x18RemoveEntityByRefRequest\x12-\n" +
 	"\x12external_reference\x18\x01 \x01(\tR\x11externalReference\"5\n" +
 	"\x19RemoveEntityByRefResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess*_\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"C\n" +
+	"\x12CheckStatusRequest\x12\x17\n" +
+	"\aid_type\x18\x01 \x01(\tR\x06idType\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value\"N\n" +
+	"\x13CheckStatusResponse\x12\x1f\n" +
+	"\x06entity\x18\x01 \x01(\v2\a.EntityR\x06entity\x12\x16\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status*_\n" +
 	"\n" +
 	"EntityType\x12\x1b\n" +
 	"\x17ENTITY_TYPE_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14ENTITY_TYPE_BUSINESS\x10\x01\x12\x1a\n" +
-	"\x16ENTITY_TYPE_INDIVIDUAL\x10\x022\xe1\x02\n" +
+	"\x16ENTITY_TYPE_INDIVIDUAL\x10\x022\x9b\x03\n" +
 	"\rEntityService\x12;\n" +
 	"\fCreateEntity\x12\x14.CreateEntityRequest\x1a\x15.CreateEntityResponse\x128\n" +
 	"\vGetEntities\x12\x13.GetEntitiesRequest\x1a\x14.GetEntitiesResponse\x12A\n" +
 	"\x0eGetEntityByRef\x12\x16.GetEntityByRefRequest\x1a\x17.GetEntityByRefResponse\x12J\n" +
 	"\x11UpdateEntityByRef\x12\x19.UpdateEntityByRefRequest\x1a\x1a.UpdateEntityByRefResponse\x12J\n" +
-	"\x11RemoveEntityByRef\x12\x19.RemoveEntityByRefRequest\x1a\x1a.RemoveEntityByRefResponseB\x1eZ\x1cgithub.com/kvbo/protobufs;pbb\x06proto3"
+	"\x11RemoveEntityByRef\x12\x19.RemoveEntityByRefRequest\x1a\x1a.RemoveEntityByRefResponse\x128\n" +
+	"\vCheckStatus\x12\x13.CheckStatusRequest\x1a\x14.CheckStatusResponseB\x1eZ\x1cgithub.com/kvbo/protobufs;pbb\x06proto3"
 
 var (
 	file_kyc_proto_rawDescOnce sync.Once
@@ -1365,7 +1476,7 @@ func file_kyc_proto_rawDescGZIP() []byte {
 }
 
 var file_kyc_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_kyc_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_kyc_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_kyc_proto_goTypes = []any{
 	(EntityType)(0),                   // 0: EntityType
 	(*Address)(nil),                   // 1: Address
@@ -1384,12 +1495,14 @@ var file_kyc_proto_goTypes = []any{
 	(*UpdateEntityByRefResponse)(nil), // 14: UpdateEntityByRefResponse
 	(*RemoveEntityByRefRequest)(nil),  // 15: RemoveEntityByRefRequest
 	(*RemoveEntityByRefResponse)(nil), // 16: RemoveEntityByRefResponse
-	(*Business_BeneficialOwner)(nil),  // 17: Business.BeneficialOwner
+	(*CheckStatusRequest)(nil),        // 17: CheckStatusRequest
+	(*CheckStatusResponse)(nil),       // 18: CheckStatusResponse
+	(*Business_BeneficialOwner)(nil),  // 19: Business.BeneficialOwner
 }
 var file_kyc_proto_depIdxs = []int32{
 	2,  // 0: Person.contacts:type_name -> Contact
 	2,  // 1: Business.contacts:type_name -> Contact
-	17, // 2: Business.beneficial_owners:type_name -> Business.BeneficialOwner
+	19, // 2: Business.beneficial_owners:type_name -> Business.BeneficialOwner
 	0,  // 3: Entity.type:type_name -> EntityType
 	1,  // 4: Entity.address:type_name -> Address
 	3,  // 5: Entity.documents:type_name -> Document
@@ -1401,23 +1514,26 @@ var file_kyc_proto_depIdxs = []int32{
 	6,  // 11: GetEntityByRefResponse.entity:type_name -> Entity
 	6,  // 12: UpdateEntityByRefRequest.update:type_name -> Entity
 	6,  // 13: UpdateEntityByRefResponse.entity:type_name -> Entity
-	4,  // 14: Business.BeneficialOwner.person:type_name -> Person
-	1,  // 15: Business.BeneficialOwner.address:type_name -> Address
-	7,  // 16: EntityService.CreateEntity:input_type -> CreateEntityRequest
-	9,  // 17: EntityService.GetEntities:input_type -> GetEntitiesRequest
-	11, // 18: EntityService.GetEntityByRef:input_type -> GetEntityByRefRequest
-	13, // 19: EntityService.UpdateEntityByRef:input_type -> UpdateEntityByRefRequest
-	15, // 20: EntityService.RemoveEntityByRef:input_type -> RemoveEntityByRefRequest
-	8,  // 21: EntityService.CreateEntity:output_type -> CreateEntityResponse
-	10, // 22: EntityService.GetEntities:output_type -> GetEntitiesResponse
-	12, // 23: EntityService.GetEntityByRef:output_type -> GetEntityByRefResponse
-	14, // 24: EntityService.UpdateEntityByRef:output_type -> UpdateEntityByRefResponse
-	16, // 25: EntityService.RemoveEntityByRef:output_type -> RemoveEntityByRefResponse
-	21, // [21:26] is the sub-list for method output_type
-	16, // [16:21] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	6,  // 14: CheckStatusResponse.entity:type_name -> Entity
+	4,  // 15: Business.BeneficialOwner.person:type_name -> Person
+	1,  // 16: Business.BeneficialOwner.address:type_name -> Address
+	7,  // 17: EntityService.CreateEntity:input_type -> CreateEntityRequest
+	9,  // 18: EntityService.GetEntities:input_type -> GetEntitiesRequest
+	11, // 19: EntityService.GetEntityByRef:input_type -> GetEntityByRefRequest
+	13, // 20: EntityService.UpdateEntityByRef:input_type -> UpdateEntityByRefRequest
+	15, // 21: EntityService.RemoveEntityByRef:input_type -> RemoveEntityByRefRequest
+	17, // 22: EntityService.CheckStatus:input_type -> CheckStatusRequest
+	8,  // 23: EntityService.CreateEntity:output_type -> CreateEntityResponse
+	10, // 24: EntityService.GetEntities:output_type -> GetEntitiesResponse
+	12, // 25: EntityService.GetEntityByRef:output_type -> GetEntityByRefResponse
+	14, // 26: EntityService.UpdateEntityByRef:output_type -> UpdateEntityByRefResponse
+	16, // 27: EntityService.RemoveEntityByRef:output_type -> RemoveEntityByRefResponse
+	18, // 28: EntityService.CheckStatus:output_type -> CheckStatusResponse
+	23, // [23:29] is the sub-list for method output_type
+	17, // [17:23] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_kyc_proto_init() }
@@ -1435,14 +1551,14 @@ func file_kyc_proto_init() {
 		(*Entity_Business)(nil),
 	}
 	file_kyc_proto_msgTypes[8].OneofWrappers = []any{}
-	file_kyc_proto_msgTypes[16].OneofWrappers = []any{}
+	file_kyc_proto_msgTypes[18].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_kyc_proto_rawDesc), len(file_kyc_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   17,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
