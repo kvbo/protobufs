@@ -23,8 +23,7 @@ const (
 
 type GetNotificationConfigRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Type          string                 `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
-	Config        map[string]string      `protobuf:"bytes,2,rep,name=config,proto3" json:"config,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Type          string                 `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"` // map<string, string> config = 2;
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -64,13 +63,6 @@ func (x *GetNotificationConfigRequest) GetType() string {
 		return x.Type
 	}
 	return ""
-}
-
-func (x *GetNotificationConfigRequest) GetConfig() map[string]string {
-	if x != nil {
-		return x.Config
-	}
-	return nil
 }
 
 type GetNotificationConfigResponse struct {
@@ -233,13 +225,9 @@ var File_notifications_proto protoreflect.FileDescriptor
 
 const file_notifications_proto_rawDesc = "" +
 	"\n" +
-	"\x13notifications.proto\"\xb0\x01\n" +
+	"\x13notifications.proto\"2\n" +
 	"\x1cGetNotificationConfigRequest\x12\x12\n" +
-	"\x04type\x18\x01 \x01(\tR\x04type\x12A\n" +
-	"\x06config\x18\x02 \x03(\v2).GetNotificationConfigRequest.ConfigEntryR\x06config\x1a9\n" +
-	"\vConfigEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xb2\x01\n" +
+	"\x04type\x18\x01 \x01(\tR\x04type\"\xb2\x01\n" +
 	"\x1dGetNotificationConfigResponse\x12\x12\n" +
 	"\x04type\x18\x01 \x01(\tR\x04type\x12B\n" +
 	"\x06config\x18\x02 \x03(\v2*.GetNotificationConfigResponse.ConfigEntryR\x06config\x1a9\n" +
@@ -257,10 +245,10 @@ const file_notifications_proto_rawDesc = "" +
 	"\x06config\x18\x02 \x03(\v2-.UpdateNotificationConfigResponse.ConfigEntryR\x06config\x1a9\n" +
 	"\vConfigEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x012\xc3\x01\n" +
-	"\x13NotificationService\x12Q\n" +
-	"\x10GetNotifications\x12\x1d.GetNotificationConfigRequest\x1a\x1e.GetNotificationConfigResponse\x12Y\n" +
-	"\x12UpdateNotification\x12 .UpdateNotificationConfigRequest\x1a!.UpdateNotificationConfigResponseB\x1eZ\x1cgithub.com/kvbo/protobufs;pbb\x06proto3"
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x012\xce\x01\n" +
+	"\x13NotificationService\x12V\n" +
+	"\x15GetNotificationConfig\x12\x1d.GetNotificationConfigRequest\x1a\x1e.GetNotificationConfigResponse\x12_\n" +
+	"\x18UpdateNotificationConfig\x12 .UpdateNotificationConfigRequest\x1a!.UpdateNotificationConfigResponseB\x1eZ\x1cgithub.com/kvbo/protobufs;pbb\x06proto3"
 
 var (
 	file_notifications_proto_rawDescOnce sync.Once
@@ -274,31 +262,29 @@ func file_notifications_proto_rawDescGZIP() []byte {
 	return file_notifications_proto_rawDescData
 }
 
-var file_notifications_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_notifications_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_notifications_proto_goTypes = []any{
 	(*GetNotificationConfigRequest)(nil),     // 0: GetNotificationConfigRequest
 	(*GetNotificationConfigResponse)(nil),    // 1: GetNotificationConfigResponse
 	(*UpdateNotificationConfigRequest)(nil),  // 2: UpdateNotificationConfigRequest
 	(*UpdateNotificationConfigResponse)(nil), // 3: UpdateNotificationConfigResponse
-	nil,                                      // 4: GetNotificationConfigRequest.ConfigEntry
-	nil,                                      // 5: GetNotificationConfigResponse.ConfigEntry
-	nil,                                      // 6: UpdateNotificationConfigRequest.ConfigEntry
-	nil,                                      // 7: UpdateNotificationConfigResponse.ConfigEntry
+	nil,                                      // 4: GetNotificationConfigResponse.ConfigEntry
+	nil,                                      // 5: UpdateNotificationConfigRequest.ConfigEntry
+	nil,                                      // 6: UpdateNotificationConfigResponse.ConfigEntry
 }
 var file_notifications_proto_depIdxs = []int32{
-	4, // 0: GetNotificationConfigRequest.config:type_name -> GetNotificationConfigRequest.ConfigEntry
-	5, // 1: GetNotificationConfigResponse.config:type_name -> GetNotificationConfigResponse.ConfigEntry
-	6, // 2: UpdateNotificationConfigRequest.config:type_name -> UpdateNotificationConfigRequest.ConfigEntry
-	7, // 3: UpdateNotificationConfigResponse.config:type_name -> UpdateNotificationConfigResponse.ConfigEntry
-	0, // 4: NotificationService.GetNotifications:input_type -> GetNotificationConfigRequest
-	2, // 5: NotificationService.UpdateNotification:input_type -> UpdateNotificationConfigRequest
-	1, // 6: NotificationService.GetNotifications:output_type -> GetNotificationConfigResponse
-	3, // 7: NotificationService.UpdateNotification:output_type -> UpdateNotificationConfigResponse
-	6, // [6:8] is the sub-list for method output_type
-	4, // [4:6] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	4, // 0: GetNotificationConfigResponse.config:type_name -> GetNotificationConfigResponse.ConfigEntry
+	5, // 1: UpdateNotificationConfigRequest.config:type_name -> UpdateNotificationConfigRequest.ConfigEntry
+	6, // 2: UpdateNotificationConfigResponse.config:type_name -> UpdateNotificationConfigResponse.ConfigEntry
+	0, // 3: NotificationService.GetNotificationConfig:input_type -> GetNotificationConfigRequest
+	2, // 4: NotificationService.UpdateNotificationConfig:input_type -> UpdateNotificationConfigRequest
+	1, // 5: NotificationService.GetNotificationConfig:output_type -> GetNotificationConfigResponse
+	3, // 6: NotificationService.UpdateNotificationConfig:output_type -> UpdateNotificationConfigResponse
+	5, // [5:7] is the sub-list for method output_type
+	3, // [3:5] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_notifications_proto_init() }
@@ -312,7 +298,7 @@ func file_notifications_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_notifications_proto_rawDesc), len(file_notifications_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -19,16 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	NotificationService_GetNotifications_FullMethodName   = "/NotificationService/GetNotifications"
-	NotificationService_UpdateNotification_FullMethodName = "/NotificationService/UpdateNotification"
+	NotificationService_GetNotificationConfig_FullMethodName    = "/NotificationService/GetNotificationConfig"
+	NotificationService_UpdateNotificationConfig_FullMethodName = "/NotificationService/UpdateNotificationConfig"
 )
 
 // NotificationServiceClient is the client API for NotificationService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type NotificationServiceClient interface {
-	GetNotifications(ctx context.Context, in *GetNotificationConfigRequest, opts ...grpc.CallOption) (*GetNotificationConfigResponse, error)
-	UpdateNotification(ctx context.Context, in *UpdateNotificationConfigRequest, opts ...grpc.CallOption) (*UpdateNotificationConfigResponse, error)
+	GetNotificationConfig(ctx context.Context, in *GetNotificationConfigRequest, opts ...grpc.CallOption) (*GetNotificationConfigResponse, error)
+	UpdateNotificationConfig(ctx context.Context, in *UpdateNotificationConfigRequest, opts ...grpc.CallOption) (*UpdateNotificationConfigResponse, error)
 }
 
 type notificationServiceClient struct {
@@ -39,20 +39,20 @@ func NewNotificationServiceClient(cc grpc.ClientConnInterface) NotificationServi
 	return &notificationServiceClient{cc}
 }
 
-func (c *notificationServiceClient) GetNotifications(ctx context.Context, in *GetNotificationConfigRequest, opts ...grpc.CallOption) (*GetNotificationConfigResponse, error) {
+func (c *notificationServiceClient) GetNotificationConfig(ctx context.Context, in *GetNotificationConfigRequest, opts ...grpc.CallOption) (*GetNotificationConfigResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetNotificationConfigResponse)
-	err := c.cc.Invoke(ctx, NotificationService_GetNotifications_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, NotificationService_GetNotificationConfig_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *notificationServiceClient) UpdateNotification(ctx context.Context, in *UpdateNotificationConfigRequest, opts ...grpc.CallOption) (*UpdateNotificationConfigResponse, error) {
+func (c *notificationServiceClient) UpdateNotificationConfig(ctx context.Context, in *UpdateNotificationConfigRequest, opts ...grpc.CallOption) (*UpdateNotificationConfigResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateNotificationConfigResponse)
-	err := c.cc.Invoke(ctx, NotificationService_UpdateNotification_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, NotificationService_UpdateNotificationConfig_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -63,8 +63,8 @@ func (c *notificationServiceClient) UpdateNotification(ctx context.Context, in *
 // All implementations must embed UnimplementedNotificationServiceServer
 // for forward compatibility.
 type NotificationServiceServer interface {
-	GetNotifications(context.Context, *GetNotificationConfigRequest) (*GetNotificationConfigResponse, error)
-	UpdateNotification(context.Context, *UpdateNotificationConfigRequest) (*UpdateNotificationConfigResponse, error)
+	GetNotificationConfig(context.Context, *GetNotificationConfigRequest) (*GetNotificationConfigResponse, error)
+	UpdateNotificationConfig(context.Context, *UpdateNotificationConfigRequest) (*UpdateNotificationConfigResponse, error)
 	mustEmbedUnimplementedNotificationServiceServer()
 }
 
@@ -75,11 +75,11 @@ type NotificationServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedNotificationServiceServer struct{}
 
-func (UnimplementedNotificationServiceServer) GetNotifications(context.Context, *GetNotificationConfigRequest) (*GetNotificationConfigResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetNotifications not implemented")
+func (UnimplementedNotificationServiceServer) GetNotificationConfig(context.Context, *GetNotificationConfigRequest) (*GetNotificationConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNotificationConfig not implemented")
 }
-func (UnimplementedNotificationServiceServer) UpdateNotification(context.Context, *UpdateNotificationConfigRequest) (*UpdateNotificationConfigResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateNotification not implemented")
+func (UnimplementedNotificationServiceServer) UpdateNotificationConfig(context.Context, *UpdateNotificationConfigRequest) (*UpdateNotificationConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateNotificationConfig not implemented")
 }
 func (UnimplementedNotificationServiceServer) mustEmbedUnimplementedNotificationServiceServer() {}
 func (UnimplementedNotificationServiceServer) testEmbeddedByValue()                             {}
@@ -102,38 +102,38 @@ func RegisterNotificationServiceServer(s grpc.ServiceRegistrar, srv Notification
 	s.RegisterService(&NotificationService_ServiceDesc, srv)
 }
 
-func _NotificationService_GetNotifications_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _NotificationService_GetNotificationConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetNotificationConfigRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotificationServiceServer).GetNotifications(ctx, in)
+		return srv.(NotificationServiceServer).GetNotificationConfig(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: NotificationService_GetNotifications_FullMethodName,
+		FullMethod: NotificationService_GetNotificationConfig_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotificationServiceServer).GetNotifications(ctx, req.(*GetNotificationConfigRequest))
+		return srv.(NotificationServiceServer).GetNotificationConfig(ctx, req.(*GetNotificationConfigRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotificationService_UpdateNotification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _NotificationService_UpdateNotificationConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateNotificationConfigRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotificationServiceServer).UpdateNotification(ctx, in)
+		return srv.(NotificationServiceServer).UpdateNotificationConfig(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: NotificationService_UpdateNotification_FullMethodName,
+		FullMethod: NotificationService_UpdateNotificationConfig_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotificationServiceServer).UpdateNotification(ctx, req.(*UpdateNotificationConfigRequest))
+		return srv.(NotificationServiceServer).UpdateNotificationConfig(ctx, req.(*UpdateNotificationConfigRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -146,12 +146,12 @@ var NotificationService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*NotificationServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetNotifications",
-			Handler:    _NotificationService_GetNotifications_Handler,
+			MethodName: "GetNotificationConfig",
+			Handler:    _NotificationService_GetNotificationConfig_Handler,
 		},
 		{
-			MethodName: "UpdateNotification",
-			Handler:    _NotificationService_UpdateNotification_Handler,
+			MethodName: "UpdateNotificationConfig",
+			Handler:    _NotificationService_UpdateNotificationConfig_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
