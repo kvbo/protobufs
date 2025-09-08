@@ -29,7 +29,7 @@ type Account struct {
 	CurrentBalance   int64                  `protobuf:"varint,3,opt,name=current_balance,json=currentBalance,proto3" json:"current_balance,omitempty"`
 	AvailableBalance int64                  `protobuf:"varint,4,opt,name=available_balance,json=availableBalance,proto3" json:"available_balance,omitempty"`
 	HoldingBalance   int64                  `protobuf:"varint,5,opt,name=holding_balance,json=holdingBalance,proto3" json:"holding_balance,omitempty"`
-	Metadata         *Account_Metadata      `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Metadata         map[string]string      `protobuf:"bytes,6,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	Currency         string                 `protobuf:"bytes,7,opt,name=currency,proto3" json:"currency,omitempty"`
 	CreatedAt        string                 `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	Type             string                 `protobuf:"bytes,10,opt,name=type,proto3" json:"type,omitempty"`
@@ -111,7 +111,7 @@ func (x *Account) GetHoldingBalance() int64 {
 	return 0
 }
 
-func (x *Account) GetMetadata() *Account_Metadata {
+func (x *Account) GetMetadata() map[string]string {
 	if x != nil {
 		return x.Metadata
 	}
@@ -741,83 +741,29 @@ func (x *BulkCreateAccounts) GetAccounts() []*AccountIn {
 	return nil
 }
 
-type Account_Metadata struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          *string                `protobuf:"bytes,1,opt,name=name,proto3,oneof" json:"name,omitempty"`
-	Type          *string                `protobuf:"bytes,2,opt,name=type,proto3,oneof" json:"type,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Account_Metadata) Reset() {
-	*x = Account_Metadata{}
-	mi := &file_accounts_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Account_Metadata) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Account_Metadata) ProtoMessage() {}
-
-func (x *Account_Metadata) ProtoReflect() protoreflect.Message {
-	mi := &file_accounts_proto_msgTypes[10]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Account_Metadata.ProtoReflect.Descriptor instead.
-func (*Account_Metadata) Descriptor() ([]byte, []int) {
-	return file_accounts_proto_rawDescGZIP(), []int{0, 0}
-}
-
-func (x *Account_Metadata) GetName() string {
-	if x != nil && x.Name != nil {
-		return *x.Name
-	}
-	return ""
-}
-
-func (x *Account_Metadata) GetType() string {
-	if x != nil && x.Type != nil {
-		return *x.Type
-	}
-	return ""
-}
-
 var File_accounts_proto protoreflect.FileDescriptor
 
 const file_accounts_proto_rawDesc = "" +
 	"\n" +
-	"\x0eaccounts.proto\"\xf1\x03\n" +
+	"\x0eaccounts.proto\"\xe3\x03\n" +
 	"\aAccount\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
 	"\x04slug\x18\r \x01(\tR\x04slug\x12'\n" +
 	"\x0fcurrent_balance\x18\x03 \x01(\x03R\x0ecurrentBalance\x12+\n" +
 	"\x11available_balance\x18\x04 \x01(\x03R\x10availableBalance\x12'\n" +
-	"\x0fholding_balance\x18\x05 \x01(\x03R\x0eholdingBalance\x12-\n" +
-	"\bmetadata\x18\x06 \x01(\v2\x11.Account.MetadataR\bmetadata\x12\x1a\n" +
+	"\x0fholding_balance\x18\x05 \x01(\x03R\x0eholdingBalance\x122\n" +
+	"\bmetadata\x18\x06 \x03(\v2\x16.Account.MetadataEntryR\bmetadata\x12\x1a\n" +
 	"\bcurrency\x18\a \x01(\tR\bcurrency\x12\x1d\n" +
 	"\n" +
 	"created_at\x18\b \x01(\tR\tcreatedAt\x12\x12\n" +
 	"\x04type\x18\n" +
 	" \x01(\tR\x04type\x12\x1a\n" +
 	"\bcategory\x18\v \x01(\tR\bcategory\x12/\n" +
-	"\x11is_system_account\x18\f \x01(\bH\x00R\x0fisSystemAccount\x88\x01\x01\x1aN\n" +
-	"\bMetadata\x12\x17\n" +
-	"\x04name\x18\x01 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x17\n" +
-	"\x04type\x18\x02 \x01(\tH\x01R\x04type\x88\x01\x01B\a\n" +
-	"\x05_nameB\a\n" +
-	"\x05_typeB\x14\n" +
+	"\x11is_system_account\x18\f \x01(\bH\x00R\x0fisSystemAccount\x88\x01\x01\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\x14\n" +
 	"\x12_is_system_account\"X\n" +
 	"\vAccountList\x12$\n" +
 	"\baccounts\x18\x01 \x03(\v2\b.AccountR\baccounts\x12#\n" +
@@ -913,11 +859,11 @@ var file_accounts_proto_goTypes = []any{
 	(*TransferResponse)(nil),   // 7: TransferResponse
 	(*TransferRef)(nil),        // 8: TransferRef
 	(*BulkCreateAccounts)(nil), // 9: BulkCreateAccounts
-	(*Account_Metadata)(nil),   // 10: Account.Metadata
+	nil,                        // 10: Account.MetadataEntry
 	nil,                        // 11: AccountIn.MetadataEntry
 }
 var file_accounts_proto_depIdxs = []int32{
-	10, // 0: Account.metadata:type_name -> Account.Metadata
+	10, // 0: Account.metadata:type_name -> Account.MetadataEntry
 	0,  // 1: AccountList.accounts:type_name -> Account
 	2,  // 2: AccountList.query:type_name -> AccountQuery
 	11, // 3: AccountIn.metadata:type_name -> AccountIn.MetadataEntry
@@ -962,7 +908,6 @@ func file_accounts_proto_init() {
 	file_accounts_proto_msgTypes[0].OneofWrappers = []any{}
 	file_accounts_proto_msgTypes[2].OneofWrappers = []any{}
 	file_accounts_proto_msgTypes[3].OneofWrappers = []any{}
-	file_accounts_proto_msgTypes[10].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
