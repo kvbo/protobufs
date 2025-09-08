@@ -37,8 +37,8 @@ const (
 type AccountServiceClient interface {
 	GetAccounts(ctx context.Context, in *AccountQuery, opts ...grpc.CallOption) (*AccountList, error)
 	GetAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error)
-	CreateAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error)
-	BulkCreateAccount(ctx context.Context, in *BulkCreate, opts ...grpc.CallOption) (*Account, error)
+	CreateAccount(ctx context.Context, in *AccountIn, opts ...grpc.CallOption) (*Account, error)
+	BulkCreateAccount(ctx context.Context, in *BulkCreateAccounts, opts ...grpc.CallOption) (*Account, error)
 	UpdateAccount(ctx context.Context, in *AccountUpdate, opts ...grpc.CallOption) (*AccountList, error)
 	DeleteAccount(ctx context.Context, in *AccountQuery, opts ...grpc.CallOption) (*AccountList, error)
 	TransferAndCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*TransferResponse, error)
@@ -75,7 +75,7 @@ func (c *accountServiceClient) GetAccount(ctx context.Context, in *Account, opts
 	return out, nil
 }
 
-func (c *accountServiceClient) CreateAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error) {
+func (c *accountServiceClient) CreateAccount(ctx context.Context, in *AccountIn, opts ...grpc.CallOption) (*Account, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Account)
 	err := c.cc.Invoke(ctx, AccountService_CreateAccount_FullMethodName, in, out, cOpts...)
@@ -85,7 +85,7 @@ func (c *accountServiceClient) CreateAccount(ctx context.Context, in *Account, o
 	return out, nil
 }
 
-func (c *accountServiceClient) BulkCreateAccount(ctx context.Context, in *BulkCreate, opts ...grpc.CallOption) (*Account, error) {
+func (c *accountServiceClient) BulkCreateAccount(ctx context.Context, in *BulkCreateAccounts, opts ...grpc.CallOption) (*Account, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Account)
 	err := c.cc.Invoke(ctx, AccountService_BulkCreateAccount_FullMethodName, in, out, cOpts...)
@@ -161,8 +161,8 @@ func (c *accountServiceClient) TransferCancel(ctx context.Context, in *TransferR
 type AccountServiceServer interface {
 	GetAccounts(context.Context, *AccountQuery) (*AccountList, error)
 	GetAccount(context.Context, *Account) (*Account, error)
-	CreateAccount(context.Context, *Account) (*Account, error)
-	BulkCreateAccount(context.Context, *BulkCreate) (*Account, error)
+	CreateAccount(context.Context, *AccountIn) (*Account, error)
+	BulkCreateAccount(context.Context, *BulkCreateAccounts) (*Account, error)
 	UpdateAccount(context.Context, *AccountUpdate) (*AccountList, error)
 	DeleteAccount(context.Context, *AccountQuery) (*AccountList, error)
 	TransferAndCommit(context.Context, *Transfer) (*TransferResponse, error)
@@ -185,10 +185,10 @@ func (UnimplementedAccountServiceServer) GetAccounts(context.Context, *AccountQu
 func (UnimplementedAccountServiceServer) GetAccount(context.Context, *Account) (*Account, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
 }
-func (UnimplementedAccountServiceServer) CreateAccount(context.Context, *Account) (*Account, error) {
+func (UnimplementedAccountServiceServer) CreateAccount(context.Context, *AccountIn) (*Account, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAccount not implemented")
 }
-func (UnimplementedAccountServiceServer) BulkCreateAccount(context.Context, *BulkCreate) (*Account, error) {
+func (UnimplementedAccountServiceServer) BulkCreateAccount(context.Context, *BulkCreateAccounts) (*Account, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BulkCreateAccount not implemented")
 }
 func (UnimplementedAccountServiceServer) UpdateAccount(context.Context, *AccountUpdate) (*AccountList, error) {
@@ -267,7 +267,7 @@ func _AccountService_GetAccount_Handler(srv interface{}, ctx context.Context, de
 }
 
 func _AccountService_CreateAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Account)
+	in := new(AccountIn)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -279,13 +279,13 @@ func _AccountService_CreateAccount_Handler(srv interface{}, ctx context.Context,
 		FullMethod: AccountService_CreateAccount_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServiceServer).CreateAccount(ctx, req.(*Account))
+		return srv.(AccountServiceServer).CreateAccount(ctx, req.(*AccountIn))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _AccountService_BulkCreateAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BulkCreate)
+	in := new(BulkCreateAccounts)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -297,7 +297,7 @@ func _AccountService_BulkCreateAccount_Handler(srv interface{}, ctx context.Cont
 		FullMethod: AccountService_BulkCreateAccount_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServiceServer).BulkCreateAccount(ctx, req.(*BulkCreate))
+		return srv.(AccountServiceServer).BulkCreateAccount(ctx, req.(*BulkCreateAccounts))
 	}
 	return interceptor(ctx, in, info, handler)
 }
