@@ -820,7 +820,7 @@ const file_accounts_proto_rawDesc = "" +
 	"\x03ref\x18\x01 \x01(\tR\x03ref\"<\n" +
 	"\x12BulkCreateAccounts\x12&\n" +
 	"\baccounts\x18\x01 \x03(\v2\n" +
-	".AccountInR\baccounts2\xe5\x03\n" +
+	".AccountInR\baccounts2\x8c\x04\n" +
 	"\x0eAccountService\x12*\n" +
 	"\vGetAccounts\x12\r.AccountQuery\x1a\f.AccountList\x12 \n" +
 	"\n" +
@@ -829,7 +829,9 @@ const file_accounts_proto_rawDesc = "" +
 	".AccountIn\x1a\b.Account\x122\n" +
 	"\x11BulkCreateAccount\x12\x13.BulkCreateAccounts\x1a\b.Account\x12-\n" +
 	"\rUpdateAccount\x12\x0e.AccountUpdate\x1a\f.AccountList\x12,\n" +
-	"\rDeleteAccount\x12\r.AccountQuery\x1a\f.AccountList\x121\n" +
+	"\rDeleteAccount\x12\r.AccountQuery\x1a\f.AccountList\x12%\n" +
+	"\n" +
+	"GetEntries\x12\r.AccountQuery\x1a\b.Posting\x121\n" +
 	"\x11TransferAndCommit\x12\t.Transfer\x1a\x11.TransferResponse\x125\n" +
 	"\x15TransferWithoutCommit\x12\t.Transfer\x1a\x11.TransferResponse\x120\n" +
 	"\rTranferCommit\x12\f.TransferRef\x1a\x11.TransferResponse\x121\n" +
@@ -879,22 +881,24 @@ var file_accounts_proto_depIdxs = []int32{
 	9,  // 13: AccountService.BulkCreateAccount:input_type -> BulkCreateAccounts
 	4,  // 14: AccountService.UpdateAccount:input_type -> AccountUpdate
 	2,  // 15: AccountService.DeleteAccount:input_type -> AccountQuery
-	6,  // 16: AccountService.TransferAndCommit:input_type -> Transfer
-	6,  // 17: AccountService.TransferWithoutCommit:input_type -> Transfer
-	8,  // 18: AccountService.TranferCommit:input_type -> TransferRef
-	8,  // 19: AccountService.TransferCancel:input_type -> TransferRef
-	1,  // 20: AccountService.GetAccounts:output_type -> AccountList
-	0,  // 21: AccountService.GetAccount:output_type -> Account
-	0,  // 22: AccountService.CreateAccount:output_type -> Account
-	0,  // 23: AccountService.BulkCreateAccount:output_type -> Account
-	1,  // 24: AccountService.UpdateAccount:output_type -> AccountList
-	1,  // 25: AccountService.DeleteAccount:output_type -> AccountList
-	7,  // 26: AccountService.TransferAndCommit:output_type -> TransferResponse
-	7,  // 27: AccountService.TransferWithoutCommit:output_type -> TransferResponse
-	7,  // 28: AccountService.TranferCommit:output_type -> TransferResponse
-	7,  // 29: AccountService.TransferCancel:output_type -> TransferResponse
-	20, // [20:30] is the sub-list for method output_type
-	10, // [10:20] is the sub-list for method input_type
+	2,  // 16: AccountService.GetEntries:input_type -> AccountQuery
+	6,  // 17: AccountService.TransferAndCommit:input_type -> Transfer
+	6,  // 18: AccountService.TransferWithoutCommit:input_type -> Transfer
+	8,  // 19: AccountService.TranferCommit:input_type -> TransferRef
+	8,  // 20: AccountService.TransferCancel:input_type -> TransferRef
+	1,  // 21: AccountService.GetAccounts:output_type -> AccountList
+	0,  // 22: AccountService.GetAccount:output_type -> Account
+	0,  // 23: AccountService.CreateAccount:output_type -> Account
+	0,  // 24: AccountService.BulkCreateAccount:output_type -> Account
+	1,  // 25: AccountService.UpdateAccount:output_type -> AccountList
+	1,  // 26: AccountService.DeleteAccount:output_type -> AccountList
+	5,  // 27: AccountService.GetEntries:output_type -> Posting
+	7,  // 28: AccountService.TransferAndCommit:output_type -> TransferResponse
+	7,  // 29: AccountService.TransferWithoutCommit:output_type -> TransferResponse
+	7,  // 30: AccountService.TranferCommit:output_type -> TransferResponse
+	7,  // 31: AccountService.TransferCancel:output_type -> TransferResponse
+	21, // [21:32] is the sub-list for method output_type
+	10, // [10:21] is the sub-list for method input_type
 	10, // [10:10] is the sub-list for extension type_name
 	10, // [10:10] is the sub-list for extension extendee
 	0,  // [0:10] is the sub-list for field type_name

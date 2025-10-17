@@ -25,6 +25,7 @@ const (
 	AccountService_BulkCreateAccount_FullMethodName     = "/AccountService/BulkCreateAccount"
 	AccountService_UpdateAccount_FullMethodName         = "/AccountService/UpdateAccount"
 	AccountService_DeleteAccount_FullMethodName         = "/AccountService/DeleteAccount"
+	AccountService_GetEntries_FullMethodName            = "/AccountService/GetEntries"
 	AccountService_TransferAndCommit_FullMethodName     = "/AccountService/TransferAndCommit"
 	AccountService_TransferWithoutCommit_FullMethodName = "/AccountService/TransferWithoutCommit"
 	AccountService_TranferCommit_FullMethodName         = "/AccountService/TranferCommit"
@@ -41,6 +42,7 @@ type AccountServiceClient interface {
 	BulkCreateAccount(ctx context.Context, in *BulkCreateAccounts, opts ...grpc.CallOption) (*Account, error)
 	UpdateAccount(ctx context.Context, in *AccountUpdate, opts ...grpc.CallOption) (*AccountList, error)
 	DeleteAccount(ctx context.Context, in *AccountQuery, opts ...grpc.CallOption) (*AccountList, error)
+	GetEntries(ctx context.Context, in *AccountQuery, opts ...grpc.CallOption) (*Posting, error)
 	TransferAndCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*TransferResponse, error)
 	TransferWithoutCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*TransferResponse, error)
 	TranferCommit(ctx context.Context, in *TransferRef, opts ...grpc.CallOption) (*TransferResponse, error)
@@ -115,6 +117,16 @@ func (c *accountServiceClient) DeleteAccount(ctx context.Context, in *AccountQue
 	return out, nil
 }
 
+func (c *accountServiceClient) GetEntries(ctx context.Context, in *AccountQuery, opts ...grpc.CallOption) (*Posting, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Posting)
+	err := c.cc.Invoke(ctx, AccountService_GetEntries_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *accountServiceClient) TransferAndCommit(ctx context.Context, in *Transfer, opts ...grpc.CallOption) (*TransferResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TransferResponse)
@@ -165,6 +177,7 @@ type AccountServiceServer interface {
 	BulkCreateAccount(context.Context, *BulkCreateAccounts) (*Account, error)
 	UpdateAccount(context.Context, *AccountUpdate) (*AccountList, error)
 	DeleteAccount(context.Context, *AccountQuery) (*AccountList, error)
+	GetEntries(context.Context, *AccountQuery) (*Posting, error)
 	TransferAndCommit(context.Context, *Transfer) (*TransferResponse, error)
 	TransferWithoutCommit(context.Context, *Transfer) (*TransferResponse, error)
 	TranferCommit(context.Context, *TransferRef) (*TransferResponse, error)
@@ -195,6 +208,9 @@ func (UnimplementedAccountServiceServer) UpdateAccount(context.Context, *Account
 }
 func (UnimplementedAccountServiceServer) DeleteAccount(context.Context, *AccountQuery) (*AccountList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAccount not implemented")
+}
+func (UnimplementedAccountServiceServer) GetEntries(context.Context, *AccountQuery) (*Posting, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetEntries not implemented")
 }
 func (UnimplementedAccountServiceServer) TransferAndCommit(context.Context, *Transfer) (*TransferResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TransferAndCommit not implemented")
@@ -336,6 +352,24 @@ func _AccountService_DeleteAccount_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountService_GetEntries_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AccountQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).GetEntries(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_GetEntries_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).GetEntries(ctx, req.(*AccountQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AccountService_TransferAndCommit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Transfer)
 	if err := dec(in); err != nil {
@@ -438,6 +472,10 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteAccount",
 			Handler:    _AccountService_DeleteAccount_Handler,
+		},
+		{
+			MethodName: "GetEntries",
+			Handler:    _AccountService_GetEntries_Handler,
 		},
 		{
 			MethodName: "TransferAndCommit",
