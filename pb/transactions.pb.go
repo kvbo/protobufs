@@ -1069,7 +1069,7 @@ func (x *CancelReversalResponse) GetTransaction() *Transaction {
 
 type GetTransactionsRequest struct {
 	state                protoimpl.MessageState `protogen:"open.v1"`
-	Refs                 *string                `protobuf:"bytes,2,opt,name=refs,proto3,oneof" json:"refs,omitempty"`
+	Refs                 []string               `protobuf:"bytes,2,rep,name=refs,proto3" json:"refs,omitempty"`
 	SourceAccountId      *string                `protobuf:"bytes,3,opt,name=source_account_id,json=sourceAccountId,proto3,oneof" json:"source_account_id,omitempty"`
 	DestinationAccountId *string                `protobuf:"bytes,4,opt,name=destination_account_id,json=destinationAccountId,proto3,oneof" json:"destination_account_id,omitempty"`
 	AccountId            *string                `protobuf:"bytes,5,opt,name=account_id,json=accountId,proto3,oneof" json:"account_id,omitempty"`
@@ -1114,11 +1114,11 @@ func (*GetTransactionsRequest) Descriptor() ([]byte, []int) {
 	return file_transactions_proto_rawDescGZIP(), []int{17}
 }
 
-func (x *GetTransactionsRequest) GetRefs() string {
-	if x != nil && x.Refs != nil {
-		return *x.Refs
+func (x *GetTransactionsRequest) GetRefs() []string {
+	if x != nil {
+		return x.Refs
 	}
-	return ""
+	return nil
 }
 
 func (x *GetTransactionsRequest) GetSourceAccountId() string {
@@ -1438,25 +1438,23 @@ const file_transactions_proto_rawDesc = "" +
 	"\x15CancelReversalRequest\x12\x10\n" +
 	"\x03ref\x18\x01 \x01(\tR\x03ref\"H\n" +
 	"\x16CancelReversalResponse\x12.\n" +
-	"\vtransaction\x18\x01 \x01(\v2\f.TransactionR\vtransaction\"\xb7\x04\n" +
-	"\x16GetTransactionsRequest\x12\x17\n" +
-	"\x04refs\x18\x02 \x01(\tH\x00R\x04refs\x88\x01\x01\x12/\n" +
-	"\x11source_account_id\x18\x03 \x01(\tH\x01R\x0fsourceAccountId\x88\x01\x01\x129\n" +
-	"\x16destination_account_id\x18\x04 \x01(\tH\x02R\x14destinationAccountId\x88\x01\x01\x12\"\n" +
+	"\vtransaction\x18\x01 \x01(\v2\f.TransactionR\vtransaction\"\xa9\x04\n" +
+	"\x16GetTransactionsRequest\x12\x12\n" +
+	"\x04refs\x18\x02 \x03(\tR\x04refs\x12/\n" +
+	"\x11source_account_id\x18\x03 \x01(\tH\x00R\x0fsourceAccountId\x88\x01\x01\x129\n" +
+	"\x16destination_account_id\x18\x04 \x01(\tH\x01R\x14destinationAccountId\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"account_id\x18\x05 \x01(\tH\x03R\taccountId\x88\x01\x01\x12\x1b\n" +
-	"\x06status\x18\x06 \x01(\tH\x04R\x06status\x88\x01\x01\x12\"\n" +
+	"account_id\x18\x05 \x01(\tH\x02R\taccountId\x88\x01\x01\x12\x1b\n" +
+	"\x06status\x18\x06 \x01(\tH\x03R\x06status\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"start_date\x18\a \x01(\tH\x05R\tstartDate\x88\x01\x01\x12\x1e\n" +
-	"\bend_date\x18\b \x01(\tH\x06R\aendDate\x88\x01\x01\x12\"\n" +
+	"start_date\x18\a \x01(\tH\x04R\tstartDate\x88\x01\x01\x12\x1e\n" +
+	"\bend_date\x18\b \x01(\tH\x05R\aendDate\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"service_id\x18\t \x01(\tH\aR\tserviceId\x88\x01\x01\x12\x1f\n" +
+	"service_id\x18\t \x01(\tH\x06R\tserviceId\x88\x01\x01\x12\x1f\n" +
 	"\bcurrency\x18\n" +
-	" \x01(\tH\bR\bcurrency\x88\x01\x01\x12\x17\n" +
-	"\x04page\x18\v \x01(\x05H\tR\x04page\x88\x01\x01\x12\x17\n" +
-	"\x04size\x18\f \x01(\x05H\n" +
-	"R\x04size\x88\x01\x01B\a\n" +
-	"\x05_refsB\x14\n" +
+	" \x01(\tH\aR\bcurrency\x88\x01\x01\x12\x17\n" +
+	"\x04page\x18\v \x01(\x05H\bR\x04page\x88\x01\x01\x12\x17\n" +
+	"\x04size\x18\f \x01(\x05H\tR\x04size\x88\x01\x01B\x14\n" +
 	"\x12_source_account_idB\x19\n" +
 	"\x17_destination_account_idB\r\n" +
 	"\v_account_idB\t\n" +
