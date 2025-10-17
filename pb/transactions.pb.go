@@ -1067,6 +1067,286 @@ func (x *CancelReversalResponse) GetTransaction() *Transaction {
 	return nil
 }
 
+type GetTransactionsRequest struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	Refs                 *string                `protobuf:"bytes,2,opt,name=refs,proto3,oneof" json:"refs,omitempty"`
+	SourceAccountId      *string                `protobuf:"bytes,3,opt,name=source_account_id,json=sourceAccountId,proto3,oneof" json:"source_account_id,omitempty"`
+	DestinationAccountId *string                `protobuf:"bytes,4,opt,name=destination_account_id,json=destinationAccountId,proto3,oneof" json:"destination_account_id,omitempty"`
+	AccountId            *string                `protobuf:"bytes,5,opt,name=account_id,json=accountId,proto3,oneof" json:"account_id,omitempty"`
+	Status               *string                `protobuf:"bytes,6,opt,name=status,proto3,oneof" json:"status,omitempty"`
+	StartDate            *string                `protobuf:"bytes,7,opt,name=start_date,json=startDate,proto3,oneof" json:"start_date,omitempty"`
+	EndDate              *string                `protobuf:"bytes,8,opt,name=end_date,json=endDate,proto3,oneof" json:"end_date,omitempty"`
+	ServiceId            *string                `protobuf:"bytes,9,opt,name=service_id,json=serviceId,proto3,oneof" json:"service_id,omitempty"`
+	Currency             *string                `protobuf:"bytes,10,opt,name=currency,proto3,oneof" json:"currency,omitempty"`
+	Page                 *int32                 `protobuf:"varint,11,opt,name=page,proto3,oneof" json:"page,omitempty"`
+	Size                 *int32                 `protobuf:"varint,12,opt,name=size,proto3,oneof" json:"size,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *GetTransactionsRequest) Reset() {
+	*x = GetTransactionsRequest{}
+	mi := &file_transactions_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTransactionsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTransactionsRequest) ProtoMessage() {}
+
+func (x *GetTransactionsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_transactions_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTransactionsRequest.ProtoReflect.Descriptor instead.
+func (*GetTransactionsRequest) Descriptor() ([]byte, []int) {
+	return file_transactions_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *GetTransactionsRequest) GetRefs() string {
+	if x != nil && x.Refs != nil {
+		return *x.Refs
+	}
+	return ""
+}
+
+func (x *GetTransactionsRequest) GetSourceAccountId() string {
+	if x != nil && x.SourceAccountId != nil {
+		return *x.SourceAccountId
+	}
+	return ""
+}
+
+func (x *GetTransactionsRequest) GetDestinationAccountId() string {
+	if x != nil && x.DestinationAccountId != nil {
+		return *x.DestinationAccountId
+	}
+	return ""
+}
+
+func (x *GetTransactionsRequest) GetAccountId() string {
+	if x != nil && x.AccountId != nil {
+		return *x.AccountId
+	}
+	return ""
+}
+
+func (x *GetTransactionsRequest) GetStatus() string {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return ""
+}
+
+func (x *GetTransactionsRequest) GetStartDate() string {
+	if x != nil && x.StartDate != nil {
+		return *x.StartDate
+	}
+	return ""
+}
+
+func (x *GetTransactionsRequest) GetEndDate() string {
+	if x != nil && x.EndDate != nil {
+		return *x.EndDate
+	}
+	return ""
+}
+
+func (x *GetTransactionsRequest) GetServiceId() string {
+	if x != nil && x.ServiceId != nil {
+		return *x.ServiceId
+	}
+	return ""
+}
+
+func (x *GetTransactionsRequest) GetCurrency() string {
+	if x != nil && x.Currency != nil {
+		return *x.Currency
+	}
+	return ""
+}
+
+func (x *GetTransactionsRequest) GetPage() int32 {
+	if x != nil && x.Page != nil {
+		return *x.Page
+	}
+	return 0
+}
+
+func (x *GetTransactionsRequest) GetSize() int32 {
+	if x != nil && x.Size != nil {
+		return *x.Size
+	}
+	return 0
+}
+
+type GetTransactionsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Transactions  []*Transaction         `protobuf:"bytes,1,rep,name=transactions,proto3" json:"transactions,omitempty"`
+	TotalCount    int32                  `protobuf:"varint,2,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
+	Page          int32                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	Size          int32                  `protobuf:"varint,4,opt,name=size,proto3" json:"size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTransactionsResponse) Reset() {
+	*x = GetTransactionsResponse{}
+	mi := &file_transactions_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTransactionsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTransactionsResponse) ProtoMessage() {}
+
+func (x *GetTransactionsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_transactions_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTransactionsResponse.ProtoReflect.Descriptor instead.
+func (*GetTransactionsResponse) Descriptor() ([]byte, []int) {
+	return file_transactions_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *GetTransactionsResponse) GetTransactions() []*Transaction {
+	if x != nil {
+		return x.Transactions
+	}
+	return nil
+}
+
+func (x *GetTransactionsResponse) GetTotalCount() int32 {
+	if x != nil {
+		return x.TotalCount
+	}
+	return 0
+}
+
+func (x *GetTransactionsResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *GetTransactionsResponse) GetSize() int32 {
+	if x != nil {
+		return x.Size
+	}
+	return 0
+}
+
+type GetTransactionRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTransactionRequest) Reset() {
+	*x = GetTransactionRequest{}
+	mi := &file_transactions_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTransactionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTransactionRequest) ProtoMessage() {}
+
+func (x *GetTransactionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_transactions_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTransactionRequest.ProtoReflect.Descriptor instead.
+func (*GetTransactionRequest) Descriptor() ([]byte, []int) {
+	return file_transactions_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *GetTransactionRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type GetTransactionResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Transaction   *Transaction           `protobuf:"bytes,1,opt,name=transaction,proto3" json:"transaction,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTransactionResponse) Reset() {
+	*x = GetTransactionResponse{}
+	mi := &file_transactions_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTransactionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTransactionResponse) ProtoMessage() {}
+
+func (x *GetTransactionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_transactions_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTransactionResponse.ProtoReflect.Descriptor instead.
+func (*GetTransactionResponse) Descriptor() ([]byte, []int) {
+	return file_transactions_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *GetTransactionResponse) GetTransaction() *Transaction {
+	if x != nil {
+		return x.Transaction
+	}
+	return nil
+}
+
 var File_transactions_proto protoreflect.FileDescriptor
 
 const file_transactions_proto_rawDesc = "" +
@@ -1158,7 +1438,45 @@ const file_transactions_proto_rawDesc = "" +
 	"\x15CancelReversalRequest\x12\x10\n" +
 	"\x03ref\x18\x01 \x01(\tR\x03ref\"H\n" +
 	"\x16CancelReversalResponse\x12.\n" +
-	"\vtransaction\x18\x01 \x01(\v2\f.TransactionR\vtransaction2\xa8\x04\n" +
+	"\vtransaction\x18\x01 \x01(\v2\f.TransactionR\vtransaction\"\xb7\x04\n" +
+	"\x16GetTransactionsRequest\x12\x17\n" +
+	"\x04refs\x18\x02 \x01(\tH\x00R\x04refs\x88\x01\x01\x12/\n" +
+	"\x11source_account_id\x18\x03 \x01(\tH\x01R\x0fsourceAccountId\x88\x01\x01\x129\n" +
+	"\x16destination_account_id\x18\x04 \x01(\tH\x02R\x14destinationAccountId\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"account_id\x18\x05 \x01(\tH\x03R\taccountId\x88\x01\x01\x12\x1b\n" +
+	"\x06status\x18\x06 \x01(\tH\x04R\x06status\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"start_date\x18\a \x01(\tH\x05R\tstartDate\x88\x01\x01\x12\x1e\n" +
+	"\bend_date\x18\b \x01(\tH\x06R\aendDate\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"service_id\x18\t \x01(\tH\aR\tserviceId\x88\x01\x01\x12\x1f\n" +
+	"\bcurrency\x18\n" +
+	" \x01(\tH\bR\bcurrency\x88\x01\x01\x12\x17\n" +
+	"\x04page\x18\v \x01(\x05H\tR\x04page\x88\x01\x01\x12\x17\n" +
+	"\x04size\x18\f \x01(\x05H\n" +
+	"R\x04size\x88\x01\x01B\a\n" +
+	"\x05_refsB\x14\n" +
+	"\x12_source_account_idB\x19\n" +
+	"\x17_destination_account_idB\r\n" +
+	"\v_account_idB\t\n" +
+	"\a_statusB\r\n" +
+	"\v_start_dateB\v\n" +
+	"\t_end_dateB\r\n" +
+	"\v_service_idB\v\n" +
+	"\t_currencyB\a\n" +
+	"\x05_pageB\a\n" +
+	"\x05_size\"\x94\x01\n" +
+	"\x17GetTransactionsResponse\x120\n" +
+	"\ftransactions\x18\x01 \x03(\v2\f.TransactionR\ftransactions\x12\x1f\n" +
+	"\vtotal_count\x18\x02 \x01(\x05R\n" +
+	"totalCount\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\x12\x12\n" +
+	"\x04size\x18\x04 \x01(\x05R\x04size\"'\n" +
+	"\x15GetTransactionRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"H\n" +
+	"\x16GetTransactionResponse\x12.\n" +
+	"\vtransaction\x18\x01 \x01(\v2\f.TransactionR\vtransaction2\xb1\x05\n" +
 	"\x12TransactionService\x12_\n" +
 	"\x18CreateInstantTransaction\x12 .CreateInstantTransactionRequest\x1a!.CreateInstantTransactionResponse\x12G\n" +
 	"\x10StartTransaction\x12\x18.StartTransactionRequest\x1a\x19.StartTransactionResponse\x12P\n" +
@@ -1166,7 +1484,9 @@ const file_transactions_proto_rawDesc = "" +
 	"\x11CancelTransaction\x12\x19.CancelTransactionRequest\x1a\x1a.CancelTransactionResponse\x12>\n" +
 	"\rStartReversal\x12\x15.StartReversalRequest\x1a\x16.StartReversalResponse\x12G\n" +
 	"\x10CompleteReversal\x12\x18.CompleteReversalRequest\x1a\x19.CompleteReversalResponse\x12A\n" +
-	"\x0eCancelReversal\x12\x16.CancelReversalRequest\x1a\x17.CancelReversalResponseB\x1eZ\x1cgithub.com/kvbo/protobufs;pbb\x06proto3"
+	"\x0eCancelReversal\x12\x16.CancelReversalRequest\x1a\x17.CancelReversalResponse\x12D\n" +
+	"\x0fGetTransactions\x12\x17.GetTransactionsRequest\x1a\x18.GetTransactionsResponse\x12A\n" +
+	"\x0eGetTransaction\x12\x16.GetTransactionRequest\x1a\x17.GetTransactionResponseB\x1eZ\x1cgithub.com/kvbo/protobufs;pbb\x06proto3"
 
 var (
 	file_transactions_proto_rawDescOnce sync.Once
@@ -1180,7 +1500,7 @@ func file_transactions_proto_rawDescGZIP() []byte {
 	return file_transactions_proto_rawDescData
 }
 
-var file_transactions_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_transactions_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_transactions_proto_goTypes = []any{
 	(*Summary)(nil),                          // 0: Summary
 	(*Transaction)(nil),                      // 1: Transaction
@@ -1199,14 +1519,18 @@ var file_transactions_proto_goTypes = []any{
 	(*CompleteReversalResponse)(nil),         // 14: CompleteReversalResponse
 	(*CancelReversalRequest)(nil),            // 15: CancelReversalRequest
 	(*CancelReversalResponse)(nil),           // 16: CancelReversalResponse
-	(*Service)(nil),                          // 17: Service
-	(*structpb.Struct)(nil),                  // 18: google.protobuf.Struct
+	(*GetTransactionsRequest)(nil),           // 17: GetTransactionsRequest
+	(*GetTransactionsResponse)(nil),          // 18: GetTransactionsResponse
+	(*GetTransactionRequest)(nil),            // 19: GetTransactionRequest
+	(*GetTransactionResponse)(nil),           // 20: GetTransactionResponse
+	(*Service)(nil),                          // 21: Service
+	(*structpb.Struct)(nil),                  // 22: google.protobuf.Struct
 }
 var file_transactions_proto_depIdxs = []int32{
-	17, // 0: Transaction.service:type_name -> Service
-	18, // 1: Transaction.metadata:type_name -> google.protobuf.Struct
+	21, // 0: Transaction.service:type_name -> Service
+	22, // 1: Transaction.metadata:type_name -> google.protobuf.Struct
 	0,  // 2: Transaction.summary:type_name -> Summary
-	18, // 3: TransactionIn.metadata:type_name -> google.protobuf.Struct
+	22, // 3: TransactionIn.metadata:type_name -> google.protobuf.Struct
 	2,  // 4: CreateInstantTransactionRequest.transaction:type_name -> TransactionIn
 	2,  // 5: CreateInstantTransactionResponse.transaction:type_name -> TransactionIn
 	2,  // 6: StartTransactionRequest.transaction:type_name -> TransactionIn
@@ -1216,25 +1540,31 @@ var file_transactions_proto_depIdxs = []int32{
 	1,  // 10: StartReversalResponse.transaction:type_name -> Transaction
 	1,  // 11: CompleteReversalResponse.transaction:type_name -> Transaction
 	1,  // 12: CancelReversalResponse.transaction:type_name -> Transaction
-	3,  // 13: TransactionService.CreateInstantTransaction:input_type -> CreateInstantTransactionRequest
-	5,  // 14: TransactionService.StartTransaction:input_type -> StartTransactionRequest
-	7,  // 15: TransactionService.CompleteTransaction:input_type -> CompleteTransactionRequest
-	9,  // 16: TransactionService.CancelTransaction:input_type -> CancelTransactionRequest
-	11, // 17: TransactionService.StartReversal:input_type -> StartReversalRequest
-	13, // 18: TransactionService.CompleteReversal:input_type -> CompleteReversalRequest
-	15, // 19: TransactionService.CancelReversal:input_type -> CancelReversalRequest
-	4,  // 20: TransactionService.CreateInstantTransaction:output_type -> CreateInstantTransactionResponse
-	6,  // 21: TransactionService.StartTransaction:output_type -> StartTransactionResponse
-	8,  // 22: TransactionService.CompleteTransaction:output_type -> CompleteTransactionResponse
-	10, // 23: TransactionService.CancelTransaction:output_type -> CancelTransactionResponse
-	12, // 24: TransactionService.StartReversal:output_type -> StartReversalResponse
-	14, // 25: TransactionService.CompleteReversal:output_type -> CompleteReversalResponse
-	16, // 26: TransactionService.CancelReversal:output_type -> CancelReversalResponse
-	20, // [20:27] is the sub-list for method output_type
-	13, // [13:20] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	1,  // 13: GetTransactionsResponse.transactions:type_name -> Transaction
+	1,  // 14: GetTransactionResponse.transaction:type_name -> Transaction
+	3,  // 15: TransactionService.CreateInstantTransaction:input_type -> CreateInstantTransactionRequest
+	5,  // 16: TransactionService.StartTransaction:input_type -> StartTransactionRequest
+	7,  // 17: TransactionService.CompleteTransaction:input_type -> CompleteTransactionRequest
+	9,  // 18: TransactionService.CancelTransaction:input_type -> CancelTransactionRequest
+	11, // 19: TransactionService.StartReversal:input_type -> StartReversalRequest
+	13, // 20: TransactionService.CompleteReversal:input_type -> CompleteReversalRequest
+	15, // 21: TransactionService.CancelReversal:input_type -> CancelReversalRequest
+	17, // 22: TransactionService.GetTransactions:input_type -> GetTransactionsRequest
+	19, // 23: TransactionService.GetTransaction:input_type -> GetTransactionRequest
+	4,  // 24: TransactionService.CreateInstantTransaction:output_type -> CreateInstantTransactionResponse
+	6,  // 25: TransactionService.StartTransaction:output_type -> StartTransactionResponse
+	8,  // 26: TransactionService.CompleteTransaction:output_type -> CompleteTransactionResponse
+	10, // 27: TransactionService.CancelTransaction:output_type -> CancelTransactionResponse
+	12, // 28: TransactionService.StartReversal:output_type -> StartReversalResponse
+	14, // 29: TransactionService.CompleteReversal:output_type -> CompleteReversalResponse
+	16, // 30: TransactionService.CancelReversal:output_type -> CancelReversalResponse
+	18, // 31: TransactionService.GetTransactions:output_type -> GetTransactionsResponse
+	20, // 32: TransactionService.GetTransaction:output_type -> GetTransactionResponse
+	24, // [24:33] is the sub-list for method output_type
+	15, // [15:24] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_transactions_proto_init() }
@@ -1245,13 +1575,14 @@ func file_transactions_proto_init() {
 	file_services_proto_init()
 	file_transactions_proto_msgTypes[1].OneofWrappers = []any{}
 	file_transactions_proto_msgTypes[2].OneofWrappers = []any{}
+	file_transactions_proto_msgTypes[17].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_transactions_proto_rawDesc), len(file_transactions_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   17,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

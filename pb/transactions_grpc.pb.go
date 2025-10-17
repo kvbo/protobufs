@@ -26,6 +26,8 @@ const (
 	TransactionService_StartReversal_FullMethodName            = "/TransactionService/StartReversal"
 	TransactionService_CompleteReversal_FullMethodName         = "/TransactionService/CompleteReversal"
 	TransactionService_CancelReversal_FullMethodName           = "/TransactionService/CancelReversal"
+	TransactionService_GetTransactions_FullMethodName          = "/TransactionService/GetTransactions"
+	TransactionService_GetTransaction_FullMethodName           = "/TransactionService/GetTransaction"
 )
 
 // TransactionServiceClient is the client API for TransactionService service.
@@ -41,6 +43,8 @@ type TransactionServiceClient interface {
 	StartReversal(ctx context.Context, in *StartReversalRequest, opts ...grpc.CallOption) (*StartReversalResponse, error)
 	CompleteReversal(ctx context.Context, in *CompleteReversalRequest, opts ...grpc.CallOption) (*CompleteReversalResponse, error)
 	CancelReversal(ctx context.Context, in *CancelReversalRequest, opts ...grpc.CallOption) (*CancelReversalResponse, error)
+	GetTransactions(ctx context.Context, in *GetTransactionsRequest, opts ...grpc.CallOption) (*GetTransactionsResponse, error)
+	GetTransaction(ctx context.Context, in *GetTransactionRequest, opts ...grpc.CallOption) (*GetTransactionResponse, error)
 }
 
 type transactionServiceClient struct {
@@ -121,6 +125,26 @@ func (c *transactionServiceClient) CancelReversal(ctx context.Context, in *Cance
 	return out, nil
 }
 
+func (c *transactionServiceClient) GetTransactions(ctx context.Context, in *GetTransactionsRequest, opts ...grpc.CallOption) (*GetTransactionsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTransactionsResponse)
+	err := c.cc.Invoke(ctx, TransactionService_GetTransactions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *transactionServiceClient) GetTransaction(ctx context.Context, in *GetTransactionRequest, opts ...grpc.CallOption) (*GetTransactionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTransactionResponse)
+	err := c.cc.Invoke(ctx, TransactionService_GetTransaction_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TransactionServiceServer is the server API for TransactionService service.
 // All implementations should embed UnimplementedTransactionServiceServer
 // for forward compatibility.
@@ -134,6 +158,8 @@ type TransactionServiceServer interface {
 	StartReversal(context.Context, *StartReversalRequest) (*StartReversalResponse, error)
 	CompleteReversal(context.Context, *CompleteReversalRequest) (*CompleteReversalResponse, error)
 	CancelReversal(context.Context, *CancelReversalRequest) (*CancelReversalResponse, error)
+	GetTransactions(context.Context, *GetTransactionsRequest) (*GetTransactionsResponse, error)
+	GetTransaction(context.Context, *GetTransactionRequest) (*GetTransactionResponse, error)
 }
 
 // UnimplementedTransactionServiceServer should be embedded to have
@@ -163,6 +189,12 @@ func (UnimplementedTransactionServiceServer) CompleteReversal(context.Context, *
 }
 func (UnimplementedTransactionServiceServer) CancelReversal(context.Context, *CancelReversalRequest) (*CancelReversalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelReversal not implemented")
+}
+func (UnimplementedTransactionServiceServer) GetTransactions(context.Context, *GetTransactionsRequest) (*GetTransactionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTransactions not implemented")
+}
+func (UnimplementedTransactionServiceServer) GetTransaction(context.Context, *GetTransactionRequest) (*GetTransactionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTransaction not implemented")
 }
 func (UnimplementedTransactionServiceServer) testEmbeddedByValue() {}
 
@@ -310,6 +342,42 @@ func _TransactionService_CancelReversal_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TransactionService_GetTransactions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTransactionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TransactionServiceServer).GetTransactions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TransactionService_GetTransactions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TransactionServiceServer).GetTransactions(ctx, req.(*GetTransactionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TransactionService_GetTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTransactionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TransactionServiceServer).GetTransaction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TransactionService_GetTransaction_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TransactionServiceServer).GetTransaction(ctx, req.(*GetTransactionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TransactionService_ServiceDesc is the grpc.ServiceDesc for TransactionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -344,6 +412,14 @@ var TransactionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CancelReversal",
 			Handler:    _TransactionService_CancelReversal_Handler,
+		},
+		{
+			MethodName: "GetTransactions",
+			Handler:    _TransactionService_GetTransactions_Handler,
+		},
+		{
+			MethodName: "GetTransaction",
+			Handler:    _TransactionService_GetTransaction_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
